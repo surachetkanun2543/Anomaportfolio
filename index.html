@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Anoma Work Portfolio — Kanso‑style</title>
+  <meta name="description" content="Minimal, fast portfolio showcasing my work for the Anoma ecosystem — intents, solvers, coordination." />
+  <meta name="theme-color" content="#00ff99" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      /* Brand — black/green/red */
+      --accent: #00ff99;   /* green */
+      --accent-2: #00cc77; /* deep green */
+      --accent-red: #ff3b30; /* red highlight */
+      --bg: #0b0f0d;  /* near black */
+      --ink: #e8fdf4; /* minty white */
+      --muted: #8da699;
+      --card: #0f1612; /* dark greenish */
+      --border: #1b2a21;
+      --ring: 0 1px 0 rgba(0, 255, 153, .14), 0 12px 24px rgba(0,255,153,.08);
+      --radius: 18px; --nav-h: 72px;
+    }
+
+    /* Base */
+    body{margin:0; background:var(--bg); color:var(--ink); font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans",Arial,sans-serif; font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility}
+    *{box-sizing:border-box} img{max-width:100%; height:auto; display:block} a{color:inherit; text-decoration:none}
+    :focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+    .container{width:min(1140px, 92vw); margin-inline:auto}
+    .section{padding:clamp(56px, 12vh, 120px) 0}
+    .eyebrow{display:inline-flex; gap:.5rem; align-items:center; font-size:.85rem; color:var(--muted); letter-spacing:.08em; text-transform:uppercase}
+    .eyebrow .dot{width:.5rem; height:.5rem; border-radius:999px; background:linear-gradient(90deg,var(--accent),var(--accent-red))}
+    h1{font-size:clamp(2.2rem, 3.2vw + 1.2rem, 4rem); line-height:1.15; letter-spacing:-.02em; margin:0 0 12px}
+    h2{font-size:clamp(1.6rem, 1.2vw + 1rem, 2.2rem); line-height:1.2; letter-spacing:-.01em; margin:0 0 8px}
+    p.lead{font-size:clamp(1.05rem, .6vw + .9rem, 1.25rem); color:var(--muted); max-width:72ch}
+
+    /* Top Nav */
+    .topnav{position:sticky; top:0; z-index:60; height:var(--nav-h); backdrop-filter:saturate(140%) blur(10px); background:#0b0f0d; border-bottom:1px solid var(--border)}
+    .navwrap{height:var(--nav-h); display:flex; align-items:center; justify-content:space-between}
+    .brand{display:flex; align-items:center; gap:.75rem; font-weight:700; letter-spacing:.02em}
+    .brand .logo{display:grid; place-items:center; width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg, var(--accent), var(--accent-red)); color:#001a12; font-weight:800}
+    .nav{display:flex; gap:.75rem; align-items:center}
+    .nav a{padding:.55rem .8rem; color:var(--muted); border-radius:10px}
+    .nav a.active{color:var(--ink); background:rgba(0,255,153,.08)}
+
+    /* Buttons */
+    .btn{display:inline-flex; align-items:center; gap:.5rem; font-weight:600; border-radius:12px; padding:.8rem 1rem; cursor:pointer; border:1px solid var(--border); background:var(--card); box-shadow:var(--ring)}
+    .btn.primary{background:linear-gradient(135deg, var(--accent), var(--accent-2)); color:#001a12; border:0}
+    .btn.danger{border-color:color-mix(in oklab, var(--accent-red), black 20%); background:color-mix(in oklab, var(--accent-red), transparent 88%)}
+    .chip{padding:.38rem .6rem; border:1px solid var(--border); background:rgba(255,255,255,.03); border-radius:999px; font-size:.82rem}
+    .chip.red{border-color:color-mix(in oklab, var(--accent-red), black 20%); color:var(--accent-red)}
+
+    /* Hero */
+    .hero{display:grid; grid-template-columns: 1.4fr .9fr; gap:clamp(24px, 3vw, 44px); align-items:center}
+    .hero .cta{display:flex; gap:.75rem; flex-wrap:wrap; margin-top:18px}
+    .stat{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:24px}
+    .stat .kpi{border:1px solid var(--border); border-radius:16px; padding:14px 16px; background:var(--card)}
+
+    .hero-illus .glass{border:1px solid var(--border); background:#101712; border-radius:20px; padding:20px; box-shadow:var(--ring)}
+    .meter{height:10px; border-radius:999px; background:color-mix(in oklab, var(--border), transparent 10%); overflow:hidden}
+    .meter > i{display:block; height:100%; width:92%; background:linear-gradient(90deg, var(--accent), var(--accent-red))}
+
+    /* Grid Cards */
+    .grid{display:grid; grid-template-columns:repeat(12, 1fr); gap:20px}
+    .card{grid-column: span 6; background:var(--card); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; transition:transform .25s ease, box-shadow .25s ease}
+    .card:hover{transform:translateY(-4px); box-shadow:var(--ring)}
+    .thumb{aspect-ratio: 16/10; background:linear-gradient(135deg,var(--accent),var(--accent-red))}
+    .card .body{padding:16px 16px 18px}
+    .card h3{margin:.3rem 0 .35rem; font-size:1.1rem}
+    .meta{display:flex; align-items:center; gap:8px; color:var(--muted); font-size:.92rem}
+
+    /* About */
+    .about{display:grid; grid-template-columns: 1.2fr .8fr; gap:28px}
+    .stack{display:grid; grid-template-columns:repeat(2,1fr); gap:12px}
+    .stack .tool{border:1px solid var(--border); background:var(--card); border-radius:12px; padding:12px 14px; display:flex; align-items:center; justify-content:space-between}
+    .stack .tool small{color:var(--muted)}
+
+    /* Writing */
+    .posts{display:grid; gap:12px}
+    .post{display:flex; justify-content:space-between; align-items:center; padding:14px 16px; border:1px solid var(--border); background:var(--card); border-radius:12px}
+    .post .t{display:flex; gap:10px; align-items:center}
+
+    /* Gallery */
+    .gallery{display:grid; grid-template-columns:repeat(12,1fr); gap:16px}
+    .shot{grid-column:span 6; position:relative; border:1px solid var(--border); border-radius:16px; overflow:hidden; background:#0e1511}
+    .shot img{width:100%; height:auto; display:block}
+    .shot figcaption{display:flex; align-items:center; justify-content:space-between; gap:8px; padding:10px 12px; border-top:1px solid var(--border); color:var(--muted); background:rgba(0,0,0,.15)}
+    .zoom{position:absolute; right:10px; bottom:10px; border:1px solid var(--border); border-radius:10px; padding:.35rem .5rem; background:rgba(0,0,0,.35); backdrop-filter:blur(4px)}
+    @media (max-width: 960px){ .shot{grid-column:span 12} .card{grid-column:span 12} .hero{grid-template-columns:1fr} }
+
+    /* Lightbox */
+    .lightbox{position:fixed; inset:0; background:rgba(0,0,0,.9); display:none; align-items:center; justify-content:center; padding:24px; z-index:80}
+    .lightbox.open{display:flex}
+    .lightbox img{max-width:95vw; max-height:90vh; border-radius:12px; border:1px solid var(--border)}
+    .lightbox .close{position:fixed; top:14px; right:14px; padding:.6rem .8rem; border:1px solid var(--border); background:var(--card); border-radius:10px}
+
+    footer{padding:32px 0; color:var(--muted); border-top:1px solid var(--border)}
+    :target{scroll-margin-top: calc(var(--nav-h) + 12px)}
+  .masonry{column-count:3; column-gap:16px}
+@media (max-width:980px){.masonry{column-count:2}}
+@media (max-width:620px){.masonry{column-count:1}}
+/* Project card overlays */
+.card .body .arrow{margin-left:auto; transition:transform .2s ease}
+.card:hover .arrow{transform:translateX(4px)}
+/* Link hub style (Designfolio-inspired) */
+.linkhub{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:16px}
+.linkhub a{border:1px solid var(--border); border-radius:12px; padding:14px 16px; background:var(--card); display:flex; justify-content:space-between; align-items:center}
+.linkhub a:hover{box-shadow:var(--ring)}
+/* Badge */
+.badge{display:inline-flex; align-items:center; gap:8px; padding:.35rem .6rem; border:1px solid var(--border); border-radius:999px; background:rgba(255,255,255,.04); color:var(--muted); font-size:.85rem}
+.badge i{width:.5rem; height:.5rem; border-radius:50%; background:linear-gradient(90deg,var(--accent),var(--accent-red))}
+</style>
+</head>
+<body>
+  <header class="topnav">
+    <div class="container navwrap">
+      <a href="#home" class="brand" aria-label="home">
+        <span class="logo">◎</span>
+        <span>bc1pBITHERUMN ⚡✨</span>
+      </a>
+      <div class="nav">
+        <nav class="links" aria-label="primary">
+          <a href="#articles">Articles</a>
+          <a href="#work">Work</a>
+          <a href="#gallery">Gallery</a>
+          <a href="#about">About</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main id="home" class="container">
+    <!-- Hero -->
+    <section class="section hero">
+      <div class="head">
+        <span class="badge"><i></i> Anoma‑focused portfolio</span>
+        <h1>Intent‑first design & engineering for the Anoma ecosystem.</h1>
+        <p class="lead">I build simple, fast, measurable experiences around intents, solvers, and coordination — with a black/green/red aesthetic inspired by Anoma.</p>
+        <div class="cta">
+          <a href="#work" class="btn primary">See selected work</a>
+          <a href="#gallery" class="btn danger">View testnet shots</a>
+        </div>
+        <div class="linkhub">
+          <a href="#articles">Articles <span class="arrow">→</span></a>
+          <a href="#about">About <span class="arrow">→</span></a>
+          <a href="#work">All work <span class="arrow">→</span></a>
+        </div>
+      </div>
+      <div class="hero-illus" aria-hidden="true">
+        <div class="glass">
+          <h3 style="margin-top:0">Performance Meter</h3>
+          <p class="lead" style="margin:0 0 10px">Lighthouse Score</p>
+          <div class="meter" title="Score"><i></i></div>
+          <div style="display:flex; gap:10px; margin-top:14px">
+            <span class="chip">Accessibility</span>
+            <span class="chip">Best Practices</span>
+            <span class="chip red">SEO</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Articles (link to X) — moved to top -->
+    <section id="articles" class="section">
+      <span class="eyebrow"><i class="dot"></i> Articles</span>
+      <h2>Threads & notes on X</h2>
+      <p class="lead">Articles auto‑sync from my X search (<code>from:book_surachet anoma</code>). You can also browse them directly on X.</p>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin:10px 0 16px">
+        <a class="btn" id="followXBtn" target="_blank" rel="noopener">Follow @<span id="xHandleShow">yourhandle</span></a>
+        <a class="btn danger" id="allThreadsBtn" target="_blank" rel="noopener">View threads</a>
+        <a class="btn" id="searchBtn" href="https://x.com/search?q=from%3Abook_surachet%20anoma&src=typed_query" target="_blank" rel="noopener">Search: anoma ↗</a>
+      </div>
+      <div class="posts" id="xEmbeds">
+        <div class="post" aria-busy="true" style="opacity:.7"><div class="t"><strong>Loading Anoma embeds…</strong><span class="chip">X</span></div><time>—</time></div>
+      </div>
+    </section>
+
+    <!-- Work -->
+    <section id="work" class="section">
+      <span class="eyebrow"><i class="dot"></i> Selected Work</span>
+      <h2>Projects for Anoma</h2>
+      <p class="lead">Outcome‑oriented selection around intents, solver UX, and community tooling.</p>
+
+      <div class="grid" style="margin-top:18px">
+        <!-- Card 1 -->
+        <article class="card">
+          <a href="#" aria-label="Case Study: Intent Onboarding Microsite">
+            <figure class="thumb" role="img" aria-label="Hero preview"></figure>
+            <div class="body">
+              <div class="meta"><span>2025</span> · <span>Intent Onboarding Microsite</span></div>
+              <h3>Explaining “from transactions to intents” — increased activation by 31%</h3>
+              <div class="chips">
+                <span class="chip">Next.js</span>
+                <span class="chip">Intents</span>
+                <span class="chip">A/B Testing</span>
+              </div>
+            </div>
+          </a>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="card">
+          <a href="#" aria-label="Case Study: Solver Playground">
+            <figure class="thumb" role="img" aria-label="Tooling preview"></figure>
+            <div class="body">
+              <div class="meta"><span>2024</span> · <span>Solver Playground</span></div>
+              <h3>Rapid prototyping UI for solver strategies and intent matching</h3>
+              <div class="chips">
+                <span class="chip">Typescript</span>
+                <span class="chip">Solvers</span>
+                <span class="chip">Visualization</span>
+              </div>
+            </div>
+          </a>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="card">
+          <a href="#" aria-label="Case Study: Docs & Design System">
+            <figure class="thumb" role="img" aria-label="Docs preview"></figure>
+            <div class="body">
+              <div class="meta"><span>2023</span> · <span>Docs & Design System</span></div>
+              <h3>Unified components + writing guidelines across Anoma resources</h3>
+              <div class="chips">
+                <span class="chip">Figma</span>
+                <span class="chip">Design System</span>
+                <span class="chip">Docs UX</span>
+              </div>
+            </div>
+          </a>
+        </article>
+      </div>
+    </section>
+
+    <!-- Gallery: Testnet shots -->
+    <section id="gallery" class="section">
+      <span class="eyebrow"><i class="dot"></i> Testnet Gallery</span>
+      <h2>Screenshots & proofs</h2>
+      <p class="lead">Drop your testnet images here — quests, validators, solver logs, Garapon/BitFlip, dashboards, etc.</p>
+      <div class="gallery masonry" style="margin-top:14px">
+        <!-- Replace placeholders with your real images or add more figures -->
+        <figure class="shot"><img src="images/testnet-1.jpg" alt="Testnet dashboard overview (placeholder)" loading="lazy"/><figcaption><span>Validator status / epoch‑sync</span><button class="zoom" data-zoom>Zoom</button></figcaption></figure>
+        <figure class="shot"><img src="images/testnet-2.jpg" alt="Intent submission flow (placeholder)" loading="lazy"/><figcaption><span>Intent submission UX</span><button class="zoom" data-zoom>Zoom</button></figcaption></figure>
+        <figure class="shot"><img src="images/testnet-3.jpg" alt="Solver logs (placeholder)" loading="lazy"/><figcaption><span>Solver logs / matching</span><button class="zoom" data-zoom>Zoom</button></figcaption></figure>
+        <figure class="shot"><img src="images/testnet-4.jpg" alt="Community quest proof (placeholder)" loading="lazy"/><figcaption><span>Community quest proof</span><button class="zoom" data-zoom>Zoom</button></figcaption></figure>
+        <figure class="shot"><img src="images/testnet-5.jpg" alt="BitFlip / Garapon progress (placeholder)" loading="lazy"/><figcaption><span>BitFlip / Garapon progress</span><button class="zoom" data-zoom>Zoom</button></figcaption></figure>
+        <figure class="shot"><img src="images/testnet-6.jpg" alt="Explorer stats (placeholder)" loading="lazy"/><figcaption><span>Explorer stats</span><button class="zoom" data-zoom>Zoom</button></figcaption></figure>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="section">
+      <div class="about">
+        <div>
+          <span class="eyebrow"><i class="dot"></i> About</span>
+          <h2>A short intro</h2>
+          <p class="lead">Designer‑turned‑engineer focused on Anoma. I bridge product thinking, clean interfaces, and measurable impact around intents and coordination.</p>
+          <ul>
+            <li>Clarity, performance, outcomes.</li>
+            <li>Research → design → build → measure.</li>
+            <li>Collaborate with product, devrel, and community teams.</li>
+          </ul>
+        </div>
+        <div>
+          <div class="stack">
+            <div class="tool"><span>React / Next.js</span><small>Production</small></div>
+            <div class="tool"><span>TypeScript</span><small>Daily driver</small></div>
+            <div class="tool"><span>Tailwind / CSS</span><small>UI craft</small></div>
+            <div class="tool"><span>Node / APIs</span><small>Solid</small></div>
+            <div class="tool"><span>Figma</span><small>Design System</small></div>
+            <div class="tool"><span>Analytics</span><small>GA4 / A/B</small></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Lightbox modal for gallery -->
+  <div class="lightbox" id="lightbox" aria-modal="true" role="dialog">
+    <button class="close" id="lbClose" aria-label="Close">Close ✕</button>
+    <img id="lbImg" alt="Expanded screenshot"/>
+  </div>
+
+  <footer class="container">
+    <div style="display:flex; align-items:center; justify-content:space-between; gap:12px">
+      <small>© <span id="y"></span> bc1pBITHERUMN ⚡✨. Focused on Anoma — built with ♥, minimal & fast.</small>
+      <a class="btn" href="#home">Back to top</a>
+    </div>
+  </footer>
+
+  <!-- X embed runtime -->
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+  <script>
+    // Simple helpers
+    const $ = (s)=>document.querySelector(s);
+    const $$ = (s)=>Array.from(document.querySelectorAll(s));
+
+    // Year
+    $('#y').textContent = new Date().getFullYear();
+
+    // Active link highlight
+    const links = $$('.links a');
+    const sections = ['work','gallery','about','articles'].map(id=>$('#'+id));
+    const spy = () => { let cur=sections[0].id; const y=scrollY + innerHeight*0.28; sections.forEach(se=>{ if(y>=se.offsetTop) cur=se.id; }); links.forEach(a=>a.classList.toggle('active', a.getAttribute('href')==='#'+cur)); };
+    addEventListener('scroll', spy); spy();
+
+    // Lightbox for gallery
+    const lb = $('#lightbox'), lbImg = $('#lbImg');
+    $$('.shot [data-zoom]').forEach(btn=>btn.addEventListener('click', e=>{
+      const fig = e.currentTarget.closest('.shot');
+      const img = fig.querySelector('img');
+      lbImg.src = img.src; lb.classList.add('open');
+    }));
+    $('#lbClose').addEventListener('click', ()=> lb.classList.remove('open'));
+    lb.addEventListener('click', (e)=> { if(e.target===lb) lb.classList.remove('open'); });
+
+    // X handle wiring — edit here once and it updates buttons
+    const X_HANDLE = 'book_surachet';
+    $('#xHandleShow').textContent = X_HANDLE;
+    $('#followXBtn').href = `https://x.com/${X_HANDLE}`;
+    $('#allThreadsBtn').href = `https://x.com/${X_HANDLE}/with_replies`;
+
+    // ===== Dynamic Articles: EMBED all Anoma posts ("from:book_surachet anoma") =====
+    // Provide /data/anoma-posts.json with an array of tweet ids OR objects { id, url, date }
+    // Example: [ {"id":"1950923632915685490","date":"2025-07-31"}, ... ]
+    async function loadAnomaEmbeds(){
+      const container = $('#xEmbeds');
+      try{
+        const res = await fetch('/api/anoma-posts', {cache: 'no-store'});
+        if(!res.ok) throw new Error('Feed missing');
+        const items = await res.json();
+        if(!Array.isArray(items) || !items.length) throw new Error('No items');
+        container.innerHTML = '';
+
+        // Ensure widgets runtime is ready
+        const ensureTwttr = () => new Promise(resolve => {
+          if (window.twttr && twttr.widgets && twttr.widgets.createTweet) return resolve();
+          const iv = setInterval(()=>{ if(window.twttr && twttr.widgets && twttr.widgets.createTweet){ clearInterval(iv); resolve(); } }, 80);
+          setTimeout(()=>{ clearInterval(iv); resolve(); }, 4000);
+        });
+        await ensureTwttr();
+
+        for(const it of items){
+          const id = typeof it === 'string' ? it : it.id;
+          if(!id) continue;
+          const holder = document.createElement('div');
+          holder.className = 'post';
+          container.appendChild(holder);
+          try{
+            await twttr.widgets.createTweet(id, holder, { theme: 'dark', align: 'center', dnt: true });
+          }catch(e){
+            // Fallback to a simple link item if embed fails
+            holder.innerHTML = `<a class="post" href="https://x.com/${X_HANDLE}/status/${id}" target="_blank" rel="noopener">
+              <div class=\"t\"><strong>View tweet</strong><span class=\"chip\">X</span></div>
+              <time>${fmtDate((it && it.date) || '')}</time>
+            </a>`;
+          }
+        }
+      }catch(err){
+        container.innerHTML = `
+          <a class="post" href="https://x.com/search?q=from%3A${X_HANDLE}%20anoma&src=typed_query" target="_blank" rel="noopener">
+            <div class="t"><strong>View all Anoma posts on X</strong><span class="chip">Search</span></div>
+            <time>Live</time>
+          </a>`;
+      }
+    }
+
+    loadAnomaEmbeds();
+  </script>
+</body>
+</html>
