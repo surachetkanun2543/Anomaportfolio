@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Anoma Work Portfolio — Kanso‑style</title>
+  <title>Anoma Work Portfolio — bc1pBITHERUMN ⚡✨</title>
   <meta name="description" content="Minimal, fast portfolio showcasing my work for the Anoma ecosystem — intents, solvers, coordination." />
   <meta name="theme-color" content="#00ff99" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -55,12 +55,6 @@
     /* Hero */
     .hero{display:grid; grid-template-columns: 1.4fr .9fr; gap:clamp(24px, 3vw, 44px); align-items:center}
     .hero .cta{display:flex; gap:.75rem; flex-wrap:wrap; margin-top:18px}
-    .stat{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:24px}
-    .stat .kpi{border:1px solid var(--border); border-radius:16px; padding:14px 16px; background:var(--card)}
-
-    .hero-illus .glass{border:1px solid var(--border); background:#101712; border-radius:20px; padding:20px; box-shadow:var(--ring)}
-    .meter{height:10px; border-radius:999px; background:color-mix(in oklab, var(--border), transparent 10%); overflow:hidden}
-    .meter > i{display:block; height:100%; width:92%; background:linear-gradient(90deg, var(--accent), var(--accent-red))}
 
     /* Grid Cards */
     .grid{display:grid; grid-template-columns:repeat(12, 1fr); gap:20px}
@@ -78,7 +72,7 @@
     .stack .tool small{color:var(--muted)}
 
     /* Writing */
-    .posts{display:grid; gap:12px}
+    .posts{display:grid; gap:16px}
     .post{display:flex; justify-content:space-between; align-items:center; padding:14px 16px; border:1px solid var(--border); background:var(--card); border-radius:12px}
     .post .t{display:flex; gap:10px; align-items:center}
 
@@ -88,30 +82,10 @@
     .shot img{width:100%; height:auto; display:block}
     .shot figcaption{display:flex; align-items:center; justify-content:space-between; gap:8px; padding:10px 12px; border-top:1px solid var(--border); color:var(--muted); background:rgba(0,0,0,.15)}
     .zoom{position:absolute; right:10px; bottom:10px; border:1px solid var(--border); border-radius:10px; padding:.35rem .5rem; background:rgba(0,0,0,.35); backdrop-filter:blur(4px)}
-    @media (max-width: 960px){ .shot{grid-column:span 12} .card{grid-column:span 12} .hero{grid-template-columns:1fr} }
-
-    /* Lightbox */
-    .lightbox{position:fixed; inset:0; background:rgba(0,0,0,.9); display:none; align-items:center; justify-content:center; padding:24px; z-index:80}
-    .lightbox.open{display:flex}
-    .lightbox img{max-width:95vw; max-height:90vh; border-radius:12px; border:1px solid var(--border)}
-    .lightbox .close{position:fixed; top:14px; right:14px; padding:.6rem .8rem; border:1px solid var(--border); background:var(--card); border-radius:10px}
 
     footer{padding:32px 0; color:var(--muted); border-top:1px solid var(--border)}
     :target{scroll-margin-top: calc(var(--nav-h) + 12px)}
-  .masonry{column-count:3; column-gap:16px}
-@media (max-width:980px){.masonry{column-count:2}}
-@media (max-width:620px){.masonry{column-count:1}}
-/* Project card overlays */
-.card .body .arrow{margin-left:auto; transition:transform .2s ease}
-.card:hover .arrow{transform:translateX(4px)}
-/* Link hub style (Designfolio-inspired) */
-.linkhub{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:16px}
-.linkhub a{border:1px solid var(--border); border-radius:12px; padding:14px 16px; background:var(--card); display:flex; justify-content:space-between; align-items:center}
-.linkhub a:hover{box-shadow:var(--ring)}
-/* Badge */
-.badge{display:inline-flex; align-items:center; gap:8px; padding:.35rem .6rem; border:1px solid var(--border); border-radius:999px; background:rgba(255,255,255,.04); color:var(--muted); font-size:.85rem}
-.badge i{width:.5rem; height:.5rem; border-radius:50%; background:linear-gradient(90deg,var(--accent),var(--accent-red))}
-</style>
+  </style>
 </head>
 <body>
   <header class="topnav">
@@ -135,24 +109,19 @@
     <!-- Hero -->
     <section class="section hero">
       <div class="head">
-        <span class="badge"><i></i> Anoma‑focused portfolio</span>
-        <h1>Intent‑first design & engineering for the Anoma ecosystem.</h1>
+        <span class="eyebrow"><i class="dot"></i> Portfolio</span>
+        <h1>Intent-first design & engineering for the Anoma ecosystem.</h1>
         <p class="lead">I build simple, fast, measurable experiences around intents, solvers, and coordination — with a black/green/red aesthetic inspired by Anoma.</p>
         <div class="cta">
           <a href="#work" class="btn primary">See selected work</a>
           <a href="#gallery" class="btn danger">View testnet shots</a>
         </div>
-        <div class="linkhub">
-          <a href="#articles">Articles <span class="arrow">→</span></a>
-          <a href="#about">About <span class="arrow">→</span></a>
-          <a href="#work">All work <span class="arrow">→</span></a>
-        </div>
       </div>
       <div class="hero-illus" aria-hidden="true">
-        <div class="glass">
+        <div class="card" style="padding:20px; border-radius:20px">
           <h3 style="margin-top:0">Performance Meter</h3>
           <p class="lead" style="margin:0 0 10px">Lighthouse Score</p>
-          <div class="meter" title="Score"><i></i></div>
+          <div class="meter" title="Score" style="height:10px; border-radius:999px; background:color-mix(in oklab, var(--border), transparent 10%); overflow:hidden"><i style="display:block; height:100%; width:92%; background:linear-gradient(90deg, var(--accent), var(--accent-red))"></i></div>
           <div style="display:flex; gap:10px; margin-top:14px">
             <span class="chip">Accessibility</span>
             <span class="chip">Best Practices</span>
@@ -162,18 +131,14 @@
       </div>
     </section>
 
-    <!-- Articles (link to X) — moved to top -->
+    <!-- Articles (X embeds) -->
     <section id="articles" class="section">
       <span class="eyebrow"><i class="dot"></i> Articles</span>
       <h2>Threads & notes on X</h2>
-      <p class="lead">Articles auto‑sync from my X search (<code>from:book_surachet anoma</code>). You can also browse them directly on X.</p>
-      <div style="display:flex; gap:10px; flex-wrap:wrap; margin:10px 0 16px">
-        <a class="btn" id="followXBtn" target="_blank" rel="noopener">Follow @<span id="xHandleShow">yourhandle</span></a>
-        <a class="btn danger" id="allThreadsBtn" target="_blank" rel="noopener">View threads</a>
-        <a class="btn" id="searchBtn" href="https://x.com/search?q=from%3Abook_surachet%20anoma&src=typed_query" target="_blank" rel="noopener">Search: anoma ↗</a>
-      </div>
+      <p class="lead">Auto‑synced from <code>from:book_surachet anoma</code>. Embedded via official X widgets.</p>
       <div class="posts" id="xEmbeds">
-        <div class="post" aria-busy="true" style="opacity:.7"><div class="t"><strong>Loading Anoma embeds…</strong><span class="chip">X</span></div><time>—</time></div>
+        <!-- Hard fallback so something shows even if API/env is missing -->
+        <blockquote class="twitter-tweet"><p lang="en" dir="ltr">My Small Idea Say to Cross Chain Swap (Powered by Intents)<br><br>Cross Chain Swap right now<br>Too many apps<br>Pay gas everywhere<br>click click click<br>Mess up once is bye bye money lol<br><br>But with Anoma it easy<br> just a chill day<br><br>Mage just say Swap USDT 50%… <a href="https://t.co/Zvic7lTPjo">pic.twitter.com/Zvic7lTPjo</a></p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet) <a href="https://twitter.com/book_surachet/status/1950923632915685490?ref_src=twsrc%5Etfw">July 31, 2025</a></blockquote>
       </div>
     </section>
 
@@ -184,7 +149,6 @@
       <p class="lead">Outcome‑oriented selection around intents, solver UX, and community tooling.</p>
 
       <div class="grid" style="margin-top:18px">
-        <!-- Card 1 -->
         <article class="card">
           <a href="#" aria-label="Case Study: Intent Onboarding Microsite">
             <figure class="thumb" role="img" aria-label="Hero preview"></figure>
@@ -200,7 +164,6 @@
           </a>
         </article>
 
-        <!-- Card 2 -->
         <article class="card">
           <a href="#" aria-label="Case Study: Solver Playground">
             <figure class="thumb" role="img" aria-label="Tooling preview"></figure>
@@ -208,7 +171,7 @@
               <div class="meta"><span>2024</span> · <span>Solver Playground</span></div>
               <h3>Rapid prototyping UI for solver strategies and intent matching</h3>
               <div class="chips">
-                <span class="chip">Typescript</span>
+                <span class="chip">TypeScript</span>
                 <span class="chip">Solvers</span>
                 <span class="chip">Visualization</span>
               </div>
@@ -216,7 +179,6 @@
           </a>
         </article>
 
-        <!-- Card 3 -->
         <article class="card">
           <a href="#" aria-label="Case Study: Docs & Design System">
             <figure class="thumb" role="img" aria-label="Docs preview"></figure>
@@ -239,14 +201,11 @@
       <span class="eyebrow"><i class="dot"></i> Testnet Gallery</span>
       <h2>Screenshots & proofs</h2>
       <p class="lead">Drop your testnet images here — quests, validators, solver logs, Garapon/BitFlip, dashboards, etc.</p>
-      <div class="gallery masonry" style="margin-top:14px">
-        <!-- Replace placeholders with your real images or add more figures -->
+      <div class="gallery" style="margin-top:14px">
         <figure class="shot"><img src="images/testnet-1.jpg" alt="Testnet dashboard overview (placeholder)" loading="lazy"/><figcaption><span>Validator status / epoch‑sync</span><button class="zoom" data-zoom>Zoom</button></figcaption></figure>
         <figure class="shot"><img src="images/testnet-2.jpg" alt="Intent submission flow (placeholder)" loading="lazy"/><figcaption><span>Intent submission UX</span><button class="zoom" data-zoom>Zoom</button></figcaption></figure>
         <figure class="shot"><img src="images/testnet-3.jpg" alt="Solver logs (placeholder)" loading="lazy"/><figcaption><span>Solver logs / matching</span><button class="zoom" data-zoom>Zoom</button></figcaption></figure>
         <figure class="shot"><img src="images/testnet-4.jpg" alt="Community quest proof (placeholder)" loading="lazy"/><figcaption><span>Community quest proof</span><button class="zoom" data-zoom>Zoom</button></figcaption></figure>
-        <figure class="shot"><img src="images/testnet-5.jpg" alt="BitFlip / Garapon progress (placeholder)" loading="lazy"/><figcaption><span>BitFlip / Garapon progress</span><button class="zoom" data-zoom>Zoom</button></figcaption></figure>
-        <figure class="shot"><img src="images/testnet-6.jpg" alt="Explorer stats (placeholder)" loading="lazy"/><figcaption><span>Explorer stats</span><button class="zoom" data-zoom>Zoom</button></figcaption></figure>
       </div>
     </section>
 
@@ -290,20 +249,17 @@
     </div>
   </footer>
 
-  <!-- X embed runtime -->
+  <!-- X widgets must be present for embeds to render -->
   <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
   <script>
-    // Simple helpers
+    // Helpers
     const $ = (s)=>document.querySelector(s);
     const $$ = (s)=>Array.from(document.querySelectorAll(s));
-
-    // Year
     $('#y').textContent = new Date().getFullYear();
 
     // Active link highlight
     const links = $$('.links a');
-    const sections = ['work','gallery','about','articles'].map(id=>$('#'+id));
+    const sections = ['articles','work','gallery','about'].map(id=>$('#'+id));
     const spy = () => { let cur=sections[0].id; const y=scrollY + innerHeight*0.28; sections.forEach(se=>{ if(y>=se.offsetTop) cur=se.id; }); links.forEach(a=>a.classList.toggle('active', a.getAttribute('href')==='#'+cur)); };
     addEventListener('scroll', spy); spy();
 
@@ -317,58 +273,65 @@
     $('#lbClose').addEventListener('click', ()=> lb.classList.remove('open'));
     lb.addEventListener('click', (e)=> { if(e.target===lb) lb.classList.remove('open'); });
 
-    // X handle wiring — edit here once and it updates buttons
+    // ===== X embeds: fetch all posts matching "from:book_surachet anoma" =====
     const X_HANDLE = 'book_surachet';
-    $('#xHandleShow').textContent = X_HANDLE;
-    $('#followXBtn').href = `https://x.com/${X_HANDLE}`;
-    $('#allThreadsBtn').href = `https://x.com/${X_HANDLE}/with_replies`;
-
-    // ===== Dynamic Articles: EMBED all Anoma posts ("from:book_surachet anoma") =====
-    // Provide /data/anoma-posts.json with an array of tweet ids OR objects { id, url, date }
-    // Example: [ {"id":"1950923632915685490","date":"2025-07-31"}, ... ]
-    async function loadAnomaEmbeds(){
+    async function loadEmbeds(){
       const container = $('#xEmbeds');
       try{
-        const res = await fetch('/api/anoma-posts', {cache: 'no-store'});
-        if(!res.ok) throw new Error('Feed missing');
+        const res = await fetch('/api/anoma-posts', {cache:'no-store'});
+        if(!res.ok) throw new Error('API failed');
         const items = await res.json();
-        if(!Array.isArray(items) || !items.length) throw new Error('No items');
-        container.innerHTML = '';
+        if(!Array.isArray(items) || !items.length) throw new Error('no items');
 
-        // Ensure widgets runtime is ready
-        const ensureTwttr = () => new Promise(resolve => {
-          if (window.twttr && twttr.widgets && twttr.widgets.createTweet) return resolve();
-          const iv = setInterval(()=>{ if(window.twttr && twttr.widgets && twttr.widgets.createTweet){ clearInterval(iv); resolve(); } }, 80);
+        // Ensure widgets is ready
+        await new Promise(resolve => {
+          if (window.twttr?.widgets?.createTweet) return resolve();
+          const iv = setInterval(()=>{ if(window.twttr?.widgets?.createTweet){ clearInterval(iv); resolve(); } }, 60);
           setTimeout(()=>{ clearInterval(iv); resolve(); }, 4000);
         });
-        await ensureTwttr();
+
+        // Clear hard fallback blockquote before rendering
+        container.innerHTML = '';
 
         for(const it of items){
-          const id = typeof it === 'string' ? it : it.id;
-          if(!id) continue;
+          const id = it.id || it; if(!id) continue;
           const holder = document.createElement('div');
           holder.className = 'post';
           container.appendChild(holder);
-          try{
-            await twttr.widgets.createTweet(id, holder, { theme: 'dark', align: 'center', dnt: true });
-          }catch(e){
-            // Fallback to a simple link item if embed fails
-            holder.innerHTML = `<a class="post" href="https://x.com/${X_HANDLE}/status/${id}" target="_blank" rel="noopener">
-              <div class=\"t\"><strong>View tweet</strong><span class=\"chip\">X</span></div>
-              <time>${fmtDate((it && it.date) || '')}</time>
-            </a>`;
-          }
+          try{ await twttr.widgets.createTweet(id, holder, { theme: 'dark', align: 'center', dnt: true }); }
+          catch{ holder.innerHTML = `<a class="post" href="https://x.com/${X_HANDLE}/status/${id}" target="_blank" rel="noopener"><div class=\"t\"><strong>View tweet</strong><span class=\"chip\">X</span></div></a>`; }
         }
       }catch(err){
-        container.innerHTML = `
-          <a class="post" href="https://x.com/search?q=from%3A${X_HANDLE}%20anoma&src=typed_query" target="_blank" rel="noopener">
-            <div class="t"><strong>View all Anoma posts on X</strong><span class="chip">Search</span></div>
-            <time>Live</time>
-          </a>`;
+        // Secondary fallback: manual json
+        try{
+          const m = await fetch('/data/anoma-manual.json', {cache:'no-store'});
+          if(m.ok){
+            const manual = await m.json();
+            // Ensure widgets
+            await new Promise(resolve => {
+              if (window.twttr?.widgets?.createTweet) return resolve();
+              const iv = setInterval(()=>{ if(window.twttr?.widgets?.createTweet){ clearInterval(iv); resolve(); } }, 60);
+              setTimeout(()=>{ clearInterval(iv); resolve(); }, 4000);
+            });
+            container.innerHTML = '';
+            for(const it of (Array.isArray(manual)?manual:[])){
+              const id = typeof it === 'string' ? it : it.id; if(!id) continue;
+              const holder = document.createElement('div'); holder.className = 'post'; container.appendChild(holder);
+              try{ await twttr.widgets.createTweet(id, holder, { theme: 'dark', align: 'center', dnt: true }); }
+              catch{ holder.innerHTML = `<a class=\"post\" href=\"https://x.com/${X_HANDLE}/status/${id}\" target=\"_blank\" rel=\"noopener\"><div class=\"t\"><strong>View tweet</strong><span class=\"chip\">X</span></div></a>`; }
+            }
+            return;
+          }
+        }catch{}
+        // Final fallback link
+        const a = document.createElement('a');
+        a.className = 'post'; a.target = '_blank'; a.rel = 'noopener';
+        a.href = `https://x.com/search?q=from%3A${X_HANDLE}%20anoma&src=typed_query`;
+        a.innerHTML = `<div class="t"><strong>View all Anoma posts on X</strong><span class="chip">Search</span></div><time>Live</time>`;
+        container.appendChild(a);
       }
     }
-
-    loadAnomaEmbeds();
+    loadEmbeds();
   </script>
 </body>
 </html>
