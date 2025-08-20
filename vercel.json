@@ -1,5 +1,5 @@
 {
   "crons": [
-    { "path": "/api/anoma-posts", "schedule": "*/5 * * * *" }
+    { "path": "/api/anoma-posts", "schedule": "0 9 * * *" }
   ]
 }
