@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>bc1pBITHERUMN ⚡✨ Anoma Guild @Wizard</title>
+    <!-- Favicon / Tab icon -->
     <link rel="icon" href="img/logoguild.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
     <style>
@@ -87,6 +88,28 @@
       details li{ margin:.2rem 0; }
       details a{ color:var(--text); }
 
+      /* MEMBERS */
+      #members{ scroll-margin-top:90px; }
+      .members-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1rem; margin:1rem 0 1.2rem; }
+      .member-card{
+        display:flex; gap:.9rem; align-items:center; background:var(--card); border:1px solid rgba(0,0,0,.06);
+        padding:1rem; border-radius:1rem; box-shadow:0 6px 16px rgba(0,0,0,.08);
+      }
+      .member-avatar{
+        width:56px; height:56px; border-radius:50%; overflow:hidden; flex:0 0 auto; background:#ddd; display:grid; place-items:center; font-weight:800; color:#555;
+      }
+      .member-avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
+      .member-meta{ flex:1; min-width:0; }
+      .member-meta h4{ margin:0; font-size:1.05rem; }
+      .member-meta p{ margin:.15rem 0 0; color:var(--muted); }
+      .member-actions{ display:flex; gap:.5rem; }
+      .btn{
+        padding:.45rem .7rem; border-radius:.6rem; border:1px solid rgba(0,0,0,.12); background:transparent;
+        cursor:pointer; font-weight:700; color:var(--text);
+      }
+      .btn.primary{ background:var(--highlight); color:#fff; border-color:transparent; }
+      .btn:hover{ transform:translateY(-1px); }
+
       footer{ text-align:center; padding:2rem; opacity:.7; }
 
       .wizard{ position:fixed; bottom:20px; right:30px; width:92px; animation:float 3s ease-in-out infinite; z-index:50; pointer-events:none; }
@@ -136,10 +159,12 @@
           });
         });
 
-        search.addEventListener('input', (e) => {
-          query = e.target.value;
-          applyFilters();
-        });
+        if(search){
+          search.addEventListener('input', (e) => {
+            query = e.target.value;
+            applyFilters();
+          });
+        }
 
         // Init
         applyFilters();
@@ -158,6 +183,7 @@
           <a href="#home">Home</a>
           <a href="#moments">Guild Moments Of August</a>
           <a href="#groups">Group Overviews</a>
+          <a href="#members">Members</a>
         </div>
       </div>
       <button class="toggle-btn" onclick="toggleTheme()">Swap Dark/Bright shrimp</button>
@@ -201,8 +227,6 @@
         </div>
 
         <div class="twitter-grid">
-          <!-- Each card carries metadata for filtering (data-category, data-title, data-tags) -->
-
           <!-- ANNOUNCEMENT -->
           <div class="twitter-card" data-category="announcement" data-title="Guild site is almost ready" data-tags="guild site announcement" data-date="2025-08-20">
             <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
@@ -414,6 +438,70 @@
             <li><a href="https://twitter.com/book_surachet/status/1958221010253283340" target="_blank">Guild site is almost ready</a> — Aug 20, 2025</li>
           </ul>
           <p>Milestones and personal story that anchors the guild identity and on-boarding momentum.</p>
+        </details>
+      </section>
+
+      <!-- MEMBERS -->
+      <section id="members">
+        <h2 class="section-title">Members</h2>
+        <p class="section-subtitle">Click a member to view their recent works and posts.</p>
+
+        <!-- Directory -->
+        <div class="members-grid">
+          <!-- Member: Sir.john -->
+          <div class="member-card">
+            <div class="member-avatar">
+              <!-- Try to load Twitter avatar; falls back to initials if blocked -->
+              <img src="https://unavatar.io/twitter/Omojohnd" alt="John avatar" onerror="this.style.display='none'; this.parentElement.textContent='SJ';" />
+            </div>
+            <div class="member-meta">
+              <h4>Sir.john <span style="color:var(--muted); font-weight:600;">@olympus_wav</span></h4>
+              <p>Also active as <a href="https://twitter.com/Omojohnd" target="_blank">@Omojohnd</a> — intents, payments, and Anoma explainers.</p>
+            </div>
+            <div class="member-actions">
+              <a class="btn primary" href="#member-john">View work</a>
+              <a class="btn" href="https://twitter.com/Omojohnd" target="_blank">Profile</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Works list -->
+        <details id="member-john" open>
+          <summary style="font-weight:800; color:var(--highlight); cursor:pointer;">Works — John (@Omojohnd)</summary>
+          <div class="twitter-grid" style="grid-template-columns:repeat(3,minmax(0,1fr));">
+            <!-- Quote tweet (The Big Realization) including nested original tweet -->
+            <div class="twitter-card">
+              <blockquote class="twitter-tweet">
+                <p lang="en" dir="ltr">The Big Realization<br>
+                  <blockquote class="twitter-tweet">
+                    <p lang="en" dir="ltr">Been looking into <a href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a> lately and the idea is 🔥<br><br>
+                    Instead of stressing about how to do stuff on-chain, you just say what you want and let the system handle it. That’s called intents — like wanting coffee ☕ or buying an NFT 🎨. <a href="https://t.co/svyCbirzwk">pic.twitter.com/svyCbirzwk</a></p>
+                    &mdash; John (@Omojohnd)
+                    <a href="https://twitter.com/Omojohnd/status/1958597723017683054?ref_src=twsrc%5Etfw">August 21, 2025</a>
+                  </blockquote><br>
+                  I’ve been learning about <a href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a> lately <br>And here’s the wild part:<br><br>
+                  It’s not an L1.<br>It’s not an L2.<br>It’s an operating system for blockchains.<br><br>
+                  Think Windows for Web3 → build once, run anywhere. <a href="https://t.co/SW8b1a9afI">pic.twitter.com/SW8b1a9afI</a>
+                </p>
+                &mdash; John (@Omojohnd)
+                <a href="https://twitter.com/Omojohnd/status/1959569477575508174?ref_src=twsrc%5Etfw">August 24, 2025</a>
+              </blockquote>
+            </div>
+
+            <!-- Payments / AnomaPay post -->
+            <div class="twitter-card">
+              <blockquote class="twitter-tweet">
+                <p lang="en" dir="ltr">Payments are about to change forever. ⚡<br><br>
+                  Meet <a href="https://twitter.com/AnomaPay?ref_src=twsrc%5Etfw">@AnomaPay</a><br>
+                  ✅ Send &amp; receive money seamlessly<br>✅ Secure by design<br>✅ Works anywhere, with anyone<br><br>
+                  All powered by Anoma.<br><br>
+                  Follow <a href="https://twitter.com/AnomaPay?ref_src=twsrc%5Etfw">@AnomaPay</a> and don’t miss the journey to frictionless real-world payments 🌍🚀 powered by <a href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a> <a href="https://t.co/PZmsYslLnP">pic.twitter.com/PZmsYslLnP</a>
+                </p>
+                &mdash; John (@Omojohnd)
+                <a href="https://twitter.com/Omojohnd/status/1959379331614224757?ref_src=twsrc%5Etfw">August 23, 2025</a>
+              </blockquote>
+            </div>
+          </div>
         </details>
       </section>
 
