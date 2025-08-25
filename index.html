@@ -1,337 +1,428 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Anoma Work Portfolio — bc1pBITHERUMN ⚡✨</title>
-  <meta name="description" content="Minimal, fast portfolio showcasing my work for the Anoma ecosystem — intents, solvers, coordination." />
-  <meta name="theme-color" content="#00ff99" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      /* Brand — black/green/red */
-      --accent: #00ff99;   /* green */
-      --accent-2: #00cc77; /* deep green */
-      --accent-red: #ff3b30; /* red highlight */
-      --bg: #0b0f0d;  /* near black */
-      --ink: #e8fdf4; /* minty white */
-      --muted: #8da699;
-      --card: #0f1612; /* dark greenish */
-      --border: #1b2a21;
-      --ring: 0 1px 0 rgba(0, 255, 153, .14), 0 12px 24px rgba(0,255,153,.08);
-      --radius: 18px; --nav-h: 72px;
-    }
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>bc1pBITHERUMN ⚡✨ Anoma Guild @Wizard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+    <style>
+      :root{
+        --bg-light:#ffffff; --text-light:#111111; --card-light:#f5f5f5; --highlight-light:#ef4444; --muted-light:#727272;
+        --bg-dark:#0b0b0d; --text-dark:#f5f5f5; --card-dark:#141417; --highlight-dark:#ef4444; --muted-dark:#b0b0b0;
+        --ring:#b87333;
+      }
+      [data-theme="light"]{ --bg:var(--bg-light); --text:var(--text-light); --card:var(--card-light); --highlight:var(--highlight-light); --muted:var(--muted-light); }
+      [data-theme="dark"]{ --bg:var(--bg-dark); --text:var(--text-dark); --card:var(--card-dark); --highlight:var(--highlight-dark); --muted:var(--muted-dark); }
 
-    /* Base */
-    body{margin:0; background:var(--bg); color:var(--ink); font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans",Arial,sans-serif; font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility}
-    *{box-sizing:border-box} img{max-width:100%; height:auto; display:block} a{color:inherit; text-decoration:none}
-    :focus-visible{outline:2px solid var(--accent); outline-offset:2px}
-    .container{width:min(1140px, 92vw); margin-inline:auto}
-    .section{padding:clamp(56px, 12vh, 120px) 0}
-    .eyebrow{display:inline-flex; gap:.5rem; align-items:center; font-size:.85rem; color:var(--muted); letter-spacing:.08em; text-transform:uppercase}
-    .eyebrow .dot{width:.5rem; height:.5rem; border-radius:999px; background:linear-gradient(90deg,var(--accent),var(--accent-red))}
-    h1{font-size:clamp(2.2rem, 3.2vw + 1.2rem, 4rem); line-height:1.15; letter-spacing:-.02em; margin:0 0 12px}
-    h2{font-size:clamp(1.6rem, 1.2vw + 1rem, 2.2rem); line-height:1.2; letter-spacing:-.01em; margin:0 0 8px}
-    p.lead{font-size:clamp(1.05rem, .6vw + .9rem, 1.25rem); color:var(--muted); max-width:72ch}
+      *{ margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
+      html{ scroll-behavior:smooth; }
+      body{ background:var(--bg); color:var(--text); line-height:1.6; transition:background .3s,color .3s; }
 
-    /* Top Nav */
-    .topnav{position:sticky; top:0; z-index:60; height:var(--nav-h); backdrop-filter:saturate(140%) blur(10px); background:#0b0f0d; border-bottom:1px solid var(--border)}
-    .navwrap{height:var(--nav-h); display:flex; align-items:center; justify-content:space-between}
-    .brand{display:flex; align-items:center; gap:.75rem; font-weight:700; letter-spacing:.02em}
-    .brand .logo{display:grid; place-items:center; width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg, var(--accent), var(--accent-red)); color:#001a12; font-weight:800}
-    .nav{display:flex; gap:.75rem; align-items:center}
-    .nav a{padding:.55rem .8rem; color:var(--muted); border-radius:10px}
-    .nav a.active{color:var(--ink); background:rgba(0,255,153,.08)}
+      /* NAV */
+      nav{
+        background:var(--card); position:sticky; top:0; z-index:100;
+        display:flex; align-items:center; justify-content:space-between;
+        gap:1rem; padding:.85rem 1.25rem; border-bottom:1px solid rgba(0,0,0,.06);
+      }
+      .nav-left{ display:flex; align-items:center; gap:.9rem; }
+      .nav-title{ font-weight:800; font-size:1.05rem; color:var(--highlight); display:flex; align-items:center; gap:.55rem; white-space:nowrap; }
+      .nav-title img{ width:30px; height:30px; border-radius:8px; }
+      .nav-links{ display:flex; gap:.75rem; flex-wrap:wrap; }
+      .nav-links a{ text-decoration:none; color:var(--text); font-weight:600; opacity:.85; padding:.35rem .6rem; border-radius:.5rem; }
+      .nav-links a:hover{ background:rgba(0,0,0,.06); opacity:1; }
+      .toggle-btn{ padding:.45rem .9rem; border:none; border-radius:.6rem; background:var(--highlight); color:#fff; font-weight:700; cursor:pointer; box-shadow:0 8px 18px rgba(239,68,68,.22); }
 
-    /* Buttons */
-    .btn{display:inline-flex; align-items:center; gap:.5rem; font-weight:600; border-radius:12px; padding:.8rem 1rem; cursor:pointer; border:1px solid var(--border); background:var(--card); box-shadow:var(--ring)}
-    .btn.primary{background:linear-gradient(135deg, var(--accent), var(--accent-2)); color:#001a12; border:0}
-    .btn.danger{border-color:color-mix(in oklab, var(--accent-red), black 20%); background:color-mix(in oklab, var(--accent-red), transparent 88%)}
-    .chip{padding:.38rem .6rem; border:1px solid var(--border); background:rgba(255,255,255,.03); border-radius:999px; font-size:.82rem}
-    .chip.red{border-color:color-mix(in oklab, var(--accent-red), black 20%); color:var(--accent-red)}
+      /* LAYOUT */
+      .container{ max-width:1400px; margin:0 auto; padding:1.75rem 1.25rem; }
+      .section-title{ font-size:2rem; margin:2rem 0 .25rem; text-align:center; }
+      .section-subtitle{ text-align:center; color:var(--muted); max-width:880px; margin:.35rem auto 1.35rem; }
 
-    /* Hero */
-    .hero{display:grid; grid-template-columns: 1.4fr .9fr; gap:clamp(24px, 3vw, 44px); align-items:center}
-    .hero .cta{display:flex; gap:.75rem; flex-wrap:wrap; margin-top:18px}
+      /* INTRO */
+      .intro{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:2rem; padding:2.25rem 0 1.25rem; scroll-margin-top:90px; }
+      .intro-text{ max-width:760px; }
+      .intro h1{ font-size:2.1rem; color:var(--highlight); }
+      .intro h2{ font-size:1.5rem; margin:.5rem 0 1rem; }
+      .intro p{ opacity:.95; }
+      .intro img{ width:300px; border-radius:1rem; box-shadow:0 10px 30px rgba(0,0,0,.15); background:#ddd; }
 
-    /* Grid Cards */
-    .grid{display:grid; grid-template-columns:repeat(12, 1fr); gap:20px}
-    .card{grid-column: span 6; background:var(--card); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; transition:transform .25s ease, box-shadow .25s ease}
-    .card:hover{transform:translateY(-4px); box-shadow:var(--ring)}
-    .thumb{aspect-ratio: 16/10; background:linear-gradient(135deg,var(--accent),var(--accent-red))}
-    .card .body{padding:16px 16px 18px}
-    .card h3{margin:.3rem 0 .35rem; font-size:1.1rem}
-    .meta{display:flex; align-items:center; gap:8px; color:var(--muted); font-size:.92rem}
+      /* GENERIC CARDS */
+      .grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.25rem; }
+      .card{ background:var(--card); border-radius:1rem; box-shadow:0 6px 16px rgba(0,0,0,.08); padding:1.25rem; border:1px solid rgba(0,0,0,.06); }
+      .card h3{ margin-bottom:.55rem; color:var(--highlight); font-size:1.05rem; }
 
-    /* About */
-    .about{display:grid; grid-template-columns: 1.2fr .8fr; gap:28px}
-    .stack{display:grid; grid-template-columns:repeat(2,1fr); gap:12px}
-    .stack .tool{border:1px solid var(--border); background:var(--card); border-radius:12px; padding:12px 14px; display:flex; align-items:center; justify-content:space-between}
-    .stack .tool small{color:var(--muted)}
+      /* MOMENTS */
+      #moments{ scroll-margin-top:90px; }
+      .twitter-grid{ display:grid; gap:1.1rem; margin:1rem 0 2rem; align-items:stretch; grid-template-columns:repeat(5, minmax(0, 1fr)); }
+      @media (max-width: 1400px){ .twitter-grid{ grid-template-columns:repeat(4, 1fr); } }
+      @media (max-width: 1100px){ .twitter-grid{ grid-template-columns:repeat(3, 1fr); } }
+      @media (max-width: 800px){  .twitter-grid{ grid-template-columns:repeat(2, 1fr); } }
+      @media (max-width: 520px){  .twitter-grid{ grid-template-columns:1fr; } }
 
-    /* Writing */
-    .posts{display:grid; gap:16px}
-    .post{display:flex; justify-content:space-between; align-items:center; padding:14px 16px; border:1px solid var(--border); background:var(--card); border-radius:12px}
-    .post .t{display:flex; gap:10px; align-items:center}
+      .twitter-card{
+        background:var(--card); border-radius:1rem; padding:.65rem; font-size:.85rem;
+        box-shadow:0 0 14px rgba(184,115,51,.65); border:2px solid var(--ring);
+        min-width:0; display:flex; flex-direction:column; height:auto; transition:transform .25s, box-shadow .25s;
+      }
+      .twitter-card:hover{ transform:translateY(-4px); box-shadow:0 0 22px rgba(184,115,51,.95); }
+      .twitter-card blockquote.twitter-tweet{ flex:1; margin:0 auto !important; width:100% !important; }
+      .hidden{ display:none !important; }
 
-    /* Gallery */
-    .gallery{display:grid; grid-template-columns:repeat(12,1fr); gap:16px}
-    .shot{grid-column:span 6; position:relative; border:1px solid var(--border); border-radius:16px; overflow:hidden; background:#0e1511}
-    .shot img{width:100%; height:auto; display:block}
-    .shot figcaption{display:flex; align-items:center; justify-content:space-between; gap:8px; padding:10px 12px; border-top:1px solid var(--border); color:var(--muted); background:rgba(0,0,0,.15)}
-    .zoom{position:absolute; right:10px; bottom:10px; border:1px solid var(--border); border-radius:10px; padding:.35rem .5rem; background:rgba(0,0,0,.35); backdrop-filter:blur(4px)}
+      /* FILTER BAR */
+      .filter-wrap{ background:var(--card); border:1px solid rgba(0,0,0,.06); border-radius:1rem; padding:1rem; margin:1rem 0 1.25rem; }
+      .filters{ display:flex; flex-wrap:wrap; gap:.5rem .55rem; align-items:center; }
+      .chip{ border:1px solid rgba(0,0,0,.12); padding:.4rem .7rem; border-radius:999px; background:#fff0; cursor:pointer; font-weight:600; }
+      [data-theme="dark"] .chip{ border-color:#2a2a2a; }
+      .chip.active{ background:var(--highlight); color:#fff; border-color:transparent; }
+      .search{ flex:1; display:flex; gap:.5rem; justify-content:flex-end; }
+      .search input{ padding:.5rem .7rem; border-radius:.6rem; border:1px solid rgba(0,0,0,.12); width:260px; background:transparent; color:var(--text); }
+      .search input::placeholder{ color:var(--muted); }
+      .results-counter{ color:var(--muted); font-size:.9rem; margin-top:.6rem; }
 
-    footer{padding:32px 0; color:var(--muted); border-top:1px solid var(--border)}
-    :target{scroll-margin-top: calc(var(--nav-h) + 12px)}
-  </style>
-</head>
-<body>
-  <header class="topnav">
-    <div class="container navwrap">
-      <a href="#home" class="brand" aria-label="home">
-        <span class="logo">◎</span>
-        <span>bc1pBITHERUMN ⚡✨</span>
-      </a>
-      <div class="nav">
-        <nav class="links" aria-label="primary">
-          <a href="#articles">Articles</a>
-          <a href="#work">Work</a>
-          <a href="#gallery">Gallery</a>
-          <a href="#about">About</a>
-        </nav>
-      </div>
-    </div>
-  </header>
+      /* GROUP DETAILS */
+      #groups{ scroll-margin-top:90px; }
+      details{ background:var(--card); border-radius:1rem; padding:1rem 1rem .5rem; border:1px solid rgba(0,0,0,.06); margin:.6rem 0; }
+      details > summary{ font-weight:800; cursor:pointer; color:var(--highlight); margin-bottom:.45rem; }
+      details ul{ margin:.4rem 0 .7rem 1.25rem; }
+      details li{ margin:.2rem 0; }
+      details a{ color:var(--text); }
 
-  <main id="home" class="container">
-    <!-- Hero -->
-    <section class="section hero">
-      <div class="head">
-        <span class="eyebrow"><i class="dot"></i> Portfolio</span>
-        <h1>Intent-first design & engineering for the Anoma ecosystem.</h1>
-        <p class="lead">I build simple, fast, measurable experiences around intents, solvers, and coordination — with a black/green/red aesthetic inspired by Anoma.</p>
-        <div class="cta">
-          <a href="#work" class="btn primary">See selected work</a>
-          <a href="#gallery" class="btn danger">View testnet shots</a>
-        </div>
-      </div>
-      <div class="hero-illus" aria-hidden="true">
-        <div class="card" style="padding:20px; border-radius:20px">
-          <h3 style="margin-top:0">Performance Meter</h3>
-          <p class="lead" style="margin:0 0 10px">Lighthouse Score</p>
-          <div class="meter" title="Score" style="height:10px; border-radius:999px; background:color-mix(in oklab, var(--border), transparent 10%); overflow:hidden"><i style="display:block; height:100%; width:92%; background:linear-gradient(90deg, var(--accent), var(--accent-red))"></i></div>
-          <div style="display:flex; gap:10px; margin-top:14px">
-            <span class="chip">Accessibility</span>
-            <span class="chip">Best Practices</span>
-            <span class="chip red">SEO</span>
-          </div>
-        </div>
-      </div>
-    </section>
+      footer{ text-align:center; padding:2rem; opacity:.7; }
 
-    <!-- Articles (X embeds) -->
-    <section id="articles" class="section">
-      <span class="eyebrow"><i class="dot"></i> Articles</span>
-      <h2>Threads & notes on X</h2>
-      <p class="lead">Auto‑synced from <code>from:book_surachet anoma</code>. Embedded via official X widgets.</p>
-      <div class="posts" id="xEmbeds">
-        <!-- Hard fallback so something shows even if API/env is missing -->
-        <blockquote class="twitter-tweet"><p lang="en" dir="ltr">My Small Idea Say to Cross Chain Swap (Powered by Intents)<br><br>Cross Chain Swap right now<br>Too many apps<br>Pay gas everywhere<br>click click click<br>Mess up once is bye bye money lol<br><br>But with Anoma it easy<br> just a chill day<br><br>Mage just say Swap USDT 50%… <a href="https://t.co/Zvic7lTPjo">pic.twitter.com/Zvic7lTPjo</a></p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet) <a href="https://twitter.com/book_surachet/status/1950923632915685490?ref_src=twsrc%5Etfw">July 31, 2025</a></blockquote>
-      </div>
-    </section>
+      .wizard{ position:fixed; bottom:20px; right:30px; width:92px; animation:float 3s ease-in-out infinite; z-index:50; pointer-events:none; }
+      @keyframes float{ 0%{transform:translateY(0)} 50%{transform:translateY(-10px)} 100%{transform:translateY(0)} }
+      .wizard-glow{ position:fixed; bottom:20px; right:30px; width:92px; height:92px; border-radius:50%; box-shadow:0 0 22px 6px var(--highlight); z-index:40; animation:pulse 2s ease-in-out infinite; pointer-events:none; opacity:.8; }
+      @keyframes pulse{ 0%{transform:scale(1);opacity:.6} 50%{transform:scale(1.1);opacity:1} 100%{transform:scale(1);opacity:.6} }
+    </style>
+    <script>
+      function toggleTheme(){
+        const html=document.documentElement;
+        html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+      }
 
-    <!-- Work -->
-    <section id="work" class="section">
-      <span class="eyebrow"><i class="dot"></i> Selected Work</span>
-      <h2>Projects for Anoma</h2>
-      <p class="lead">Outcome‑oriented selection around intents, solver UX, and community tooling.</p>
+      // Filtering & Search
+      document.addEventListener('DOMContentLoaded', () => {
+        const cards = Array.from(document.querySelectorAll('.twitter-card'));
+        const chips = Array.from(document.querySelectorAll('.chip[data-cat]'));
+        const search = document.getElementById('postSearch');
+        const counter = document.getElementById('resultsCounter');
 
-      <div class="grid" style="margin-top:18px">
-        <article class="card">
-          <a href="#" aria-label="Case Study: Intent Onboarding Microsite">
-            <figure class="thumb" role="img" aria-label="Hero preview"></figure>
-            <div class="body">
-              <div class="meta"><span>2025</span> · <span>Intent Onboarding Microsite</span></div>
-              <h3>Explaining “from transactions to intents” — increased activation by 31%</h3>
-              <div class="chips">
-                <span class="chip">Next.js</span>
-                <span class="chip">Intents</span>
-                <span class="chip">A/B Testing</span>
-              </div>
-            </div>
-          </a>
-        </article>
+        let activeCat = 'all';
+        let query = '';
 
-        <article class="card">
-          <a href="#" aria-label="Case Study: Solver Playground">
-            <figure class="thumb" role="img" aria-label="Tooling preview"></figure>
-            <div class="body">
-              <div class="meta"><span>2024</span> · <span>Solver Playground</span></div>
-              <h3>Rapid prototyping UI for solver strategies and intent matching</h3>
-              <div class="chips">
-                <span class="chip">TypeScript</span>
-                <span class="chip">Solvers</span>
-                <span class="chip">Visualization</span>
-              </div>
-            </div>
-          </a>
-        </article>
+        function norm(s){ return (s||'').toLowerCase().trim(); }
 
-        <article class="card">
-          <a href="#" aria-label="Case Study: Docs & Design System">
-            <figure class="thumb" role="img" aria-label="Docs preview"></figure>
-            <div class="body">
-              <div class="meta"><span>2023</span> · <span>Docs & Design System</span></div>
-              <h3>Unified components + writing guidelines across Anoma resources</h3>
-              <div class="chips">
-                <span class="chip">Figma</span>
-                <span class="chip">Design System</span>
-                <span class="chip">Docs UX</span>
-              </div>
-            </div>
-          </a>
-        </article>
-      </div>
-    </section>
+        function applyFilters(){
+          const q = norm(query);
+          let shown = 0;
+          cards.forEach(card => {
+            const cat = card.dataset.category;
+            const hay = norm(card.dataset.title + ' ' + card.dataset.tags);
+            const okCat = (activeCat === 'all') || (cat === activeCat);
+            const okSearch = !q || hay.includes(q);
+            const show = okCat && okSearch;
+            card.classList.toggle('hidden', !show);
+            if(show) shown++;
+          });
+          counter.textContent = `${shown} result${shown===1?'':'s'} shown`;
+        }
 
-    <!-- Gallery: Testnet shots -->
-    <section id="gallery" class="section">
-      <span class="eyebrow"><i class="dot"></i> Testnet Gallery</span>
-      <h2>Screenshots & proofs</h2>
-      <p class="lead">Drop your testnet images here — quests, validators, solver logs, Garapon/BitFlip, dashboards, etc.</p>
-      <div class="gallery" style="margin-top:14px">
-        <figure class="shot"><img src="images/testnet-1.jpg" alt="Testnet dashboard overview (placeholder)" loading="lazy"/><figcaption><span>Validator status / epoch‑sync</span><button class="zoom" data-zoom>Zoom</button></figcaption></figure>
-        <figure class="shot"><img src="images/testnet-2.jpg" alt="Intent submission flow (placeholder)" loading="lazy"/><figcaption><span>Intent submission UX</span><button class="zoom" data-zoom>Zoom</button></figcaption></figure>
-        <figure class="shot"><img src="images/testnet-3.jpg" alt="Solver logs (placeholder)" loading="lazy"/><figcaption><span>Solver logs / matching</span><button class="zoom" data-zoom>Zoom</button></figcaption></figure>
-        <figure class="shot"><img src="images/testnet-4.jpg" alt="Community quest proof (placeholder)" loading="lazy"/><figcaption><span>Community quest proof</span><button class="zoom" data-zoom>Zoom</button></figcaption></figure>
-      </div>
-    </section>
-
-    <!-- About -->
-    <section id="about" class="section">
-      <div class="about">
-        <div>
-          <span class="eyebrow"><i class="dot"></i> About</span>
-          <h2>A short intro</h2>
-          <p class="lead">Designer‑turned‑engineer focused on Anoma. I bridge product thinking, clean interfaces, and measurable impact around intents and coordination.</p>
-          <ul>
-            <li>Clarity, performance, outcomes.</li>
-            <li>Research → design → build → measure.</li>
-            <li>Collaborate with product, devrel, and community teams.</li>
-          </ul>
-        </div>
-        <div>
-          <div class="stack">
-            <div class="tool"><span>React / Next.js</span><small>Production</small></div>
-            <div class="tool"><span>TypeScript</span><small>Daily driver</small></div>
-            <div class="tool"><span>Tailwind / CSS</span><small>UI craft</small></div>
-            <div class="tool"><span>Node / APIs</span><small>Solid</small></div>
-            <div class="tool"><span>Figma</span><small>Design System</small></div>
-            <div class="tool"><span>Analytics</span><small>GA4 / A/B</small></div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- Lightbox modal for gallery -->
-  <div class="lightbox" id="lightbox" aria-modal="true" role="dialog">
-    <button class="close" id="lbClose" aria-label="Close">Close ✕</button>
-    <img id="lbImg" alt="Expanded screenshot"/>
-  </div>
-
-  <footer class="container">
-    <div style="display:flex; align-items:center; justify-content:space-between; gap:12px">
-      <small>© <span id="y"></span> bc1pBITHERUMN ⚡✨. Focused on Anoma — built with ♥, minimal & fast.</small>
-      <a class="btn" href="#home">Back to top</a>
-    </div>
-  </footer>
-
-  <!-- X widgets must be present for embeds to render -->
-  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-  <script>
-    // Helpers
-    const $ = (s)=>document.querySelector(s);
-    const $$ = (s)=>Array.from(document.querySelectorAll(s));
-    $('#y').textContent = new Date().getFullYear();
-
-    // Active link highlight
-    const links = $$('.links a');
-    const sections = ['articles','work','gallery','about'].map(id=>$('#'+id));
-    const spy = () => { let cur=sections[0].id; const y=scrollY + innerHeight*0.28; sections.forEach(se=>{ if(y>=se.offsetTop) cur=se.id; }); links.forEach(a=>a.classList.toggle('active', a.getAttribute('href')==='#'+cur)); };
-    addEventListener('scroll', spy); spy();
-
-    // Lightbox for gallery
-    const lb = $('#lightbox'), lbImg = $('#lbImg');
-    $$('.shot [data-zoom]').forEach(btn=>btn.addEventListener('click', e=>{
-      const fig = e.currentTarget.closest('.shot');
-      const img = fig.querySelector('img');
-      lbImg.src = img.src; lb.classList.add('open');
-    }));
-    $('#lbClose').addEventListener('click', ()=> lb.classList.remove('open'));
-    lb.addEventListener('click', (e)=> { if(e.target===lb) lb.classList.remove('open'); });
-
-    // ===== X embeds: fetch all posts matching "from:book_surachet anoma" =====
-    const X_HANDLE = 'book_surachet';
-    async function loadEmbeds(){
-      const container = $('#xEmbeds');
-      try{
-        const res = await fetch('/api/anoma-posts', {cache:'no-store'});
-        if(!res.ok) throw new Error('API failed');
-        const items = await res.json();
-        if(!Array.isArray(items) || !items.length) throw new Error('no items');
-
-        // Ensure widgets is ready
-        await new Promise(resolve => {
-          if (window.twttr?.widgets?.createTweet) return resolve();
-          const iv = setInterval(()=>{ if(window.twttr?.widgets?.createTweet){ clearInterval(iv); resolve(); } }, 60);
-          setTimeout(()=>{ clearInterval(iv); resolve(); }, 4000);
+        chips.forEach(chip => {
+          chip.addEventListener('click', () => {
+            chips.forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            activeCat = chip.dataset.cat;
+            applyFilters();
+          });
         });
 
-        // Clear hard fallback blockquote before rendering
-        container.innerHTML = '';
+        search.addEventListener('input', (e) => {
+          query = e.target.value;
+          applyFilters();
+        });
 
-        for(const it of items){
-          const id = it.id || it; if(!id) continue;
-          const holder = document.createElement('div');
-          holder.className = 'post';
-          container.appendChild(holder);
-          try{ await twttr.widgets.createTweet(id, holder, { theme: 'dark', align: 'center', dnt: true }); }
-          catch{ holder.innerHTML = `<a class="post" href="https://x.com/${X_HANDLE}/status/${id}" target="_blank" rel="noopener"><div class=\"t\"><strong>View tweet</strong><span class=\"chip\">X</span></div></a>`; }
-        }
-      }catch(err){
-        // Secondary fallback: manual json
-        try{
-          const m = await fetch('/data/anoma-manual.json', {cache:'no-store'});
-          if(m.ok){
-            const manual = await m.json();
-            // Ensure widgets
-            await new Promise(resolve => {
-              if (window.twttr?.widgets?.createTweet) return resolve();
-              const iv = setInterval(()=>{ if(window.twttr?.widgets?.createTweet){ clearInterval(iv); resolve(); } }, 60);
-              setTimeout(()=>{ clearInterval(iv); resolve(); }, 4000);
-            });
-            container.innerHTML = '';
-            for(const it of (Array.isArray(manual)?manual:[])){
-              const id = typeof it === 'string' ? it : it.id; if(!id) continue;
-              const holder = document.createElement('div'); holder.className = 'post'; container.appendChild(holder);
-              try{ await twttr.widgets.createTweet(id, holder, { theme: 'dark', align: 'center', dnt: true }); }
-              catch{ holder.innerHTML = `<a class=\"post\" href=\"https://x.com/${X_HANDLE}/status/${id}\" target=\"_blank\" rel=\"noopener\"><div class=\"t\"><strong>View tweet</strong><span class=\"chip\">X</span></div></a>`; }
-            }
-            return;
-          }
-        }catch{}
-        // Final fallback link
-        const a = document.createElement('a');
-        a.className = 'post'; a.target = '_blank'; a.rel = 'noopener';
-        a.href = `https://x.com/search?q=from%3A${X_HANDLE}%20anoma&src=typed_query`;
-        a.innerHTML = `<div class="t"><strong>View all Anoma posts on X</strong><span class="chip">Search</span></div><time>Live</time>`;
-        container.appendChild(a);
-      }
-    }
-    loadEmbeds();
-  </script>
-</body>
+        // Init
+        applyFilters();
+      });
+    </script>
+  </head>
+  <body>
+    <!-- NAV -->
+    <nav>
+      <div class="nav-left">
+        <div class="nav-title">
+          <img src="img/logoguild.png" alt="Guild Logo" />
+          <span>bc1pBITHERUMN ⚡✨ Anoma Guild @Wizard</span>
+        </div>
+        <div class="nav-links">
+          <a href="#home">Home</a>
+          <a href="#moments">Guild Moments</a>
+          <a href="#groups">Group Overviews</a>
+        </div>
+      </div>
+      <button class="toggle-btn" onclick="toggleTheme()">Swap Dark/Bright shrimp</button>
+    </nav>
+
+    <div class="container" id="home">
+      <!-- INTRO -->
+      <section class="intro">
+        <div class="intro-text">
+          <h1>Welcome, I'm the Guild Leader</h1>
+          <h2>bc1pBITHERUMN ⚡✨ Anoma Guild</h2>
+          <p>
+            This guild focuses on <strong>mages who are passionate about or curious in Anoma's technology</strong>.
+            We experiment, mentor, and explore together. Our guild is about sharing experience, collaboration,
+            and amplifying each other’s voices. Follow us on
+            <a href="https://x.com/book_surachet" target="_blank" style="color:var(--highlight);text-decoration:underline;">X (Twitter)</a>.
+          </p>
+        </div>
+        <img src="img/mypic.png" alt="Guild Picture" />
+      </section>
+
+      <!-- GUILD MOMENTS -->
+      <section id="moments">
+        <h2 class="section-title">Guild Moments</h2>
+        <p class="section-subtitle">Filter by category or search keywords. All 17 embedded posts are below.</p>
+
+        <!-- FILTER BAR -->
+        <div class="filter-wrap">
+          <div class="filters">
+            <button class="chip active" data-cat="all">All</button>
+            <button class="chip" data-cat="testnet">Testnet / Quests</button>
+            <button class="chip" data-cat="community">Community / Hype</button>
+            <button class="chip" data-cat="product">Product / Demos</button>
+            <button class="chip" data-cat="vision">Vision / Concepts</button>
+            <button class="chip" data-cat="announcement">Announcements</button>
+            <div class="search">
+              <input id="postSearch" type="search" placeholder="Search posts (title keywords)..." />
+            </div>
+          </div>
+          <div class="results-counter" id="resultsCounter">17 results shown</div>
+        </div>
+
+        <div class="twitter-grid">
+          <!-- Each card carries metadata for filtering (data-category, data-title, data-tags) -->
+
+          <!-- ANNOUNCEMENT -->
+          <div class="twitter-card" data-category="announcement" data-title="Guild site is almost ready" data-tags="guild site announcement" data-date="2025-08-20">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+              bc1pBITHERUMN <a href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a> Wizard Guild is almost ready<br><br>
+              Those who joined our post on X Anomage Island will be honored inside the Guild site a place to gather mages who share passion for Anoma tech &amp; coordination 🧙‍♂️<br><br>
+              Not just followers but builders, dreamers, and explorers of Anoma… <a href="https://t.co/FRWKpsHz2B">pic.twitter.com/FRWKpsHz2B</a>
+            </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+            <a href="https://twitter.com/book_surachet/status/1958221010253283340?ref_src=twsrc%5Etfw">August 20, 2025</a></blockquote>
+          </div>
+
+          <!-- COMMUNITY -->
+          <div class="twitter-card" data-category="community" data-title="Shrimp Gone Wild 10K party" data-tags="community hype party 10k" data-date="2025-08-15">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+              <a href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a> Shrimp Gone Wild 🔥<br>
+              Shrimp just busted out of the barn like<br><br>
+              &quot;IS THIS THE 10K PARTY?!?!&quot; 🦐💃<br><br>
+              Doing laps around the island high fiving trees, and moonwalking over the bridge 🌉<br><br>
+              9.9K Anomages and my crustacean heart can’t take it<br>
+              Someone bring confetti before I start… <a href="https://t.co/92TZrpX6Cm">pic.twitter.com/92TZrpX6Cm</a>
+            </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+            <a href="https://twitter.com/book_surachet/status/1956390643796004950?ref_src=twsrc%5Etfw">August 15, 2025</a></blockquote>
+          </div>
+
+          <!-- PRODUCT -->
+          <div class="twitter-card" data-category="product" data-title="SullySwap by Anoma completes my crypto flow" data-tags="sullyswap product demo flow approvals solver" data-date="2025-08-21">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+              To me <a href="https://twitter.com/sullyswap?ref_src=twsrc%5Etfw">@sullyswap</a> by <a href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a> completes my crypto flow <br>
+              one single interface to handle cross chain liquidity moves across multiple hops without jugging UI<br><br>
+              a safer playground for small wallets through the reduction of risky approvals, DAO/Guild treasury ops using auditable solver… <a href="https://t.co/nW20Z5hJk3">pic.twitter.com/nW20Z5hJk3</a>
+            </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+            <a href="https://twitter.com/book_surachet/status/1958562856485671087?ref_src=twsrc%5Etfw">August 21, 2025</a></blockquote>
+          </div>
+
+          <!-- ANNOUNCEMENT -->
+          <div class="twitter-card" data-category="announcement" data-title="Joined Anoma almost a year ago" data-tags="journey reflection one year" data-date="2025-08-24">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+              I joined <a href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a> almost a year ago, around November or Dec 2024<br><br>
+              Since the very beginning, I’ve been through so much with you and Anoma. Back then, people didn’t really understand the word intent. <br><br>
+              I kept trying to understand, joining every activity. It made me believe this is… <a href="https://t.co/Rsodk37ccI">https://t.co/Rsodk37ccI</a> <a href="https://t.co/Q27xe9wpht">pic.twitter.com/Q27xe9wpht</a>
+            </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+            <a href="https://twitter.com/book_surachet/status/1959517900873826533?ref_src=twsrc%5Etfw">August 24, 2025</a></blockquote>
+          </div>
+
+          <!-- PRODUCT -->
+          <div class="twitter-card" data-category="product" data-title="AnomaPay × SullySwap one-intent payment demo" data-tags="AnomaPay SullySwap cross-chain payment demo intent SOL USDC Arbitrum" data-date="2025-08-23">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+              Built a demo showing how <a href="https://twitter.com/AnomaPay?ref_src=twsrc%5Etfw">@AnomaPay</a> × <a href="https://twitter.com/sullyswap?ref_src=twsrc%5Etfw">@sullyswap</a> could power cross-chain payments by <a href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a> <br><br>
+              With Anoma Pay × SullySwap 1 intent = spell cast<br>
+              Customer pay in SOL on Solana to merchant instantly receives USDC on Arbitrum<br><br>
+              All with one intent, solver does the magic<br><br>
+              That’s the… <a href="https://t.co/CoGSbOWhfr">pic.twitter.com/CoGSbOWhfr</a>
+            </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+            <a href="https://twitter.com/book_surachet/status/1959284071542243583?ref_src=twsrc%5Etfw">August 23, 2025</a></blockquote>
+          </div>
+
+          <!-- PRODUCT -->
+          <div class="twitter-card" data-category="product" data-title="Anoma Creator web" data-tags="creator tokens nft intents builder hub" data-date="2025-08-14">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+              <a href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a> Creator web your all in one anoma creation hub<br><br>
+              Create tokens Intents , mint NFTs Intents , and execute Intents seamlessly <br><br>
+              From idea to deployment Anoma Creator makes it simple to build on any chain without the infrastructure headache. <br>
+              One platform endless… <a href="https://t.co/OGoMUSA6ja">pic.twitter.com/OGoMUSA6ja</a>
+            </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+            <a href="https://twitter.com/book_surachet/status/1956004037784166695?ref_src=twsrc%5Etfw">August 14, 2025</a></blockquote>
+          </div>
+
+          <!-- TESTNET -->
+          <div class="twitter-card" data-category="testnet" data-title="Shrimp fishing quest" data-tags="testnet quest fishing portal tracker alpha" data-date="2025-08-13">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+              Shrimp fishing in the <a href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a> testnet isn’t just fishing <br>
+              it’s an adventure.... <a href="https://t.co/kosEnOmdlg">pic.twitter.com/kosEnOmdlg</a>
+            </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+            <a href="https://twitter.com/book_surachet/status/1955516301058904508?ref_src=twsrc%5Etfw">August 13, 2025</a></blockquote>
+          </div>
+
+          <!-- TESTNET -->
+          <div class="twitter-card" data-category="testnet" data-title="Garapon Spins, Intent Magic" data-tags="garapon spins testnet live" data-date="2025-08-13">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+              Garapon Spins, Intent Magic <a href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a> Testnet is Live ... <a href="https://t.co/SDaHVgn6gn">pic.twitter.com/SDaHVgn6gn</a>
+            </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+            <a href="https://twitter.com/book_surachet/status/1955488841890140545?ref_src=twsrc%5Etfw">August 13, 2025</a></blockquote>
+          </div>
+
+          <!-- COMMUNITY -->
+          <div class="twitter-card" data-category="community" data-title="Streamers are eyeing the testnet" data-tags="streamers live chaos coordination" data-date="2025-08-13">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+              Finally some interesting streamers are eyeing the <a href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a> testnet 👀 ... <a href="https://t.co/W8wd6iZLfl">pic.twitter.com/W8wd6iZLfl</a>
+            </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+            <a href="https://twitter.com/book_surachet/status/1955469802841182454?ref_src=twsrc%5Etfw">August 13, 2025</a></blockquote>
+          </div>
+
+          <!-- VISION -->
+          <div class="twitter-card" data-category="vision" data-title="Monday/Wednesday reads - Topology of Trust Networks" data-tags="series reading topology trust networks ideas" data-date="2025-08-18">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+              Every Monday and Wednesday we will share original reads like "The Topology of Trust Networks" ... <a href="https://t.co/KFibaaqftT">pic.twitter.com/KFibaaqftT</a>
+            </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+            <a href="https://twitter.com/book_surachet/status/1957385954031030610?ref_src=twsrc%5Etfw">August 18, 2025</a></blockquote>
+          </div>
+
+          <!-- TESTNET -->
+          <div class="twitter-card" data-category="testnet" data-title="Testnet Makes DeFi Fun Again (score/rank/loop)" data-tags="points rank daily loops garapon island hunts" data-date="2025-08-12">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+              <a href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a> Testnet Makes DeFi Fun Again ... <a href="https://t.co/R8xwp38GTS">pic.twitter.com/R8xwp38GTS</a>
+            </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+            <a href="https://twitter.com/book_surachet/status/1955143969089982946?ref_src=twsrc%5Etfw">August 12, 2025</a></blockquote>
+          </div>
+
+          <!-- VISION -->
+          <div class="twitter-card" data-category="vision" data-title="Intent-first UX (not bridge/swap repeat)" data-tags="intent ux coordination privacy" data-date="2025-08-10">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+              We are not here to bridge, swap, approve, sign, pray repeat. We are here to voice our intent once ... <a href="https://t.co/vcfW8MD2bu">https://t.co/vcfW8MD2bu</a> <a href="https://t.co/26rfEL6w3T">pic.twitter.com/26rfEL6w3T</a>
+            </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+            <a href="https://twitter.com/book_surachet/status/1954539607313600596?ref_src=twsrc%5Etfw">August 10, 2025</a></blockquote>
+          </div>
+
+          <!-- TESTNET -->
+          <div class="twitter-card" data-category="testnet" data-title="Anoma island with a football pitch" data-tags="island football pitch build world" data-date="2025-08-08">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+              If an <a href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a> island had a football pitch 🌴⚽ ... <a href="https://t.co/s0AerTDKTO">pic.twitter.com/s0AerTDKTO</a>
+            </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+            <a href="https://twitter.com/book_surachet/status/1953967910923514270?ref_src=twsrc%5Etfw">August 8, 2025</a></blockquote>
+          </div>
+
+          <!-- VISION -->
+          <div class="twitter-card" data-category="vision" data-title="Heliax & Anoma infrastructure (ZK, MASP)" data-tags="heliax infrastructure privacy zk masp" data-date="2025-08-08">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+              Have you heard about <a href="https://twitter.com/heliaxdev?ref_src=twsrc%5Etfw">@heliaxdev</a> ? They&#39;re the ones behind <a href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a> ... <a href="https://t.co/DP5ADqawrf">pic.twitter.com/DP5ADqawrf</a>
+            </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+            <a href="https://twitter.com/book_surachet/status/1953670969975091352?ref_src=twsrc%5Etfw">August 8, 2025</a></blockquote>
+          </div>
+
+          <!-- TESTNET -->
+          <div class="twitter-card" data-category="testnet" data-title="Struggling to spot all 20 balls" data-tags="tips explore island 20 balls" data-date="2025-08-05">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+              Struggling to Spot All 20 Balls? <a href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a> Got You Exploring Every Corner! ... <a href="https://t.co/uUfvAJQmay">pic.twitter.com/uUfvAJQmay</a>
+            </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+            <a href="https://twitter.com/book_surachet/status/1952659863177420869?ref_src=twsrc%5Etfw">August 5, 2025</a></blockquote>
+          </div>
+
+          <!-- VISION -->
+          <div class="twitter-card" data-category="vision" data-title="Why Anoma is the only app you need to settle across every chain" data-tags="cross chain settle app ux" data-date="2025-07-13">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+              Why <a href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a> Is the Only App You’ll Ever Need to Settle Across Every Chain ... <a href="https://t.co/av7PUKby58">https://t.co/av7PUKby58</a> <a href="https://t.co/dki0YDNpOB">pic.twitter.com/dki0YDNpOB</a>
+            </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+            <a href="https://twitter.com/book_surachet/status/1944428389403930776?ref_src=twsrc%5Etfw">July 13, 2025</a></blockquote>
+          </div>
+
+          <!-- PRODUCT (duplicate embed intentionally kept to make 17) -->
+          <div class="twitter-card" data-category="product" data-title="Anoma Creator web (duplicate)" data-tags="creator duplicate" data-date="2025-08-14">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+              <a href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a> Creator web your all in one anoma creation hub ... <a href="https://t.co/OGoMUSA6ja">pic.twitter.com/OGoMUSA6ja</a>
+            </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+            <a href="https://twitter.com/book_surachet/status/1956004037784166695?ref_src=twsrc%5Etfw">August 14, 2025</a></blockquote>
+          </div>
+        </div>
+      </section>
+
+      <!-- GROUP OVERVIEWS -->
+      <section id="groups">
+        <h2 class="section-title">Group Overviews</h2>
+        <p class="section-subtitle">Quick explanations of each category with links to the posts.</p>
+
+        <details open>
+          <summary>Testnet / Quests (5)</summary>
+          <ul>
+            <li><a href="https://twitter.com/book_surachet/status/1955516301058904508" target="_blank">Shrimp fishing & adventure</a> — Aug 13, 2025</li>
+            <li><a href="https://twitter.com/book_surachet/status/1955488841890140545" target="_blank">Garapon Spins, Intent Magic (testnet live)</a> — Aug 13, 2025</li>
+            <li><a href="https://twitter.com/book_surachet/status/1955143969089982946" target="_blank">DeFi Fun Again (points/rank/loops)</a> — Aug 12, 2025</li>
+            <li><a href="https://twitter.com/book_surachet/status/1953967910923514270" target="_blank">Island with a football pitch</a> — Aug 8, 2025</li>
+            <li><a href="https://twitter.com/book_surachet/status/1952659863177420869" target="_blank">Tips: finding all 20 balls</a> — Aug 5, 2025</li>
+          </ul>
+          <p>Hands-on exploration of the Anoma testnet with gamified loops (quests, Garapon, points) and playful world-building.</p>
+        </details>
+
+        <details>
+          <summary>Community / Hype (2)</summary>
+          <ul>
+            <li><a href="https://twitter.com/book_surachet/status/1956390643796004950" target="_blank">Shrimp Gone Wild – 10K party</a> — Aug 15, 2025</li>
+            <li><a href="https://twitter.com/book_surachet/status/1955469802841182454" target="_blank">Streamers eyeing the testnet</a> — Aug 13, 2025</li>
+          </ul>
+          <p>Celebrations and rallying the community to watch/participate in live chaos that becomes coordination.</p>
+        </details>
+
+        <details>
+          <summary>Product / Demos (4)</summary>
+          <ul>
+            <li><a href="https://twitter.com/book_surachet/status/1959284071542243583" target="_blank">AnomaPay × SullySwap — one-intent payment demo</a> — Aug 23, 2025</li>
+            <li><a href="https://twitter.com/book_surachet/status/1958562856485671087" target="_blank">SullySwap by Anoma — complete crypto flow</a> — Aug 21, 2025</li>
+            <li><a href="https://twitter.com/book_surachet/status/1956004037784166695" target="_blank">Anoma Creator web</a> — Aug 14, 2025 (embedded twice on page)</li>
+          </ul>
+          <p>Working examples showing intent-based UX handling cross-chain flows and creative tooling (Creator hub).</p>
+        </details>
+
+        <details>
+          <summary>Vision / Concepts (4)</summary>
+          <ul>
+            <li><a href="https://twitter.com/book_surachet/status/1957385954031030610" target="_blank">Mon/Wed reads — “Topology of Trust Networks”</a> — Aug 18, 2025</li>
+            <li><a href="https://twitter.com/book_surachet/status/1954539607313600596" target="_blank">Intent-first UX (not bridge/swap repeat)</a> — Aug 10, 2025</li>
+            <li><a href="https://twitter.com/book_surachet/status/1953670969975091352" target="_blank">Heliax infrastructure (ZK, MASP)</a> — Aug 8, 2025</li>
+            <li><a href="https://twitter.com/book_surachet/status/1944428389403930776" target="_blank">Why Anoma is the only app to settle across chains</a> — Jul 13, 2025</li>
+          </ul>
+          <p>Philosophy and architecture of Anoma: intents as coordination, cross-chain settlement, and privacy via ZK.</p>
+        </details>
+
+        <details>
+          <summary>Announcements / Personal Journey (2)</summary>
+          <ul>
+            <li><a href="https://twitter.com/book_surachet/status/1959517900873826533" target="_blank">Joined Anoma almost a year ago (reflection)</a> — Aug 24, 2025</li>
+            <li><a href="https://twitter.com/book_surachet/status/1958221010253283340" target="_blank">Guild site is almost ready</a> — Aug 20, 2025</li>
+          </ul>
+          <p>Milestones and personal story that anchors the guild identity and on-boarding momentum.</p>
+        </details>
+      </section>
+
+      <footer>Made with 💜 by bc1pBITHERUMN ⚡✨ Anoma Guild @Wizard.</footer>
+    </div>
+
+    <div class="wizard-glow" aria-hidden="true"></div>
+    <img src="img/logoguild.png" alt="Wizard" class="wizard" />
+
+    <!-- Twitter widgets for embeds -->
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  </body>
 </html>
