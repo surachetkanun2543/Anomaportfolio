@@ -1,144 +1,1242 @@
-
-
-
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>bc1pBITHERUMN ⚡✨Anoma Guild</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+    <title>bc1pBITHERUMN ⚡✨ Anoma Mage Cohorts by Wizard</title>
+    <!-- Favicon / Tab icon -->
+    <link rel="icon" href="img/logoguild.png" type="image/png">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap"
+      rel="stylesheet" />
     <style>
-      :root {
-        --bg-light: #ffffff;
-        --text-light: #111111;
-        --card-light: #f5f5f5;
-        --highlight-light: #ef4444; /* red */
-
-        --bg-dark: #0c0c0c;
-        --text-dark: #f5f5f5;
-        --card-dark: #1a1a1a;
-        --highlight-dark: #ef4444; /* red */
+      :root{
+        --bg-light:#ffffff; --text-light:#111111; --card-light:#f5f5f5; --highlight-light:#ef4444; --muted-light:#727272;
+        --bg-dark:#0b0b0d; --text-dark:#f5f5f5; --card-dark:#141417; --highlight-dark:#ef4444; --muted-dark:#b0b0b0;
+        --ring:#b87333;
       }
+      [data-theme="light"]{ --bg:var(--bg-light); --text:var(--text-light); --card:var(--card-light); --highlight:var(--highlight-light); --muted:var(--muted-light); }
+      [data-theme="dark"]{ --bg:var(--bg-dark); --text:var(--text-dark); --card:var(--card-dark); --highlight:var(--highlight-dark); --muted:var(--muted-dark); }
 
-      [data-theme="light"] {
-        --bg: var(--bg-light);
-        --text: var(--text-light);
-        --card: var(--card-light);
-        --highlight: var(--highlight-light);
+      *{ margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
+      html{ scroll-behavior:smooth; }
+      body{ background:var(--bg); color:var(--text); line-height:1.6; transition:background .3s,color .3s; }
+
+      /* NAV */
+      nav{
+        background:var(--card); position:sticky; top:0; z-index:100;
+        display:flex; align-items:center; justify-content:space-between;
+        gap:1rem; padding:.85rem 1.25rem; border-bottom:1px solid rgba(0,0,0,.06);
       }
+      .nav-left{ display:flex; align-items:center; gap:.9rem; }
+      .nav-title{ font-weight:800; font-size:1.05rem; color:var(--highlight); display:flex; align-items:center; gap:.55rem; white-space:nowrap; }
+      .nav-title img{ width:30px; height:30px; border-radius:8px; }
+      .nav-links{ display:flex; gap:.75rem; flex-wrap:wrap; }
+      .nav-links a{ text-decoration:none; color:var(--text); font-weight:600; opacity:.85; padding:.35rem .6rem; border-radius:.5rem; }
+      .nav-links a:hover{ background:rgba(0,0,0,.06); opacity:1; }
+      .toggle-btn{ padding:.45rem .9rem; border:none; border-radius:.6rem; background:var(--highlight); color:#fff; font-weight:700; cursor:pointer; box-shadow:0 8px 18px rgba(239,68,68,.22); }
 
-      [data-theme="dark"] {
-        --bg: var(--bg-dark);
-        --text: var(--text-dark);
-        --card: var(--card-dark);
-        --highlight: var(--highlight-dark);
+      /* LAYOUT */
+      .container{ max-width:1400px; margin:0 auto; padding:1.75rem 1.25rem; }
+      .section-title{ font-size:2rem; margin:2rem 0 .25rem; text-align:center; }
+      .section-subtitle{ text-align:center; color:var(--muted); max-width:880px; margin:.35rem auto 1.35rem; }
+
+      /* INTRO */
+      .intro{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:2rem; padding:2.25rem 0 1.25rem; scroll-margin-top:90px; }
+      .intro-text{ max-width:760px; }
+      .intro h1{ font-size:2.1rem; color:var(--highlight); }
+      .intro h2{ font-size:1.5rem; margin:.5rem 0 1rem; }
+      .intro p{ opacity:.95; }
+      .intro img{ width:300px; border-radius:1rem; box-shadow:0 10px 30px rgba(0,0,0,.15); background:#ddd; }
+
+      /* GENERIC CARDS */
+      .grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.25rem; }
+      .card{ background:var(--card); border-radius:1rem; box-shadow:0 6px 16px rgba(0,0,0,.08); padding:1.25rem; border:1px solid rgba(0,0,0,.06); }
+      .card h3{ margin-bottom:.55rem; color:var(--highlight); font-size:1.05rem; }
+
+      /* MOMENTS */
+      #moments{ scroll-margin-top:90px; }
+      .twitter-grid{ display:grid; gap:1.1rem; margin:1rem 0 2rem; align-items:stretch; grid-template-columns:repeat(5, minmax(0, 1fr)); }
+      @media (max-width: 1400px){ .twitter-grid{ grid-template-columns:repeat(4, 1fr); } }
+      @media (max-width: 1100px){ .twitter-grid{ grid-template-columns:repeat(3, 1fr); } }
+      @media (max-width: 800px){  .twitter-grid{ grid-template-columns:repeat(2, 1fr); } }
+      @media (max-width: 520px){  .twitter-grid{ grid-template-columns:1fr; } }
+
+      .twitter-card{
+        background:var(--card); border-radius:1rem; padding:.65rem; font-size:.85rem;
+        box-shadow:0 0 14px rgba(184,115,51,.65); border:2px solid var(--ring);
+        min-width:0; display:flex; flex-direction:column; height:auto; transition:transform .25s, box-shadow .25s;
       }
+      .twitter-card:hover{ transform:translateY(-4px); box-shadow:0 0 22px rgba(184,115,51,.95); }
+      .twitter-card blockquote.twitter-tweet{ flex:1; margin:0 auto !important; width:100% !important; }
+      .hidden{ display:none !important; }
 
-      * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+      /* FILTER BAR */
+      .filter-wrap{ background:var(--card); border:1px solid rgba(0,0,0,.06); border-radius:1rem; padding:1rem; margin:1rem 0 1.25rem; }
+      .filters{ display:flex; flex-wrap:wrap; gap:.5rem .55rem; align-items:center; }
+      .chip{ border:1px solid rgba(0,0,0,.12); padding:.4rem .7rem; border-radius:999px; background:#fff0; cursor:pointer; font-weight:600; }
+      [data-theme="dark"] .chip{ border-color:#2a2a2a; }
+      .chip.active{ background:var(--highlight); color:#fff; border-color:transparent; }
+      .search{ flex:1; display:flex; gap:.5rem; justify-content:flex-end; }
+      .search input{ padding:.5rem .7rem; border-radius:.6rem; border:1px solid rgba(0,0,0,.12); width:260px; background:transparent; color:var(--text); }
+      .search input::placeholder{ color:var(--muted); }
+      .results-counter{ color:var(--muted); font-size:.9rem; margin-top:.6rem; }
 
-      body { background: var(--bg); color: var(--text); line-height: 1.6; transition: background .3s, color .3s; }
+      /* GROUP DETAILS */
+      #groups{ scroll-margin-top:90px; }
+      details{ background:var(--card); border-radius:1rem; padding:1rem 1rem .5rem; border:1px solid rgba(0,0,0,.06); margin:.6rem 0; }
+      details > summary{ font-weight:800; cursor:pointer; color:var(--highlight); margin-bottom:.45rem; }
+      details ul{ margin:.4rem 0 .7rem 1.25rem; }
+      details li{ margin:.2rem 0; }
+      details a{ color:var(--text); }
 
-      nav { background: var(--card); display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; box-shadow: 0 2px 4px rgba(0,0,0,.1); position: sticky; top: 0; z-index: 100; }
-      .nav-title { font-weight: 800; font-size: 1.2rem; color: var(--highlight); letter-spacing: .5px; }
-      .toggle-btn { padding: .45rem .9rem; border: none; border-radius: .4rem; background: var(--highlight); color: #fff; font-weight: 700; cursor: pointer; }
+      /* MEMBERS */
+      #members{ scroll-margin-top:90px; }
+      .members-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1rem; margin:1rem 0 1.2rem; }
+      .member-card{
+        display:flex; gap:.9rem; align-items:center; background:var(--card); border:1px solid rgba(0,0,0,.06);
+        padding:1rem; border-radius:1rem; box-shadow:0 6px 16px rgba(0,0,0,.08);
+      }
+      .member-avatar{
+        width:56px; height:56px; border-radius:50%; overflow:hidden; flex:0 0 auto; background:#ddd; display:grid; place-items:center; font-weight:800; color:#555;
+      }
+      .member-avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
+      .member-meta{ flex:1; min-width:0; }
+      .member-meta h4{ margin:0; font-size:1.05rem; }
+      .member-meta p{ margin:.15rem 0 0; color:var(--muted); }
+      .member-actions{ display:flex; gap:.5rem; }
+      .btn{
+        padding:.45rem .7rem; border-radius:.6rem; border:1px solid rgba(0,0,0,.12); background:transparent;
+        cursor:pointer; font-weight:700; color:var(--text);
+      }
+      .btn.primary{ background:var(--highlight); color:#fff; border-color:transparent; }
+      .btn:hover{ transform:translateY(-1px); }
 
-      .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+      footer{ text-align:center; padding:2rem; opacity:.7; }
 
-      .intro { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 2rem; padding: 3rem 0; }
-      .intro-text { max-width: 620px; }
-      .intro h1 { font-size: 3rem; color: var(--highlight); }
-      .intro h2 { font-size: 2rem; margin-bottom: .75rem; }
-      .intro p { opacity: .85; }
-      .intro img { width: 300px; border-radius: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,.15); }
-
-      .section-title { font-size: 2rem; margin: 2rem 0 1rem; text-align: center; }
-      .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: 2rem; }
-      .card { background: var(--card); border-radius: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,.1); padding: 1.5rem; transition: transform .25s ease, box-shadow .25s ease; }
-      .card:hover { transform: translateY(-6px); box-shadow: 0 10px 28px rgba(0,0,0,.18); }
-      .card h3 { margin-bottom: .5rem; color: var(--highlight); }
-      .card p { font-size: .95rem; opacity: .85; }
-
-      .contact-box { background: var(--highlight); color: #fff; border-radius: 1rem; padding: 2rem; text-align: center; margin-top: 3rem; }
-      .contact-box a { color: #fff; font-weight: 700; text-decoration: underline; }
-      footer { text-align: center; padding: 2rem; opacity: .65; }
-
-      /* Wizard animation */
-      .wizard { position: fixed; bottom: 20px; right: 30px; width: 100px; animation: float 3s ease-in-out infinite; z-index: 50; pointer-events: none; }
-      @keyframes float { 0% { transform: translateY(0) } 50% { transform: translateY(-10px) } 100% { transform: translateY(0) } }
-      .wizard-glow { position: fixed; bottom: 20px; right: 30px; width: 100px; height: 100px; border-radius: 50%; box-shadow: 0 0 22px 6px var(--highlight); z-index: 40; animation: pulse 2s ease-in-out infinite; pointer-events: none; opacity: .8; }
-      @keyframes pulse { 0% { transform: scale(1); opacity: .6 } 50% { transform: scale(1.1); opacity: 1 } 100% { transform: scale(1); opacity: .6 } }
+      .wizard{ position:fixed; bottom:20px; right:30px; width:92px; animation:float 3s ease-in-out infinite; z-index:50; pointer-events:none; }
+      @keyframes float{ 0%{transform:translateY(0)} 50%{transform:translateY(-10px)} 100%{transform:translateY(0)} }
+      .wizard-glow{ position:fixed; bottom:20px; right:30px; width:92px; height:92px; border-radius:50%; box-shadow:0 0 22px 6px var(--highlight); z-index:40; animation:pulse 2s ease-in-out infinite; pointer-events:none; opacity:.8; }
+      @keyframes pulse{ 0%{transform:scale(1);opacity:.6} 50%{transform:scale(1.1);opacity:1} 100%{transform:scale(1);opacity:.6} }
     </style>
     <script>
       function toggleTheme(){
-        const html = document.documentElement;
+        const html=document.documentElement;
         html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
       }
+
+      // Filtering & Search
+      document.addEventListener('DOMContentLoaded', () => {
+        const cards = Array.from(document.querySelectorAll('.twitter-card'));
+        const chips = Array.from(document.querySelectorAll('.chip[data-cat]'));
+        const search = document.getElementById('postSearch');
+        const counter = document.getElementById('resultsCounter');
+
+        let activeCat = 'all';
+        let query = '';
+
+        function norm(s){ return (s||'').toLowerCase().trim(); }
+
+        function applyFilters(){
+          const q = norm(query);
+          let shown = 0;
+          cards.forEach(card => {
+            const cat = card.dataset.category;
+            const hay = norm(card.dataset.title + ' ' + card.dataset.tags);
+            const okCat = (activeCat === 'all') || (cat === activeCat);
+            const okSearch = !q || hay.includes(q);
+            const show = okCat && okSearch;
+            card.classList.toggle('hidden', !show);
+            if(show) shown++;
+          });
+          counter.textContent = `${shown} result${shown===1?'':'s'} shown`;
+        }
+
+        chips.forEach(chip => {
+          chip.addEventListener('click', () => {
+            chips.forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            activeCat = chip.dataset.cat;
+            applyFilters();
+          });
+        });
+
+        if(search){
+          search.addEventListener('input', (e) => {
+            query = e.target.value;
+            applyFilters();
+          });
+        }
+
+        // Init
+        applyFilters();
+      });
     </script>
   </head>
   <body>
+    <!-- NAV -->
     <nav>
-      <div class="nav-title">bc1pBITHERUMN ⚡✨Anoma Guild</div>
-      <button class="toggle-btn" onclick="toggleTheme()">Shift Mode</button>
+      <div class="nav-left">
+        <div class="nav-title">
+          <img src="img/logoguild.png" alt="Guild Logo" />
+          <span>bc1pBITHERUMN ⚡✨ Anoma Mage Cohorts by Wizard</span>
+        </div>
+        <div class="nav-links">
+          <a href="#home">Home</a>
+          <a href="#moments">Guild Moments Of August</a>
+          <a href="#groups">Group Overviews</a>
+          <a href="#members">Cohort Members</a>
+        </div>
+      </div>
+      <button class="toggle-btn" onclick="toggleTheme()">Swap Dark/Bright
+        shrimp</button>
     </nav>
 
-    <div class="container">
+    <div class="container" id="home">
+      <!-- INTRO -->
       <section class="intro">
         <div class="intro-text">
-          <h1>Hello, I'm</h1>
-          <h2>bc1pBITHERUMN ⚡✨</h2>
+          <h1>Welcome, I'm bc1pBITHERUMN</h1>
+          <h2>bc1pBITHERUMN ⚡✨ Anoma Mage Cohorts by Wizard</h2>
           <p>
-            A decentralized coordination explorer. I build, test, and document magical components of the Anoma testnet. Welcome to my personal portfolio. Follow me on
-            <a href="https://x.com/book_surachet" target="_blank" style="color: var(--highlight); text-decoration: underline;">X (Twitter)</a>.
+            This room focuses on <strong>mages who are passionate about or
+              curious in Anoma technology and fun</strong>.
+            We experiment, mentor, and explore together. Our guild is about
+            sharing experience, collaboration,
+            and amplifying each other’s voices. Follow us on
+            <a href="https://x.com/book_surachet" target="_blank"
+              style="color:var(--highlight);text-decoration:underline;">X
+              (Twitter)</a>.
           </p>
         </div>
-        <img src="1.png" alt="Anoma Avatar" />
+        <img src="img/mypic.png" alt="Guild Picture" />
       </section>
 
-      <h2 class="section-title">My recent work</h2>
-      <div class="grid">
-        <div class="card">
-          <h3>Intent Explorer</h3>
-          <p>A deep dive into Anoma's intent-based system with real-time visualizations.</p>
-        </div>
-        <div class="card">
-          <h3>Garapon Tracker</h3>
-          <p>Monitor daily spins, coupon usage, and track your quest completion status.</p>
-        </div>
-        <div class="card">
-          <h3>Referral Stats</h3>
-          <p>Analyze how invites are contributing to your total score in the testnet journey.</p>
-        </div>
-      </div>
+      <!-- GUILD MOMENTS -->
+      <section id="moments">
+        <h2 class="section-title">Guild Moments Of August</h2>
+        <p class="section-subtitle">Filter by category or search keywords. All
+          27 embedded posts are below.</p>
 
-      <h2 class="section-title">My specialties</h2>
-      <div class="grid">
-        <div class="card">
-          <h3>UI/UX Testing</h3>
-          <p>Intuitive feedback based on real user behavior in decentralized apps.</p>
+        <!-- FILTER BAR -->
+        <div class="filter-wrap">
+          <div class="filters">
+            <button class="chip active" data-cat="all">All</button>
+            <button class="chip" data-cat="testnet">Testnet / Quests</button>
+            <button class="chip" data-cat="community">Community / Hype</button>
+            <button class="chip" data-cat="product">Product / Demos</button>
+            <button class="chip" data-cat="vision">Vision / Concepts</button>
+            <button class="chip" data-cat="announcement">Announcements</button>
+            <div class="search">
+              <input id="postSearch" type="search"
+                placeholder="Search posts (title keywords)..." />
+            </div>
+          </div>
+          <div class="results-counter" id="resultsCounter">27 results
+            shown</div>
         </div>
-        <div class="card">
-          <h3>Community Coordination</h3>
-          <p>Helping align testnet players to coordinate intents effectively.</p>
-        </div>
-        <div class="card">
-          <h3>Zero-Knowledge Proofs</h3>
-          <p>Exploring privacy-preserving mechanisms integrated into the Anoma chain.</p>
-        </div>
-        <div class="card">
-          <h3>Gamified Systems</h3>
-          <p>Design and test reward loops and leaderboard dynamics.</p>
-        </div>
-      </div>
 
-      <div class="contact-box">
-        <p>Say hello: <a href=""></a></p>
-      </div>
+        <div class="twitter-grid">
 
-      <footer>Made with 💜 by bc1pBITHERUMN ⚡✨ </footer>
+          <!-- ANNOUNCEMENT (bc1p) 2025-08-25 -->
+          <div class="twitter-card" data-category="announcement"
+            data-title="AnomaPay launch with Noble (Paradigm-backed)"
+            data-tags="launch partnership AnomaPay Noble Paradigm stablecoin issuer 20B volume"
+            data-date="2025-08-25">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">You typed
+                an intent and skipped 7 clicks, 3 approvals, and 1
+                panic.<br>AnomaPay supremacy. <a
+                  href="https://twitter.com/AnomaPay?ref_src=twsrc%5Etfw">@AnomaPay</a>
+                <a
+                  href="https://twitter.com/AnomaPay?ref_src=twsrc%5Etfw">@AnomaPay</a>
+                <br><br>AnomaPay is launching in partnership with <a
+                  href="https://twitter.com/noble_xyz?ref_src=twsrc%5Etfw">@noble_xyz</a>
+                , <a
+                  href="https://twitter.com/paradigm?ref_src=twsrc%5Etfw">@paradigm</a>
+                backed stablecoin issuer boasting more than $20B in total
+                stablecoin volume across USDC and USDN<br><br>•… <a
+                  href="https://t.co/M1b6WEoUDg">pic.twitter.com/M1b6WEoUDg</a></p>&mdash;
+              bc1pBITHERUMN ⚡✨ (@book_surachet) <a
+                href="https://twitter.com/book_surachet/status/1959996226847572180?ref_src=twsrc%5Etfw">August
+                25, 2025</a></blockquote>
+          </div>
+
+          <!-- ANNOUNCEMENT -->
+          <div class="twitter-card" data-category="announcement"
+            data-title="Guild site is almost ready"
+            data-tags="guild site announcement" data-date="2025-08-20">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+                bc1pBITHERUMN <a
+                  href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a>
+                Wizard Guild is almost ready<br><br>
+                Those who joined our post on X Anomage Island will be honored
+                inside the Guild site a place to gather mages who share passion
+                for Anoma tech &amp; coordination 🧙‍♂️<br><br>
+                Not just followers but builders, dreamers, and explorers of
+                Anoma… <a
+                  href="https://t.co/FRWKpsHz2B">pic.twitter.com/FRWKpsHz2B</a>
+              </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+              <a
+                href="https://twitter.com/book_surachet/status/1958221010253283340?ref_src=twsrc%5Etfw">August
+                20, 2025</a></blockquote>
+          </div>
+
+          <!-- COMMUNITY -->
+          <div class="twitter-card" data-category="community"
+            data-title="Shrimp Gone Wild 10K party"
+            data-tags="community hype party 10k" data-date="2025-08-15">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+                <a
+                  href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a>
+                Shrimp Gone Wild 🔥<br>
+                Shrimp just busted out of the barn like<br><br>
+                &quot;IS THIS THE 10K PARTY?!?!&quot; 🦐💃<br><br>
+                Doing laps around the island high fiving trees, and moonwalking
+                over the bridge 🌉<br><br>
+                9.9K Anomages and my crustacean heart can’t take it<br>
+                Someone bring confetti before I start… <a
+                  href="https://t.co/92TZrpX6Cm">pic.twitter.com/92TZrpX6Cm</a>
+              </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+              <a
+                href="https://twitter.com/book_surachet/status/1956390643796004950?ref_src=twsrc%5Etfw">August
+                15, 2025</a></blockquote>
+          </div>
+
+          <!-- PRODUCT -->
+          <div class="twitter-card" data-category="product"
+            data-title="SullySwap by Anoma completes my crypto flow"
+            data-tags="sullyswap product demo flow approvals solver"
+            data-date="2025-08-21">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+                To me <a
+                  href="https://twitter.com/sullyswap?ref_src=twsrc%5Etfw">@sullyswap</a>
+                by <a
+                  href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a>
+                completes my crypto flow <br>
+                one single interface to handle cross chain liquidity moves
+                across multiple hops without jugging UI<br><br>
+                a safer playground for small wallets through the reduction of
+                risky approvals, DAO/Guild treasury ops using auditable solver…
+                <a href="https://t.co/nW20Z5hJk3">pic.twitter.com/nW20Z5hJk3</a>
+              </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+              <a
+                href="https://twitter.com/book_surachet/status/1958562856485671087?ref_src=twsrc%5Etfw">August
+                21, 2025</a></blockquote>
+          </div>
+
+          <!-- ANNOUNCEMENT -->
+          <div class="twitter-card" data-category="announcement"
+            data-title="Joined Anoma almost a year ago"
+            data-tags="journey reflection one year" data-date="2025-08-24">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+                I joined <a
+                  href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a>
+                almost a year ago, around November or Dec 2024<br><br>
+                Since the very beginning, I’ve been through so much with you and
+                Anoma. Back then, people didn’t really understand the word
+                intent. <br><br>
+                I kept trying to understand, joining every activity. It made me
+                believe this is… <a
+                  href="https://t.co/Rsodk37ccI">https://t.co/Rsodk37ccI</a> <a
+                  href="https://t.co/Q27xe9wpht">pic.twitter.com/Q27xe9wpht</a>
+              </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+              <a
+                href="https://twitter.com/book_surachet/status/1959517900873826533?ref_src=twsrc%5Etfw">August
+                24, 2025</a></blockquote>
+          </div>
+
+          <!-- PRODUCT -->
+          <div class="twitter-card" data-category="product"
+            data-title="AnomaPay × SullySwap one-intent payment demo"
+            data-tags="AnomaPay SullySwap cross-chain payment demo intent SOL USDC Arbitrum"
+            data-date="2025-08-23">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+                Built a demo showing how <a
+                  href="https://twitter.com/AnomaPay?ref_src=twsrc%5Etfw">@AnomaPay</a>
+                × <a
+                  href="https://twitter.com/sullyswap?ref_src=twsrc%5Etfw">@sullyswap</a>
+                could power cross-chain payments by <a
+                  href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a>
+                <br><br>
+                With Anoma Pay × SullySwap 1 intent = spell cast<br>
+                Customer pay in SOL on Solana to merchant instantly receives
+                USDC on Arbitrum<br><br>
+                All with one intent, solver does the magic<br><br>
+                That’s the… <a
+                  href="https://t.co/CoGSbOWhfr">pic.twitter.com/CoGSbOWhfr</a>
+              </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+              <a
+                href="https://twitter.com/book_surachet/status/1959284071542243583?ref_src=twsrc%5Etfw">August
+                23, 2025</a></blockquote>
+          </div>
+
+          <!-- PRODUCT -->
+          <div class="twitter-card" data-category="product"
+            data-title="Anoma Creator web"
+            data-tags="creator tokens nft intents builder hub"
+            data-date="2025-08-14">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+                <a
+                  href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a>
+                Creator web your all in one anoma creation hub<br><br>
+                Create tokens Intents , mint NFTs Intents , and execute Intents
+                seamlessly <br><br>
+                From idea to deployment Anoma Creator makes it simple to build
+                on any chain without the infrastructure headache. <br>
+                One platform endless… <a
+                  href="https://t.co/OGoMUSA6ja">pic.twitter.com/OGoMUSA6ja</a>
+              </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+              <a
+                href="https://twitter.com/book_surachet/status/1956004037784166695?ref_src=twsrc%5Etfw">August
+                14, 2025</a></blockquote>
+          </div>
+
+          <!-- TESTNET -->
+          <div class="twitter-card" data-category="testnet"
+            data-title="Shrimp fishing quest"
+            data-tags="testnet quest fishing portal tracker alpha"
+            data-date="2025-08-13">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+                Shrimp fishing in the <a
+                  href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a>
+                testnet isn’t just fishing <br>
+                it’s an adventure.... <a
+                  href="https://t.co/kosEnOmdlg">pic.twitter.com/kosEnOmdlg</a>
+              </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+              <a
+                href="https://twitter.com/book_surachet/status/1955516301058904508?ref_src=twsrc%5Etfw">August
+                13, 2025</a></blockquote>
+          </div>
+
+          <!-- TESTNET -->
+          <div class="twitter-card" data-category="testnet"
+            data-title="Garapon Spins, Intent Magic"
+            data-tags="garapon spins testnet live" data-date="2025-08-13">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+                Garapon Spins, Intent Magic <a
+                  href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a>
+                Testnet is Live ... <a
+                  href="https://t.co/SDaHVgn6gn">pic.twitter.com/SDaHVgn6gn</a>
+              </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+              <a
+                href="https://twitter.com/book_surachet/status/1955488841890140545?ref_src=twsrc%5Etfw">August
+                13, 2025</a></blockquote>
+          </div>
+
+          <!-- COMMUNITY -->
+          <div class="twitter-card" data-category="community"
+            data-title="Streamers are eyeing the testnet"
+            data-tags="streamers live chaos coordination"
+            data-date="2025-08-13">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+                Finally some interesting streamers are eyeing the <a
+                  href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a>
+                testnet 👀 ... <a
+                  href="https://t.co/W8wd6iZLfl">pic.twitter.com/W8wd6iZLfl</a>
+              </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+              <a
+                href="https://twitter.com/book_surachet/status/1955469802841182454?ref_src=twsrc%5Etfw">August
+                13, 2025</a></blockquote>
+          </div>
+
+          <!-- VISION -->
+          <div class="twitter-card" data-category="vision"
+            data-title="Monday/Wednesday reads - Topology of Trust Networks"
+            data-tags="series reading topology trust networks ideas"
+            data-date="2025-08-18">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+                Every Monday and Wednesday we will share original reads like
+                "The Topology of Trust Networks" ... <a
+                  href="https://t.co/KFibaaqftT">pic.twitter.com/KFibaaqftT</a>
+              </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+              <a
+                href="https://twitter.com/book_surachet/status/1957385954031030610?ref_src=twsrc%5Etfw">August
+                18, 2025</a></blockquote>
+          </div>
+
+          <!-- TESTNET -->
+          <div class="twitter-card" data-category="testnet"
+            data-title="Testnet Makes DeFi Fun Again (score/rank/loop)"
+            data-tags="points rank daily loops garapon island hunts"
+            data-date="2025-08-12">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+                <a
+                  href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a>
+                Testnet Makes DeFi Fun Again ... <a
+                  href="https://t.co/R8xwp38GTS">pic.twitter.com/R8xwp38GTS</a>
+              </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+              <a
+                href="https://twitter.com/book_surachet/status/1955143969089982946?ref_src=twsrc%5Etfw">August
+                12, 2025</a></blockquote>
+          </div>
+
+          <!-- VISION -->
+          <div class="twitter-card" data-category="vision"
+            data-title="Intent-first UX (not bridge/swap repeat)"
+            data-tags="intent ux coordination privacy" data-date="2025-08-10">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+                We are not here to bridge, swap, approve, sign, pray repeat. We
+                are here to voice our intent once ... <a
+                  href="https://t.co/vcfW8MD2bu">https://t.co/vcfW8MD2bu</a> <a
+                  href="https://t.co/26rfEL6w3T">pic.twitter.com/26rfEL6w3T</a>
+              </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+              <a
+                href="https://twitter.com/book_surachet/status/1954539607313600596?ref_src=twsrc%5Etfw">August
+                10, 2025</a></blockquote>
+          </div>
+
+          <!-- TESTNET -->
+          <div class="twitter-card" data-category="testnet"
+            data-title="Anoma island with a football pitch"
+            data-tags="island football pitch build world"
+            data-date="2025-08-08">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+                If an <a
+                  href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a>
+                island had a football pitch 🌴⚽ ... <a
+                  href="https://t.co/s0AerTDKTO">pic.twitter.com/s0AerTDKTO</a>
+              </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+              <a
+                href="https://twitter.com/book_surachet/status/1953967910923514270?ref_src=twsrc%5Etfw">August
+                8, 2025</a></blockquote>
+          </div>
+
+          <!-- VISION -->
+          <div class="twitter-card" data-category="vision"
+            data-title="Heliax & Anoma infrastructure (ZK, MASP)"
+            data-tags="heliax infrastructure privacy zk masp"
+            data-date="2025-08-08">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+                Have you heard about <a
+                  href="https://twitter.com/heliaxdev?ref_src=twsrc%5Etfw">@heliaxdev</a>
+                ? They&#39;re the ones behind <a
+                  href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a>
+                ... <a
+                  href="https://t.co/DP5ADqawrf">pic.twitter.com/DP5ADqawrf</a>
+              </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+              <a
+                href="https://twitter.com/book_surachet/status/1953670969975091352?ref_src=twsrc%5Etfw">August
+                8, 2025</a></blockquote>
+          </div>
+
+          <!-- TESTNET -->
+          <div class="twitter-card" data-category="testnet"
+            data-title="Struggling to spot all 20 balls"
+            data-tags="tips explore island 20 balls" data-date="2025-08-05">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+                Struggling to Spot All 20 Balls? <a
+                  href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a>
+                Got You Exploring Every Corner! ... <a
+                  href="https://t.co/uUfvAJQmay">pic.twitter.com/uUfvAJQmay</a>
+              </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+              <a
+                href="https://twitter.com/book_surachet/status/1952659863177420869?ref_src=twsrc%5Etfw">August
+                5, 2025</a></blockquote>
+          </div>
+
+          <!-- VISION -->
+          <div class="twitter-card" data-category="vision"
+            data-title="Why Anoma is the only app you need to settle across every chain"
+            data-tags="cross chain settle app ux" data-date="2025-07-13">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+                Why <a
+                  href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a>
+                Is the Only App You’ll Ever Need to Settle Across Every Chain
+                ... <a
+                  href="https://t.co/av7PUKby58">https://t.co/av7PUKby58</a> <a
+                  href="https://t.co/dki0YDNpOB">pic.twitter.com/dki0YDNpOB</a>
+              </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+              <a
+                href="https://twitter.com/book_surachet/status/1944428389403930776?ref_src=twsrc%5Etfw">July
+                13, 2025</a></blockquote>
+          </div>
+
+          <!-- PRODUCT (duplicate embed intentionally kept to make count) -->
+          <div class="twitter-card" data-category="product"
+            data-title="Anoma Creator web (duplicate)"
+            data-tags="creator duplicate" data-date="2025-08-14">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">
+                <a
+                  href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a>
+                Creator web your all in one anoma creation hub ... <a
+                  href="https://t.co/OGoMUSA6ja">pic.twitter.com/OGoMUSA6ja</a>
+              </p>&mdash; bc1pBITHERUMN ⚡✨ (@book_surachet)
+              <a
+                href="https://twitter.com/book_surachet/status/1956004037784166695?ref_src=twsrc%5Etfw">August
+                14, 2025</a></blockquote>
+          </div>
+
+          <!-- ✅ NEW TODAY: Two farewell posts (Announcements) -->
+          <div class="twitter-card" data-category="announcement"
+            data-title="Farewell to Anoma Testnet"
+            data-tags="testnet farewell goodbye community culture"
+            data-date="2025-08-27">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">The <a
+                  href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a>
+                Testnet Era Ends Today <br><br>Today we say goodbye to the Anoma
+                testnet. This was not just a playground it was a living
+                laboratory<br><br>a place where ideas turned into experiments,
+                where bugs became lessons, and where community became culture
+                <br>From the very first intents to… <a
+                  href="https://t.co/v63ZshH5TS">pic.twitter.com/v63ZshH5TS</a></p>&mdash;
+              bc1pBITHERUMN ⚡✨ (@book_surachet) <a
+                href="https://twitter.com/book_surachet/status/1960576047264752070?ref_src=twsrc%5Etfw">August
+                27, 2025</a></blockquote>
+          </div>
+
+          <div class="twitter-card" data-category="announcement"
+            data-title="Farewell Reflection Goodbye Anoma Testnet"
+            data-tags="testnet farewell goodbye reflection"
+            data-date="2025-08-27">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">The <a
+                  href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a>
+                Testnet Era Ends<br><br>the place where we played, tested, broke
+                things, and built culture together. From first intents to final
+                bugs, <br><br>this chapter gave us space to explore what magic
+                could truly feel like<a
+                  href="https://twitter.com/hashtag/GoodbyeAnomaTestnet?src=hash&amp;ref_src=twsrc%5Etfw">#GoodbyeAnomaTestnet</a>
+                <a
+                  href="https://t.co/plUK4r77tL">pic.twitter.com/plUK4r77tL</a></p>&mdash;
+              bc1pBITHERUMN ⚡✨ (@book_surachet) <a
+                href="https://twitter.com/book_surachet/status/1960570726869823657?ref_src=twsrc%5Etfw">August
+                27, 2025</a></blockquote>
+          </div>
+
+          <!-- ✅ NEW TODAY: Guild upgrade post (Announcement) -->
+          <div class="twitter-card" data-category="announcement"
+            data-title="Guild Upgrade New Members"
+            data-tags="guild upgrade new members announcement"
+            data-date="2025-08-26">
+            <blockquote class="twitter-tweet"><p lang="en"
+                dir="ltr">bc1pBITHERUMN <a
+                  href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a>
+                Guild by Wizard <br><br>Guild site got a BIG upgrade today
+                <br>Welcome New 3 Mage🧙 (Wizard mentor program)<br><br>• New
+                member: <a
+                  href="https://twitter.com/ritwika_sasmal?ref_src=twsrc%5Etfw">@ritwika_sasmal</a>
+                / DC @ritwika_11<br>• Group Overviews fully refreshed<br>•
+                Better Moments filtering &amp; search<br><br>Deep dives continue
+                with <a
+                  href="https://twitter.com/harfiian?ref_src=twsrc%5Etfw">@harfiian</a>…
+                <a
+                  href="https://t.co/N2V7wUPuHa">pic.twitter.com/N2V7wUPuHa</a></p>&mdash;
+              bc1pBITHERUMN ⚡✨ (@book_surachet) <a
+                href="https://twitter.com/book_surachet/status/1960276843137016084?ref_src=twsrc%5Etfw">August
+                26, 2025</a></blockquote>
+          </div>
+
+          <!-- ✅ NEW TODAY: Ritwika community/testnet/announcement posts -->
+          <div class="twitter-card" data-category="community"
+            data-title="Finding shade unity beneath Anoma"
+            data-tags="community shade unity anoma" data-date="2025-08-27">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Finding
+                shade, strength, and unity beneath ANOMA 🔥 <a
+                  href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a>
+                <a
+                  href="https://twitter.com/adrianbrink?ref_src=twsrc%5Etfw">@adrianbrink</a>
+                <a
+                  href="https://twitter.com/thekerukeion?ref_src=twsrc%5Etfw">@thekerukeion</a>
+                <a
+                  href="https://twitter.com/chimpfone2047?ref_src=twsrc%5Etfw">@chimpfone2047</a>
+                <a
+                  href="https://t.co/dIGA1Mc3fq">pic.twitter.com/dIGA1Mc3fq</a></p>&mdash;
+              𝐑𝐢𝐭𝐰𝐢𝐤𝐚 | Anomage | 𝔽rAI | 🧙‍♂️,🧙‍♂️ (@ritwika_sasmal)
+              <a
+                href="https://twitter.com/ritwika_sasmal/status/1960568020092526612?ref_src=twsrc%5Etfw">August
+                27, 2025</a></blockquote>
+          </div>
+
+          <div class="twitter-card" data-category="testnet"
+            data-title="Anoma Testnet Memories Bitflip Garapon"
+            data-tags="testnet farewell memories garapon bitflip"
+            data-date="2025-08-26">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Anoma
+                became part of my daily life—not just a testnet, but an emotion
+                with unforgettable memories. <br>Bitflip always brought
+                excitement, and <br>curious about which ball would come in my
+                fate in Garapon, getting the yellow ball was a special
+                feeling.<a
+                  href="https://twitter.com/hashtag/GoodbyeAnomaTestnet?src=hash&amp;ref_src=twsrc%5Etfw">#GoodbyeAnomaTestnet</a><a
+                  href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a>
+                <a
+                  href="https://t.co/GSDCzsHU2L">pic.twitter.com/GSDCzsHU2L</a></p>&mdash;
+              𝐑𝐢𝐭𝐰𝐢𝐤𝐚 | Anomage | 𝔽rAI | 🧙‍♂️,🧙‍♂️ (@ritwika_sasmal)
+              <a
+                href="https://twitter.com/ritwika_sasmal/status/1960454087369220374?ref_src=twsrc%5Etfw">August
+                26, 2025</a></blockquote>
+          </div>
+
+          <div class="twitter-card" data-category="announcement"
+            data-title="Reminder Anoma testnet end"
+            data-tags="testnet reminder announcement" data-date="2025-08-26">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Set a
+                reminder in Anoma, the testnet is going to end tomorrow. But
+                Anoma’s journey is moving forward 🔥 <a
+                  href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a>
+                <a
+                  href="https://twitter.com/adrianbrink?ref_src=twsrc%5Etfw">@adrianbrink</a>
+                <a
+                  href="https://twitter.com/thekerukeion?ref_src=twsrc%5Etfw">@thekerukeion</a>
+                <a
+                  href="https://twitter.com/chimpfone2047?ref_src=twsrc%5Etfw">@chimpfone2047</a>
+                <a
+                  href="https://t.co/Z3UR9ph9eJ">pic.twitter.com/Z3UR9ph9eJ</a></p>&mdash;
+              𝐑𝐢𝐭𝐰𝐢𝐤𝐚 | Anomage | 𝔽rAI | 🧙‍♂️,🧙‍♂️ (@ritwika_sasmal)
+              <a
+                href="https://twitter.com/ritwika_sasmal/status/1960415715359646011?ref_src=twsrc%5Etfw">August
+                26, 2025</a></blockquote>
+          </div>
+
+          <div class="twitter-card" data-category="testnet"
+            data-title="Anoma testnet ends real treasure begins"
+            data-tags="testnet farewell treasure memories"
+            data-date="2025-08-26">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">When the
+                Anoma testnet ends, the real treasure begins 😂 💰✨<br>Anoma
+                testnet left behind a lot of memories😊<a
+                  href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a>
+                <a
+                  href="https://twitter.com/adrianbrink?ref_src=twsrc%5Etfw">@adrianbrink</a>
+                <a
+                  href="https://twitter.com/thekerukeion?ref_src=twsrc%5Etfw">@thekerukeion</a>
+                <a
+                  href="https://twitter.com/chimpfone2047?ref_src=twsrc%5Etfw">@chimpfone2047</a>
+                <a
+                  href="https://t.co/aoSu6i0lEo">pic.twitter.com/aoSu6i0lEo</a></p>&mdash;
+              𝐑𝐢𝐭𝐰𝐢𝐤𝐚 | Anomage | 𝔽rAI | 🧙‍♂️,🧙‍♂️ (@ritwika_sasmal)
+              <a
+                href="https://twitter.com/ritwika_sasmal/status/1960381333789606370?ref_src=twsrc%5Etfw">August
+                26, 2025</a></blockquote>
+          </div>
+
+          <div class="twitter-card" data-category="community"
+            data-title="Anoma T-shirts hype"
+            data-tags="community hype t-shirt anoma" data-date="2025-08-26">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Now even on
+                t-shirts, it’s Anoma 🔥 Everywhere it’s only Anoma 🔥 <a
+                  href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a>
+                <a
+                  href="https://twitter.com/adrianbrink?ref_src=twsrc%5Etfw">@adrianbrink</a>
+                <a
+                  href="https://twitter.com/thekerukeion?ref_src=twsrc%5Etfw">@thekerukeion</a>
+                <a
+                  href="https://twitter.com/chimpfone2047?ref_src=twsrc%5Etfw">@chimpfone2047</a>
+                <a
+                  href="https://t.co/62aifCUzex">pic.twitter.com/62aifCUzex</a></p>&mdash;
+              𝐑𝐢𝐭𝐰𝐢𝐤𝐚 | Anomage | 𝔽rAI | 🧙‍♂️,🧙‍♂️ (@ritwika_sasmal)
+              <a
+                href="https://twitter.com/ritwika_sasmal/status/1960340419063287827?ref_src=twsrc%5Etfw">August
+                26, 2025</a></blockquote>
+          </div>
+
+          <div class="twitter-card" data-category="community"
+            data-title="Anoma reward meme" data-tags="community fun reward meme"
+            data-date="2025-08-26">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">When I
+                receive the Anoma reward 🔥😂😂😂<a
+                  href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a><a
+                  href="https://twitter.com/adrianbrink?ref_src=twsrc%5Etfw">@adrianbrink</a><a
+                  href="https://twitter.com/thekerukeion?ref_src=twsrc%5Etfw">@thekerukeion</a><a
+                  href="https://twitter.com/chimpfone2047?ref_src=twsrc%5Etfw">@chimpfone2047</a>
+                <a
+                  href="https://t.co/38ANnZ4qN5">pic.twitter.com/38ANnZ4qN5</a></p>&mdash;
+              𝐑𝐢𝐭𝐰𝐢𝐤𝐚 | Anomage | 𝔽rAI | 🧙‍♂️,🧙‍♂️ (@ritwika_sasmal)
+              <a
+                href="https://twitter.com/ritwika_sasmal/status/1960278954301898940?ref_src=twsrc%5Etfw">August
+                26, 2025</a></blockquote>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- GROUP OVERVIEWS -->
+      <section id="groups">
+        <h2 class="section-title">Group Overviews</h2>
+        <p class="section-subtitle">Quick explanations of each category with
+          links to the posts.</p>
+
+        <details open>
+          <summary>Testnet / Quests (8)</summary>
+          <ul>
+            <li><a
+                href="https://twitter.com/book_surachet/status/1955516301058904508"
+                target="_blank">Shrimp fishing &amp; adventure</a> — Aug 13,
+              2025</li>
+            <li><a
+                href="https://twitter.com/book_surachet/status/1955488841890140545"
+                target="_blank">Garapon Spins, Intent Magic (testnet live)</a> —
+              Aug 13, 2025</li>
+            <li><a
+                href="https://twitter.com/book_surachet/status/1955143969089982946"
+                target="_blank">DeFi Fun Again (points/rank/loops)</a> — Aug 12,
+              2025</li>
+            <li><a
+                href="https://twitter.com/book_surachet/status/1953967910923514270"
+                target="_blank">Island with a football pitch</a> — Aug 8,
+              2025</li>
+            <li><a
+                href="https://twitter.com/book_surachet/status/1952659863177420869"
+                target="_blank">Tips: finding all 20 balls</a> — Aug 5,
+              2025</li>
+            <li><a
+                href="https://twitter.com/ritwika_sasmal/status/1960070420750844233"
+                target="_blank">Fast lane to Anoma testnet adventures</a> — Aug
+              25, 2025</li>
+            <li><a
+                href="https://twitter.com/ritwika_sasmal/status/1960454087369220374"
+                target="_blank">Testnet memories — Bitflip &amp; Garapon</a> —
+              Aug 26, 2025</li>
+            <li><a
+                href="https://twitter.com/ritwika_sasmal/status/1960381333789606370"
+                target="_blank">When testnet ends, treasure begins</a> — Aug 26,
+              2025</li>
+          </ul>
+          <p>Hands-on exploration of the Anoma testnet with gamified loops
+            (quests, Garapon, points) and playful world-building.</p>
+        </details>
+
+        <details>
+          <summary>Community / Hype (10)</summary>
+          <ul>
+            <li><a
+                href="https://twitter.com/book_surachet/status/1956390643796004950"
+                target="_blank">Shrimp Gone Wild – 10K party</a> — Aug 15,
+              2025</li>
+            <li><a
+                href="https://twitter.com/book_surachet/status/1955469802841182454"
+                target="_blank">Streamers eyeing the testnet</a> — Aug 13,
+              2025</li>
+            <li><a
+                href="https://twitter.com/harfiian/status/1956716269782315164"
+                target="_blank">Anoma quiz — test your knowledge</a> — Aug 16,
+              2025</li>
+            <li><a
+                href="https://twitter.com/harfiian/status/1956037817647378826"
+                target="_blank">MageFollowMage / mutuals connect</a> — Aug 14,
+              2025</li>
+            <li><a
+                href="https://twitter.com/harfiian/status/1959701512508346770"
+                target="_blank">Fitcoins daily — built with intention</a> — Aug
+              24, 2025</li>
+            <li><a
+                href="https://twitter.com/ritwika_sasmal/status/1959979191312736374"
+                target="_blank">Always ANOMA time — step out in style</a> — Aug
+              25, 2025</li>
+            <li><a
+                href="https://twitter.com/ritwika_sasmal/status/1960193981549260841"
+                target="_blank">Good Morning Anoma Family — all day Anoma</a> —
+              Aug 26, 2025</li>
+            <li><a
+                href="https://twitter.com/ritwika_sasmal/status/1960568020092526612"
+                target="_blank">Finding shade, strength &amp; unity</a> — Aug
+              27, 2025</li>
+            <li><a
+                href="https://twitter.com/ritwika_sasmal/status/1960340419063287827"
+                target="_blank">Anoma on t-shirts — everywhere</a> — Aug 26,
+              2025</li>
+            <li><a
+                href="https://twitter.com/ritwika_sasmal/status/1960278954301898940"
+                target="_blank">When I receive the Anoma reward 😂</a> — Aug 26,
+              2025</li>
+          </ul>
+          <p>Celebrations, community calls-to-action, and playful challenges
+            that rally mages together.</p>
+        </details>
+
+        <details>
+          <summary>Product / Demos (6)</summary>
+          <ul>
+            <li><a
+                href="https://twitter.com/Omojohnd/status/1959982505207255355"
+                target="_blank">Introducing AnomaPay (thread)</a> — Aug 25,
+              2025</li>
+            <li><a
+                href="https://twitter.com/book_surachet/status/1959284071542243583"
+                target="_blank">AnomaPay × SullySwap — one-intent payment
+                demo</a> — Aug 23, 2025</li>
+            <li><a
+                href="https://twitter.com/harfiian/status/1958984645967847506"
+                target="_blank">Payments today vs AnomaPay</a> — Aug 22,
+              2025</li>
+            <li><a
+                href="https://twitter.com/book_surachet/status/1958562856485671087"
+                target="_blank">SullySwap by Anoma — complete crypto flow</a> —
+              Aug 21, 2025</li>
+            <li><a
+                href="https://twitter.com/book_surachet/status/1956004037784166695"
+                target="_blank">Anoma Creator web</a> — Aug 14, 2025</li>
+            <li><a
+                href="https://twitter.com/book_surachet/status/1956004037784166695"
+                target="_blank">Anoma Creator web (duplicate)</a> — Aug 14,
+              2025</li>
+          </ul>
+          <p>Working examples and explainers for intent-based UX, cross-chain
+            payments, and creation tools.</p>
+        </details>
+
+        <details>
+          <summary>Vision / Concepts (12)</summary>
+          <ul>
+            <li><a
+                href="https://twitter.com/harfiian/status/1960160919125929992"
+                target="_blank">Coordination in Anoma (thread)</a> — Aug 26,
+              2025</li>
+            <li><a
+                href="https://twitter.com/harfiian/status/1959859247933714574"
+                target="_blank">Solvers as agents (compose intents)</a> — Aug
+              25, 2025</li>
+            <li><a
+                href="https://twitter.com/harfiian/status/1959431909920149956"
+                target="_blank">Hidden Side of Anoma Ecosystem 7/7</a> — Aug 24,
+              2025</li>
+            <li><a
+                href="https://twitter.com/book_surachet/status/1957385954031030610"
+                target="_blank">Mon/Wed reads — “Topology of Trust Networks”</a>
+              — Aug 18, 2025</li>
+            <li><a
+                href="https://twitter.com/harfiian/status/1956967561888985582"
+                target="_blank">Why all chains need Anoma</a> — Aug 17,
+              2025</li>
+            <li><a
+                href="https://twitter.com/book_surachet/status/1954539607313600596"
+                target="_blank">Intent-first UX (not bridge/swap repeat)</a> —
+              Aug 10, 2025</li>
+            <li><a
+                href="https://twitter.com/harfiian/status/1955871840888594628"
+                target="_blank">Beyond value transfer — core techs</a> — Aug 14,
+              2025</li>
+            <li><a
+                href="https://twitter.com/harfiian/status/1955583194088222724"
+                target="_blank">Quantum coherence of market states</a> — Aug 13,
+              2025</li>
+            <li><a
+                href="https://twitter.com/book_surachet/status/1953670969975091352"
+                target="_blank">Heliax infrastructure (ZK, MASP)</a> — Aug 8,
+              2025</li>
+            <li><a
+                href="https://twitter.com/book_surachet/status/1944428389403930776"
+                target="_blank">Why Anoma is the only app across chains</a> —
+              Jul 13, 2025</li>
+            <li><a
+                href="https://twitter.com/book_surachet/status/1953967910923514270"
+                target="_blank">Anoma island (world-building idea)</a> — Aug 8,
+              2025</li>
+            <li><a
+                href="https://twitter.com/ritwika_sasmal/status/1960033848449970633"
+                target="_blank">Anoma — future of decentralized coordination</a>
+              — Aug 25, 2025</li>
+          </ul>
+          <p>Philosophy and architecture of Anoma: intents as coordination,
+            solver composition, cross-chain settlement, and privacy via ZK.</p>
+        </details>
+
+        <details>
+          <summary>Announcements / Personal Journey (7)</summary>
+          <ul>
+            <li><a
+                href="https://twitter.com/book_surachet/status/1960576047264752070"
+                target="_blank">Farewell to Anoma Testnet</a> — Aug 27,
+              2025</li>
+            <li><a
+                href="https://twitter.com/book_surachet/status/1960570726869823657"
+                target="_blank">Farewell Reflection — Goodbye Testnet</a> — Aug
+              27, 2025</li>
+            <li><a
+                href="https://twitter.com/book_surachet/status/1960276843137016084"
+                target="_blank">Guild upgrade — new members</a> — Aug 26,
+              2025</li>
+            <li><a
+                href="https://twitter.com/ritwika_sasmal/status/1960415715359646011"
+                target="_blank">Reminder: Anoma testnet ends</a> — Aug 26,
+              2025</li>
+            <li><a
+                href="https://twitter.com/book_surachet/status/1959996226847572180"
+                target="_blank">AnomaPay launch with Noble</a> — Aug 25,
+              2025</li>
+            <li><a
+                href="https://twitter.com/book_surachet/status/1959517900873826533"
+                target="_blank">Joined Anoma almost a year ago</a> — Aug 24,
+              2025</li>
+            <li><a
+                href="https://twitter.com/book_surachet/status/1958221010253283340"
+                target="_blank">Guild site is almost ready</a> — Aug 20,
+              2025</li>
+          </ul>
+          <p>Milestones, launches, and personal story that anchor the guild
+            identity and momentum.</p>
+        </details>
+      </section>
+
+      <!-- MEMBERS -->
+      <section id="members">
+        <h2 class="section-title">Cohort Members</h2>
+        <p class="section-subtitle">Click a member to view their recent works
+          and posts.</p>
+
+        <!-- Directory -->
+        <div class="members-grid">
+          <!-- Member: Sir.john -->
+          <div class="member-card">
+            <div class="member-avatar">
+              <img src="https://unavatar.io/twitter/Omojohnd" alt="John avatar"
+                onerror="this.style.display='none'; this.parentElement.textContent='SJ';" />
+            </div>
+            <div class="member-meta">
+              <h4>Sir.john <span style="color:var(--muted); font-weight:600;">X
+                  @olympus_wav / DC @Sir.john </span></h4>
+              <p>Also active as <a href="https://twitter.com/Omojohnd"
+                  target="_blank">@Omojohnd</a> — intents, payments, and Anoma
+                explainers.</p>
+            </div>
+            <div class="member-actions">
+              <a class="btn primary" href="#member-john">View work</a>
+              <a class="btn" href="https://twitter.com/Omojohnd"
+                target="_blank">Profile</a>
+            </div>
+          </div>
+
+
+          <!-- Member: Ritwika -->
+          <div class="member-card">
+            <div class="member-avatar">
+              <img src="https://unavatar.io/twitter/ritwika_sasmal"
+                alt="Ritwika avatar"
+                onerror="this.style.display='none'; this.parentElement.textContent='RT';" />
+            </div>
+            <div class="member-meta">
+              <h4>Ritwika <span style="color:var(--muted); font-weight:600;">X
+                  @ritwika_sasmal / DC @ritwika_11 </span></h4>
+              <p>Anomage vibes — testnet adventures, daily hype, and
+                coordination spirit ✨</p>
+            </div>
+            <div class="member-actions">
+              <a class="btn primary" href="#member-ritwika">View work</a>
+              <a class="btn" href="https://twitter.com/ritwika_sasmal"
+                target="_blank">Profile</a>
+            </div>
+          </div>
+
+        
+
+        </div>
+
+        <!-- Works list: John -->
+        <details id="member-john" open>
+          <summary
+            style="font-weight:800; color:var(--highlight); cursor:pointer;">Works
+            — John (@Omojohnd)</summary>
+          <div class="twitter-grid"
+            style="grid-template-columns:repeat(3,minmax(0,1fr));">
+            <div class="twitter-card">
+              <blockquote class="twitter-tweet">
+                <p lang="en" dir="ltr">The Big Realization<br>
+                  <blockquote class="twitter-tweet">
+                    <p lang="en" dir="ltr">Been looking into <a
+                        href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a>
+                      lately and the idea is 🔥<br><br>
+                      Instead of stressing about how to do stuff on-chain, you
+                      just say what you want and let the system handle it.
+                      That’s called intents — like wanting coffee ☕ or buying an
+                      NFT 🎨. <a
+                        href="https://t.co/svyCbirzwk">pic.twitter.com/svyCbirzwk</a></p>
+                    &mdash; John (@Omojohnd)
+                    <a
+                      href="https://twitter.com/Omojohnd/status/1958597723017683054?ref_src=twsrc%5Etfw">August
+                      21, 2025</a>
+                  </blockquote><br>
+                  I’ve been learning about <a
+                    href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a>
+                  lately <br>And here’s the wild part:<br><br>
+                  It’s not an L1.<br>It’s not an L2.<br>It’s an operating system
+                  for blockchains.<br><br>
+                  Think Windows for Web3 → build once, run anywhere. <a
+                    href="https://t.co/SW8b1a9afI">pic.twitter.com/SW8b1a9afI</a>
+                </p>
+                &mdash; John (@Omojohnd)
+                <a
+                  href="https://twitter.com/Omojohnd/status/1959569477575508174?ref_src=twsrc%5Etfw">August
+                  24, 2025</a>
+              </blockquote>
+            </div>
+
+            <div class="twitter-card">
+              <blockquote class="twitter-tweet">
+                <p lang="en" dir="ltr">Payments are about to change forever.
+                  ⚡<br><br>
+                  Meet <a
+                    href="https://twitter.com/AnomaPay?ref_src=twsrc%5Etfw">@AnomaPay</a><br>
+                  ✅ Send &amp; receive money seamlessly<br>✅ Secure by
+                  design<br>✅ Works anywhere, with anyone<br><br>
+                  All powered by Anoma.<br><br>
+                  Follow <a
+                    href="https://twitter.com/AnomaPay?ref_src=twsrc%5Etfw">@AnomaPay</a>
+                  and don’t miss the journey to frictionless real-world payments
+                  🌍🚀 powered by <a
+                    href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a>
+                  <a
+                    href="https://t.co/PZmsYslLnP">pic.twitter.com/PZmsYslLnP</a>
+                </p>
+                &mdash; John (@Omojohnd)
+                <a
+                  href="https://twitter.com/Omojohnd/status/1959379331614224757?ref_src=twsrc%5Etfw">August
+                  23, 2025</a>
+              </blockquote>
+            </div>
+
+            <div class="twitter-card">
+              <blockquote class="twitter-tweet"><p lang="en"
+                  dir="ltr">Introducing <a
+                    href="https://twitter.com/AnomaPay?ref_src=twsrc%5Etfw">@AnomaPay</a>
+                  – the future of payments powered by <a
+                    href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a>.<br><br>Seamless.
+                  Secure. Multichain. Private.<br>Let’s break down why this
+                  changes everything 🧵👇<br><br>What is AnomaPay?<br><br>It’s a
+                  global stablecoin router + payments network.<br><br>Send USDC
+                  → receive USDT<br>Cross-chain, instantly <a
+                    href="https://t.co/xUGJPREZcx">pic.twitter.com/xUGJPREZcx</a></p>&mdash;
+                John (@Omojohnd) <a
+                  href="https://twitter.com/Omojohnd/status/1959982505207255355?ref_src=twsrc%5Etfw">August
+                  25, 2025</a></blockquote>
+            </div>
+          </div>
+        </details>
+
+
+        <!-- Works: Ritwika -->
+        <details id="member-ritwika" open>
+          <summary
+            style="font-weight:800; color:var(--highlight); cursor:pointer;">Works
+            — Ritwika (@ritwika_sasmal)</summary>
+          <div class="twitter-grid"
+            style="grid-template-columns:repeat(3,minmax(0,1fr));">
+
+            <div class="twitter-card">
+              <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Step out
+                  in style — it’s always ANOMA time!<a
+                    href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a><a
+                    href="https://twitter.com/adrianbrink?ref_src=twsrc%5Etfw">@adrianbrink</a><a
+                    href="https://twitter.com/thekerukeion?ref_src=twsrc%5Etfw">@thekerukeion</a><a
+                    href="https://twitter.com/chimpfone2047?ref_src=twsrc%5Etfw">@chimpfone2047</a>
+                  <a
+                    href="https://t.co/VZO95NXKNY">pic.twitter.com/VZO95NXKNY</a></p>&mdash;
+                𝐑𝐢𝐭𝐰𝐢𝐤𝐚 | Anomage | 𝔽rAI | 🧙‍♂️,🧙‍♂️ (@ritwika_sasmal)
+                <a
+                  href="https://twitter.com/ritwika_sasmal/status/1959979191312736374?ref_src=twsrc%5Etfw">August
+                  25, 2025</a></blockquote>
+            </div>
+
+            <div class="twitter-card">
+              <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Anoma —
+                  building the future of decentralized coordination 🔥 <a
+                    href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a><a
+                    href="https://twitter.com/adrianbrink?ref_src=twsrc%5Etfw">@adrianbrink</a><a
+                    href="https://twitter.com/thekerukeion?ref_src=twsrc%5Etfw">@thekerukeion</a><a
+                    href="https://twitter.com/chimpfone2047?ref_src=twsrc%5Etfw">@chimpfone2047</a>
+                  <a
+                    href="https://t.co/maCRdWvYOE">pic.twitter.com/maCRdWvYOE</a></p>&mdash;
+                𝐑𝐢𝐭𝐰𝐢𝐤𝐚 | Anomage | 𝔽rAI | 🧙‍♂️,🧙‍♂️ (@ritwika_sasmal)
+                <a
+                  href="https://twitter.com/ritwika_sasmal/status/1960033848449970633?ref_src=twsrc%5Etfw">August
+                  25, 2025</a></blockquote>
+            </div>
+
+            <div class="twitter-card">
+              <blockquote class="twitter-tweet"><p lang="en" dir="ltr">On the
+                  fast lane to Anoma testnet adventures! 🔥 <a
+                    href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a><a
+                    href="https://twitter.com/adrianbrink?ref_src=twsrc%5Etfw">@adrianbrink</a><a
+                    href="https://twitter.com/thekerukeion?ref_src=twsrc%5Etfw">@thekerukeion</a><a
+                    href="https://twitter.com/chimpfone2047?ref_src=twsrc%5Etfw">@chimpfone2047</a>
+                  <a
+                    href="https://t.co/di4u8Cmgwk">pic.twitter.com/di4u8Cmgwk</a></p>&mdash;
+                𝐑𝐢𝐭𝐰𝐢𝐤𝐚 | Anomage | 𝔽rAI | 🧙‍♂️,🧙‍♂️ (@ritwika_sasmal)
+                <a
+                  href="https://twitter.com/ritwika_sasmal/status/1960070420750844233?ref_src=twsrc%5Etfw">August
+                  25, 2025</a></blockquote>
+            </div>
+            <div class="twitter-card">
+              <blockquote class="twitter-tweet"><p lang="en" dir="ltr">AnomaPay,
+                  powered by <a
+                    href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a>
+                  and <a
+                    href="https://twitter.com/noble_xyz?ref_src=twsrc%5Etfw">@noble_xyz</a>,
+                  is launching with a global stablecoin router and debit card
+                  for
+                  secure, seamless, enterprise-grade payments. 🚀<br><br>Now I
+                  presented a debit card for <a
+                    href="https://twitter.com/AnomaPay?ref_src=twsrc%5Etfw">@AnomaPay</a>
+                  💳 <a
+                    href="https://t.co/29pisbrKdD">pic.twitter.com/29pisbrKdD</a></p>&mdash;
+                𝐑𝐢𝐭𝐰𝐢𝐤𝐚 | Anomage | 𝔽rAI | 🧙‍♂️,🧙‍♂️ (@ritwika_sasmal)
+                <a
+                  href="https://twitter.com/ritwika_sasmal/status/1960653557503549701?ref_src=twsrc%5Etfw">August
+                  27, 2025</a></blockquote> <script async
+                src="https://platform.twitter.com/widgets.js"
+                charset="utf-8"></script>
+            </div>
+
+            <div class="twitter-card">
+
+              <blockquote class="twitter-tweet"><p lang="en" dir="ltr">On the
+                  last day of Anoma, the achievement is delightful — finally got
+                  the yellow ball,that I always wanted and my final rank is
+                  4400. 🔥 <br>Thank you <a
+                    href="https://twitter.com/hashtag/Anomatestnet?src=hash&amp;ref_src=twsrc%5Etfw">#Anomatestnet</a><a
+                    href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a>
+                  <a
+                    href="https://twitter.com/_amolsinghal?ref_src=twsrc%5Etfw">@_amolsinghal</a>
+                  <a
+                    href="https://twitter.com/22_Sonu22?ref_src=twsrc%5Etfw">@22_Sonu22</a><a
+                    href="https://twitter.com/0xHazeeee?ref_src=twsrc%5Etfw">@0xHazeeee</a>
+                  <a
+                    href="https://twitter.com/book_surachet?ref_src=twsrc%5Etfw">@book_surachet</a>
+                  <a
+                    href="https://twitter.com/Demongmr1?ref_src=twsrc%5Etfw">@Demongmr1</a>
+                  <a
+                    href="https://twitter.com/KiranRa73501785?ref_src=twsrc%5Etfw">@KiranRa73501785</a><a
+                    href="https://twitter.com/karthicrypto99?ref_src=twsrc%5Etfw">@karthicrypto99</a>
+                  <a
+                    href="https://twitter.com/Sand32121?ref_src=twsrc%5Etfw">@Sand32121</a>
+                  <a
+                    href="https://t.co/Calm2K02ZL">pic.twitter.com/Calm2K02ZL</a></p>&mdash;
+                𝐑𝐢𝐭𝐰𝐢𝐤𝐚 | Anomage | 𝔽rAI | 🧙‍♂️,🧙‍♂️ (@ritwika_sasmal)
+                <a
+                  href="https://twitter.com/ritwika_sasmal/status/1960638418880487864?ref_src=twsrc%5Etfw">August
+                  27, 2025</a></blockquote> <script async
+                src="https://platform.twitter.com/widgets.js"
+                charset="utf-8"></script>
+
+            </div>
+
+            <div class="twitter-card">
+              <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Good
+                  Morning Anoma Family 🌅🌄 Now it’s all about Anoma for the
+                  whole day. Contribute to Anoma through your thoughts and
+                  ideas. It&#39;s only Anoma time 🔥 <a
+                    href="https://twitter.com/anoma?ref_src=twsrc%5Etfw">@anoma</a><a
+                    href="https://twitter.com/adrianbrink?ref_src=twsrc%5Etfw">@adrianbrink</a><a
+                    href="https://twitter.com/thekerukeion?ref_src=twsrc%5Etfw">@thekerukeion</a><a
+                    href="https://twitter.com/chimpfone2047?ref_src=twsrc%5Etfw">@chimpfone2047</a>
+                  <a
+                    href="https://t.co/6RIt5pWvey">pic.twitter.com/6RIt5pWvey</a></p>&mdash;
+                𝐑𝐢𝐭𝐰𝐢𝐤𝐚 | Anomage | 𝔽rAI | 🧙‍♂️,🧙‍♂️ (@ritwika_sasmal)
+                <a
+                  href="https://twitter.com/ritwika_sasmal/status/1960193981549260841?ref_src=twsrc%5Etfw">August
+                  26, 2025</a></blockquote>
+            </div>
+
+          </div>
+        </details>
+      </section>
+
+      <footer>Made with 💜 by bc1pBITHERUMN ⚡✨ Anoma Guild By @Wizard.</footer>
     </div>
 
     <div class="wizard-glow" aria-hidden="true"></div>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Vivi_Ornitier_Artwork.png" alt="Wizard" class="wizard" />
+    <img src="img/logoguild.png" alt="Wizard" class="wizard" />
+
+    <!-- Twitter widgets for embeds -->
+    <script async src="https://platform.twitter.com/widgets.js"
+      charset="utf-8"></script>
   </body>
 </html>
