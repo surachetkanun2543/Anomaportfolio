@@ -1,0 +1,877 @@
+<!-- Single-file build: /intent-game/index.html (CSS + JS inlined) -->
+<!DOCTYPE html>
+<html lang="en" data-theme="apple-redglass">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark light" />
+  <title>AnomaPay Store — Checkout Simulator (Single File)</title>
+  <style>
+    :root{ --bg:#0b0f14; --panel:#121725; --text:#eaf1ff; --muted:#a7b2c6; --brand:#ff3b5d; --brand-2:#8a243a; --line:#1e2738; --ok:#2ecc71; --bad:#ff5a60; --pill:#16223a; --gold:#f1c40f; --cyan:#5ad1ff; }
+    body[data-theme="anoma-pro"]{ --bg:#0b0f14; --panel:#121725; --text:#eaf1ff; --muted:#a7b2c6; --brand:#ff3b5d; --brand-2:#8a243a; --line:#1e2738; --pill:#16223a; }
+    body[data-theme="snow"]{ --bg:#f6f9fd; --panel:#ffffff; --text:#0c1220; --muted:#4b5a74; --brand:#d81b60; --brand-2:#6a1b3a; --line:#e5e9f2; --pill:#eef3fb; }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);} 
+    .wrap{min-height:100%;display:grid;place-items:center;padding:24px}
+
+    /* Seamless dark–red–green background */
+    .bgfx{position:fixed;inset:0;z-index:-1;pointer-events:none;background:
+      radial-gradient(60vw 60vh at 10% -20%, rgba(255,59,93,.18), transparent 60%),
+      radial-gradient(60vw 60vh at 120% 110%, rgba(46,204,113,.18), transparent 60%),
+      radial-gradient(80vw 80vh at 50% 50%, rgba(90,209,255,.07), transparent 70%),
+      linear-gradient(180deg,#06080f,#0b0f14 40%,#0b0f14 60%,#06080f);
+      background-attachment:fixed;filter:saturate(110%)}
+
+    /* Glass (Apple-like) */
+    .appbar,.panel{background:rgba(16,22,40,.55)!important;border:1px solid rgba(255,255,255,.08)!important;box-shadow:0 6px 30px rgba(0,0,0,.35);backdrop-filter:blur(14px) saturate(120%);-webkit-backdrop-filter:blur(14px) saturate(120%)}
+    .stepper{background:rgba(16,22,40,.35)!important;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+    .overlay .panel.modal{background:rgba(16,22,40,.58)!important;border:1px solid rgba(255,255,255,.10)!important}
+
+    /* Fit-to-viewport */
+    .game{width:min(1480px, 98vw);background:transparent;border:1px solid var(--line);border-radius:18px;box-shadow:0 16px 48px rgba(0,0,0,.35);overflow:hidden;position:relative}
+    body.fill #wrap{padding:0}
+    body.fill .game{width:100vw;height:100vh;border-radius:18px}
+    body.fill .board{height:calc(100vh - 230px)}
+    body.fill .panel{overflow:auto}
+
+    .appbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line)}
+    .brand{display:flex;align-items:center;gap:14px}
+    .logo{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#3a1722,#0b0709);box-shadow:inset 0 0 0 1px rgba(255,255,255,.05)}
+    .head .title{color:var(--text);font-weight:900;letter-spacing:.2px}
+    .head .subtitle{color:var(--muted);font-size:12px}
+    .topbar{display:flex;gap:8px;align-items:center;color:var(--muted);font-weight:800;flex-wrap:wrap}
+    .stat{background:#0f1426;border:1px solid var(--line);border-radius:10px;padding:6px 8px;display:flex;gap:6px;align-items:center}
+    .stat strong{color:var(--text)}
+    .stat.score strong{color:#cfe3ff}
+    .btn{cursor:pointer;user-select:none;border:none;border-radius:10px;padding:10px 12px;font-weight:800;letter-spacing:.2px}
+    .btn.primary{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff}
+    .btn.outline{background:transparent;color:var(--text);border:1px solid var(--line)}
+    .btn.subtle{background:#0e1426;color:#a7b2c6;border:1px solid var(--line)}
+    .btn.glow{box-shadow:0 0 0 0 rgba(255,59,93,0.6);animation:glow 2s ease infinite}
+    @keyframes glow{50%{box-shadow:0 0 0 8px rgba(255,59,93,0)}}
+    .btn.pulse{animation:pulse 1.6s ease-in-out infinite}
+    @keyframes pulse{50%{transform:scale(1.02)}}
+
+    .stepper{display:flex;gap:10px;align-items:center;padding:10px 20px;border-bottom:1px solid var(--line)}
+    .step{display:flex;gap:8px;align-items:center;color:#a7b2c6;font-weight:800}
+    .step .no{width:26px;height:26px;border-radius:999px;border:1px solid var(--line);display:grid;place-items:center;background:#12080c;color:#ffd8e0}
+    .step--active{color:#fff}
+    .step--active .no{background:linear-gradient(135deg,var(--brand),var(--brand-2));border-color:transparent;color:#fff}
+    .sep{height:2px;width:30px;background:linear-gradient(90deg,transparent,#3a1f2b,transparent)}
+
+    .board{display:grid;grid-template-columns:1.2fr 1fr 0.9fr;gap:18px;padding:18px}
+    @media (max-width: 1180px){.board{grid-template-columns:1fr}}
+    .panel{border-radius:14px;padding:16px;display:grid;gap:12px}
+    .panel-h{display:flex;align-items:center;justify-content:space-between}
+    .panel-t{color:var(--text);font-weight:900}
+
+    .search{background:#0e1426;color:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;min-width:200px}
+    .grid{display:grid;grid-template-columns:repeat(2, 1fr);gap:12px}
+    .cardP{background:#0f1528;border:1px solid var(--line);border-radius:12px;padding:12px;display:grid;grid-template-columns:80px 1fr auto;gap:12px;align-items:center;cursor:pointer;position:relative;overflow:hidden}
+    .cardP::after{content:"";position:absolute;inset:-40%;background:radial-gradient(400px 80px at -10% -10%, rgba(255,102,132,.18), transparent);transform:rotate(12deg)}
+    .thumb{width:80px;height:80px;border-radius:10px;background:linear-gradient(135deg,#1f1218,#0d0a0c);display:grid;place-items:center;color:#a9b6d6;font-weight:900}
+    .cardP .name{font-weight:900;color:#e9f0ff}
+    .cardP .desc{font-size:12px;color:#9fb0d3}
+    .cardP .price{font-weight:900;color:#fff}
+    .qty{display:flex;gap:6px;align-items:center}
+    .qty button{width:30px;height:30px;border-radius:8px}
+
+    .cart{border:1px dashed var(--line);border-radius:12px;padding:10px;min-height:120px;display:grid;gap:8px}
+    .cartRow{display:grid;grid-template-columns:1fr minmax(70px,90px) minmax(92px,110px) minmax(80px,110px);column-gap:12px;align-items:center;padding:10px 0;border-bottom:1px dashed var(--line)}
+.cartRow .name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:520px){
+  .cartRow{grid-template-columns:1fr auto;grid-template-areas:'name price' 'qty total'}
+  .cartRow .name{grid-area:name}
+  .cartRow .price:nth-of-type(1){grid-area:price}
+  .cartRow .qtyCtl{grid-area:qty}
+  .cartRow .price:last-child{grid-area:total;justify-self:end}
+}
+    .cartRow:last-child{border-bottom:none}
+    .cartRow .name{font-weight:900;color:#e9f0ff}
+    .cartRow .price{font-weight:800}
+    .cartRow .qtyCtl{display:flex;gap:6px}
+    .sum{border-top:1px solid var(--line);padding-top:10px;margin-top:12px;display:grid;gap:6px;position:relative;z-index:1}
+    .sum .row{display:flex;justify-content:space-between;color:#cfd6ea}
+    .sum .grand{font-size:18px;font-weight:900;color:#fff}
+
+    .policy{border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:8px}
+    .policy-h{font-weight:900;color:#e9f0ff;margin-bottom:8px}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .policy input,.policy select{background:#0e1426;color:#fff;border:1px solid var(--line);border-radius:10px;padding:10px}
+
+    .pay{display:flex;gap:12px;margin-top:12px}
+    .pill{margin-left:8px;padding:4px 8px;border-radius:999px;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;border:none;font-size:11px;font-weight:900}
+    .edu-hint{font-size:12px;color:#b6c4e1}
+    .hint{padding:4px 8px;border:1px solid var(--line);border-radius:8px;background:#0e1426;margin-right:6px}
+
+    .logs{grid-auto-rows:min-content 1fr}
+    .log-controls{display:flex;gap:8px;align-items:center}
+    .switch{display:flex;gap:6px;align-items:center;color:#a7b2c6}
+    .log-list{background:#0c1222;border:1px solid var(--line);border-radius:10px;padding:10px;height:520px;overflow:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:12.5px;color:#cfd3da}
+    .log-entry{display:grid;grid-template-columns:100px 120px 1fr;gap:8px;border-bottom:1px dashed var(--line);padding:6px 0}
+    .log-entry:last-child{border-bottom:none}
+    .log-time{color:#9fb4d0}
+    .log-type{color:#d6c38f}
+    .log-msg{color:#e6eaf0}
+
+    .overlay{position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(180deg,rgba(11,12,14,.65),rgba(11,12,14,.8));backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .2s; z-index:60}
+    .overlay.show{opacity:1;pointer-events:auto}
+    .panel.modal{max-width:960px}
+    .qrbox{min-height:260px;border:1px dashed var(--line);border-radius:12px;display:grid;place-items:center}
+    .qr-placeholder{width:200px;height:200px;border-radius:8px;background:#0f1528;border:1px solid var(--line);display:grid;place-items:center;color:#a9b6d6;font-weight:900}
+    .qr-str{font-size:10px;word-break:break-all;margin-top:8px;max-width:200px;opacity:.8}
+    .intentBox{border:1px dashed var(--line);border-radius:12px;padding:10px;display:grid;gap:8px}
+    .intentBox .row{display:flex;justify-content:space-between;color:#cfd6ea}
+    .hops{margin-top:6px;border-top:1px dashed var(--line);padding-top:6px;color:#cfd6ea}
+    .hop{display:flex;justify-content:space-between;padding:4px 0}
+    .power{margin-top:8px;padding:8px;border-radius:10px;border:1px solid var(--line);background:linear-gradient(180deg,#12203a,#0e162a);color:#eaf1ff}
+    .routeViz{height:110px;border:1px solid var(--line);border-radius:10px;background:linear-gradient(180deg,#0e1426,#0b1020);position:relative;overflow:hidden}
+    .routeViz svg{width:100%;height:100%}
+    .node{fill:#24141a;stroke:#ff4168;stroke-width:2}
+    .node.active{fill:#20396a;filter:url(#glow)}
+    .edge{stroke:#2a3d6b;stroke-width:3}
+    .edge.path{stroke:#ff6a8a;stroke-dasharray:6 6;animation:dash 1.5s linear infinite}
+    @keyframes dash{to{stroke-dashoffset: -60}}
+    .compare{display:grid;gap:6px}
+    .bar{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center}
+    .bar .track{height:10px;border:1px solid var(--line);border-radius:999px;background:#0f1629;overflow:hidden}
+    .bar .fill{height:100%;background:linear-gradient(90deg,#ff5b7a,#ff9db0)}
+    .learn{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    .cardL{border:1px solid var(--line);border-radius:12px;padding:12px;background:#0f1528}
+    .cardL .Lh{font-weight:900;color:#eaf1ff}
+    .cardL .Lb{color:#b9c6e3}
+    .quizQ{border:1px dashed var(--line);border-radius:10px;padding:10px;color:#eaf1ff;margin-bottom:6px}
+    .quizOpts{display:grid;gap:8px}
+    .quizOpts .opt{border:1px solid var(--line);border-radius:10px;padding:10px;background:#0f1528;cursor:pointer}
+    .quizOpts .opt.sel{outline:2px solid #6aa3ff}
+    .mapSvg{width:100%;height:180px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,#0e1426,#0b1020)}
+    .badge{display:inline-block;padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:#0f1528;color:#eaf1ff;font-size:12px;margin:2px}
+    .diag{font-family:ui-monospace,monospace;color:var(--text);line-height:1.5}
+
+    .foot{padding:14px 18px;color:#a7b2c6;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;border-top:1px solid var(--line)}
+
+    .muted{color:var(--muted)}
+    .hidden{display:none}
+    .toast{position:fixed;right:16px;bottom:16px;background:#0f1528;border:1px solid var(--line);color:#eaf1ff;border-radius:10px;padding:10px 12px;box-shadow:0 10px 30px rgba(0,0,0,.35);opacity:0;transform:translateY(8px);transition:opacity .2s, transform .2s;pointer-events:none;z-index:1000}
+    .toast.show{opacity:1;transform:translateY(0)}
+    .noti-stack{position:fixed;top:16px;right:16px;display:grid;gap:10px;z-index:1500}
+    .noti{display:grid;grid-template-columns:20px 1fr auto;gap:10px;align-items:center;padding:10px 12px;border-radius:14px;border:1px solid var(--line);background:rgba(16,22,40,.70);backdrop-filter:blur(12px) saturate(140%);-webkit-backdrop-filter:blur(12px) saturate(140%);box-shadow:0 10px 30px rgba(0,0,0,.35);opacity:0;transform:translateY(-6px);transition:opacity .18s, transform .18s}
+    .noti.show{opacity:1;transform:translateY(0)}
+    .noti .dot{width:10px;height:10px;border-radius:999px}
+    .noti .t{font-weight:900;color:#eaf1ff}
+    .noti .b{font-size:12px;color:#b9c6e3}
+    .noti.info{border-left:4px solid #5ad1ff}.noti.info .dot{background:#5ad1ff}
+    .noti.success{border-left:4px solid #2ecc71}.noti.success .dot{background:#2ecc71}
+    .noti.warn{border-left:4px solid #ff5a60}.noti.warn .dot{background:#ff5a60}
+    .noti .close{background:transparent;color:#bcd2ff;border:1px solid var(--line);border-radius:10px;padding:6px 8px}
+
+    /* Confetti bits */
+    .confetti{position:fixed;top:0;left:0;pointer-events:none;z-index:1200}
+    .p{position:absolute;width:8px;height:8px;background:var(--gold);border-radius:2px;opacity:.9;animation:fall .9s linear forwards}
+    @keyframes fall{to{transform:translateY(100vh) rotate(540deg);opacity:0}}
+  /* Apple red–black glass overrides for visibility */
+    :root{ color-scheme:dark; }
+    body[data-theme="apple-redglass"]{ --bg:#07090e; --text:#f7fbff; --muted:#cbd6ea; --brand:#ff355e; --brand-2:#8b1230; --line:#2a1d24; }
+    /* Stronger background with red glow, fewer green/blue tints */
+    .bgfx{background:
+      radial-gradient(70vw 70vh at 15% -20%, rgba(255,53,94,.22), transparent 60%),
+      radial-gradient(70vw 70vh at 120% 120%, rgba(255,53,94,.12), transparent 60%),
+      linear-gradient(180deg,#04060a,#090e15 45%,#04060a)!important;}
+    /* Glass cards a bit brighter and clearer borders */
+    .appbar,.panel{background:rgba(20,24,36,.62)!important;border:1px solid rgba(255,255,255,.12)!important}
+    /* Text visibility improvements */
+    .step{color:#d9e4ff}
+    .head .subtitle,.muted{color:#cbd6ea}
+    .cardP .desc{color:#d6e0f5}
+    .log-list{color:#e8eefc}
+    .noti .b{color:#e0e9ff}
+    .btn.subtle{color:#eef4ff}
+    .search::placeholder{color:#d7e1f5;opacity:.95}
+  /* Minimal text / graphic-heavy mode */
+    body.minimal .head .subtitle{display:none}
+    body.minimal .panel-t{font-size:0}
+    body.minimal .panel-t::before{content:attr(data-ic); font-size:18px; color:var(--text)}
+    body.minimal .grid .desc{display:none}
+    body.minimal .edu-hint{display:none}
+    .fx{position:absolute; inset:0; z-index:0; opacity:.18; pointer-events:none; mix-blend-mode:screen;}
+    .game{position:relative}
+    .board,.appbar,.stepper,.panel{position:relative; z-index:1}
+    .log-msg{white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+
+    /* Striped animated progress tracks */
+    .bar .track{ position:relative; overflow:hidden }
+    .bar .track::before{ content:''; position:absolute; inset:0;
+      background-image:repeating-linear-gradient(45deg, rgba(255,255,255,.06) 0 8px, rgba(255,255,255,0) 8px 16px);
+      animation:slide 2.2s linear infinite;
+    }
+    @keyframes slide{ to { transform: translateX(-16px) } }
+  </style>
+</head>
+<body>
+  <div class="bgfx" id="bgfx"></div>
+
+  <div class="wrap" id="wrap">
+    <div class="game" id="game">
+      <header class="appbar">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <div class="head">
+            <div class="title">AnomaPay Store — Checkout Simulator</div>
+            <div class="subtitle">Intents‑centric checkout with ZK privacy, best‑route routing, and MEV‑shield — the <b>AnomaPay</b> way.</div>
+          </div>
+        </div>
+        <div class="topbar">
+          <div class="stat">Items <strong id="cartCount">0</strong></div>
+          <div class="stat">Total <strong id="cartTotal">$0.00</strong></div>
+          <div class="stat score">Points <strong id="points">0</strong></div>
+          <div class="stat score">Level <strong id="level">1</strong></div>
+          <div class="stat score">Streak <strong id="streak">0</strong></div>
+          <div class="stat score">Timer <strong id="timer">00:00</strong></div>
+          <button class="btn subtle" id="btnChallenge" title="Daily Challenge & Achievements">Challenges</button>
+          <button class="btn subtle" id="btnLearn" title="Learn Mode">Learn</button>
+          <button class="btn subtle" id="btnMap" title="Progress Map">Map</button>
+          <button class="btn subtle" id="btnReset" title="Reset Score">Reset</button>
+          <button class="btn subtle" id="btnFill" title="Fill Window">Fill</button>
+          <button class="btn subtle" id="btnMax" title="Fullscreen">Fullscreen</button>
+          <button class="btn subtle" id="btnDiag" title="Diagnostics">Diagnostics</button>
+          <button class="btn outline glow" id="btnSetup" title="Settings">Settings</button>
+        </div>
+      </header>
+
+      <nav class="stepper" aria-label="progress">
+        <div class="step step--active" id="st1"><span class="no">1</span><span>Browse</span></div>
+        <div class="sep"></div>
+        <div class="step" id="st2"><span class="no">2</span><span>Checkout</span></div>
+        <div class="sep"></div>
+        <div class="step" id="st3"><span class="no">3</span><span>Receipt</span></div>
+      </nav>
+
+      <main class="board" id="board">
+        <section class="panel catalog">
+          <div class="panel-h">
+            <div class="panel-t">Menu</div>
+            <div class="row-btns">
+              <input id="search" class="search" placeholder="Search items..."/>
+            </div>
+          </div>
+          <div class="grid" id="grid"></div>
+        </section>
+
+        <section class="panel checkout">
+          <div class="panel-h">
+            <div class="panel-t">Cart & Checkout</div>
+            <div class="row-btns">
+              <button class="btn subtle" id="clearCart">Clear</button>
+            </div>
+          </div>
+
+          <div class="cart" id="cart"></div>
+
+          <div class="sum" id="summary">
+            <div class="row"><span>Subtotal</span><b id="subtotal">$0.00</b></div>
+            <div class="row"><span>Sales Tax (7.5%)</span><b id="tax">$0.00</b></div>
+            <div class="row grand"><span>Total</span><b id="total">$0.00</b></div>
+          </div>
+
+          <div class="policy">
+            <div class="policy-h">Payment Policy (AnomaPay)</div>
+            <div class="grid2">
+              <label>Privacy
+                <select id="privacy">
+                  <option value="zk">ZK (recommended)</option>
+                  <option value="transparent">Transparent</option>
+                </select>
+              </label>
+              <label>Max Slippage %
+                <input id="maxSlip" type="number" step="0.05" min="0" value="0.50"/>
+              </label>
+              <label>Avoid Chains (comma‑sep)
+                <input id="avoidChains" placeholder="Base, IBC"/>
+              </label>
+              <label>Asset In → Out
+                <select id="assetIO">
+                  <option>USDC → USDC</option>
+                  <option>USDT → USDC</option>
+                  <option>ETH → USDC</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div class="pay">
+            <button class="btn primary pulse" id="payAnoma">
+              Pay with AnomaPay <span class="pill">ANOMAPAY RECOMMENDED</span>
+            </button>
+            <button class="btn outline" id="payCard">Pay with Card (Mock)</button>
+          </div>
+
+          <div class="edu-hint">
+            <span class="hint">Why AnomaPay?</span> Because you express <b>intent</b> (what you want), and AnomaPay finds the best cross‑chain route atomically with <b>ZK privacy</b> and <b>MEV‑shield</b>.
+          </div>
+        </section>
+
+        <aside class="panel logs">
+          <div class="panel-h">
+            <div class="panel-t">Activity Log</div>
+            <div class="log-controls">
+              <label class="switch"><input type="checkbox" id="autoScroll" checked><span>Auto‑scroll</span></label>
+              <button class="btn subtle" id="clearLog">Clear</button>
+              <button class="btn subtle" id="copyLog">Copy</button>
+            </div>
+          </div>
+          <div id="logList" class="log-list" aria-live="polite"></div>
+        </aside>
+      </main>
+
+      <!-- Settings -->
+      <div class="overlay" id="setupOv">
+        <div class="panel modal">
+          <h2>Settings</h2>
+          <div class="grid2 form">
+            <label>Theme
+              <select id="theme">
+                <option value="apple-redglass" selected>Apple Red Glass (Dark)</option>
+                <option value="anoma-pro">Pro Dark</option>
+                <option value="snow">Snow (Light)</option>
+              </select>
+            </label>
+            <label>Currency (demo only)
+              <select id="currency" disabled>
+                <option selected>USD</option>
+              </select>
+            </label>
+            <label>Merchant Name
+              <input id="merchant" value="ANOMAPAY CAFE"/>
+            </label>
+          </div>
+          <div class="row-btns"><button class="btn primary" id="saveSetup">Save</button><button class="btn outline" id="closeSetup">Close</button></div>
+        </div>
+      </div>
+
+      <!-- AnomaPay Modal -->
+      <div class="overlay" id="payOv">
+        <div class="panel modal">
+          <h2>Scan to Pay — AnomaPay</h2>
+          <div class="grid2">
+            <div class="qrbox" id="qr">
+              <div class="qr-placeholder">QR
+                <div class="qr-str" id="qrStr">—</div>
+              </div>
+            </div>
+            <div class="intentBox">
+              <div class="row"><span>Amount</span><b id="iAmount">$0.00</b></div>
+              <div class="row"><span>Assets</span><b id="iAssets">USDC → USDC</b></div>
+              <div class="row"><span>Privacy</span><b id="iPrivacy">ZK</b></div>
+              <div class="row"><span>Policy</span><b id="iPolicy">—</b></div>
+              <div class="row"><span>Recommended Route</span><b id="iRoute">—</b></div>
+              <div class="routeViz" id="routeViz"></div>
+              <div class="compare" id="compare"></div>
+              <div class="hops" id="iHops"></div>
+              <div class="power" id="powerNote" hidden></div>
+            </div>
+          </div>
+          <div class="row-btns">
+            <button class="btn subtle" id="btnSimScan">Simulate Scan</button>
+            <button class="btn primary" id="btnApprove">Approve & Settle</button>
+            <button class="btn outline" id="btnClosePay">Close</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Receipt -->
+      <div class="overlay" id="rcpOv">
+        <div class="panel modal">
+          <h2>Receipt</h2>
+          <div id="receiptBox" class="receipt">—</div>
+          <div class="row-btns"><button class="btn primary" id="btnDone">Done</button></div>
+        </div>
+      </div>
+
+      <!-- Diagnostics -->
+      <div class="overlay" id="diagOv">
+        <div class="panel modal">
+          <h2>Diagnostics</h2>
+          <div id="diagBody" class="diag"></div>
+          <div class="row-btns"><button class="btn primary" id="runDiag">Run Tests</button><button class="btn outline" id="closeDiag">Close</button></div>
+        </div>
+      </div>
+
+      <!-- Gamification Overlay -->
+      <div class="overlay" id="gameOv">
+        <div class="panel modal">
+          <h2>Challenges & Achievements</h2>
+          <div class="grid2">
+            <div>
+              <div class="policy-h">Daily Challenge</div>
+              <div id="chText" class="challenge">—</div>
+            </div>
+            <div>
+              <div class="policy-h">Achievements</div>
+              <div id="achList" class="ach"></div>
+            </div>
+          </div>
+          <div class="row-btns"><button class="btn outline" id="closeGame">Close</button></div>
+        </div>
+      </div>
+
+      <!-- Learn Overlay -->
+      <div class="overlay" id="learnOv">
+        <div class="panel modal">
+          <h2>Learn — AnomaPay Basics</h2>
+          <div class="learn">
+            <div class="cardL"><div class="Lh">Intents‑centric</div><div class="Lb">You state the outcome you want (pay X → receive Y). The system searches and executes the optimal route atomically.</div></div>
+            <div class="cardL"><div class="Lh">ZK Privacy</div><div class="Lb">Conceal sensitive details while proving correctness.</div></div>
+            <div class="cardL"><div class="Lh">MEV‑shield</div><div class="Lb">Protects against value extraction by adversarial ordering.</div></div>
+            <div class="cardL"><div class="Lh">Slippage</div><div class="Lb">Max difference you tolerate between expected and executed price.</div></div>
+            <div class="cardL"><div class="Lh">Atomic Cross‑chain</div><div class="Lb">Settle multiple legs as one — either all succeed or none.</div></div>
+          </div>
+          <div class="row-btns"><button class="btn outline" id="closeLearn">Close</button></div>
+        </div>
+      </div>
+
+      <!-- Quiz Overlay -->
+      <div class="overlay" id="quizOv">
+        <div class="panel modal">
+          <h2>Quick Quiz</h2>
+          <div id="quizQ" class="quizQ">—</div>
+          <div id="quizOpts" class="quizOpts"></div>
+          <div class="row-btns"><button class="btn primary" id="quizSubmit">Submit</button><button class="btn outline" id="quizSkip">Skip</button></div>
+        </div>
+      </div>
+
+      <!-- Progress Map -->
+      <div class="overlay" id="mapOv">
+        <div class="panel modal">
+          <h2>Progress Map</h2>
+          <svg id="mapSvg" class="mapSvg" viewBox="0 0 600 180" role="img" aria-label="progress map">
+            <defs>
+              <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="4" result="b"/>
+                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <g id="edges" stroke="#2a3d6b" stroke-width="3"></g>
+            <g id="nodes"></g>
+          </svg>
+          <div class="row-btns"><button class="btn outline" id="closeMap">Close</button></div>
+        </div>
+      </div>
+
+      <footer class="foot">
+        <div class="muted">Tip: Adjust policy for privacy and routing. AnomaPay finds the best cross‑chain route automatically.</div>
+      </footer>
+
+    </div>
+  </div>
+
+  <!-- System UI elements -->
+  <div class="toast" id="toast" aria-live="polite"></div>
+  <div class="noti-stack" id="notiStack" aria-live="polite"></div>
+
+  <script>
+  'use strict';
+  // ===== Helper & state =====
+  const els = {
+    cartCount: gi('cartCount'), cartTotal: gi('cartTotal'), btnSetup: gi('btnSetup'), btnMax: gi('btnMax'), btnFill: gi('btnFill'), btnDiag: gi('btnDiag'),
+    btnChallenge: gi('btnChallenge'), btnLearn: gi('btnLearn'), btnMap: gi('btnMap'), btnReset: gi('btnReset'), points: gi('points'), level: gi('level'), streak: gi('streak'), timer: gi('timer'),
+    grid: gi('grid'), search: gi('search'),
+    cart: gi('cart'), clearCart: gi('clearCart'), subtotal: gi('subtotal'), tax: gi('tax'), total: gi('total'),
+    privacy: gi('privacy'), maxSlip: gi('maxSlip'), avoidChains: gi('avoidChains'), assetIO: gi('assetIO'),
+    payAnoma: gi('payAnoma'), payCard: gi('payCard'),
+    setupOv: gi('setupOv'), saveSetup: gi('saveSetup'), closeSetup: gi('closeSetup'), theme: gi('theme'), currency: gi('currency'), merchant: gi('merchant'),
+    st1: gi('st1'), st2: gi('st2'), st3: gi('st3'),
+    logList: gi('logList'), clearLog: gi('clearLog'), copyLog: gi('copyLog'), autoScroll: gi('autoScroll'),
+    payOv: gi('payOv'), qr: gi('qr'), qrStr: gi('qrStr'), iAmount: gi('iAmount'), iAssets: gi('iAssets'), iPrivacy: gi('iPrivacy'), iPolicy: gi('iPolicy'), iRoute: gi('iRoute'), iHops: gi('iHops'), powerNote: gi('powerNote'), routeViz: gi('routeViz'), compare: gi('compare'), btnClosePay: gi('btnClosePay'), btnApprove: gi('btnApprove'), btnSimScan: gi('btnSimScan'),
+    rcpOv: gi('rcpOv'), receiptBox: gi('receiptBox'), btnDone: gi('btnDone'),
+    diagOv: gi('diagOv'), diagBody: gi('diagBody'), closeDiag: gi('closeDiag'), runDiag: gi('runDiag'),
+    gameOv: gi('gameOv'), closeGame: gi('closeGame'), chText: gi('chText'), achList: gi('achList'),
+    learnOv: gi('learnOv'), closeLearn: gi('closeLearn'),
+    quizOv: gi('quizOv'), quizQ: gi('quizQ'), quizOpts: gi('quizOpts'), quizSubmit: gi('quizSubmit'), quizSkip: gi('quizSkip'),
+    mapOv: gi('mapOv'), mapSvg: gi('mapSvg'), closeMap: gi('closeMap')
+  };
+  function gi(id){ return document.getElementById(id) }
+  function step(k){ els.st1.classList.toggle('step--active', k===1); els.st2.classList.toggle('step--active', k===2); els.st3.classList.toggle('step--active', k===3); }
+  function log(type,msg){ const e={ts:Date.now(),type,msg}; const row=document.createElement('div'); row.className='log-entry'; row.innerHTML=`<div class="log-time">${new Date(e.ts).toLocaleTimeString([], {hour12:false})}</div><div class="log-type">${type}</div><div class="log-msg">${msg.replace(/[&<>]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]))}</div>`; els.logList.appendChild(row); if(els.autoScroll.checked){ els.logList.scrollTop=els.logList.scrollHeight; } }
+
+  const CFG = { theme:'apple-redglass', currency:'USD', taxRate:0.075 };
+  const STORE = [
+    {id:'p1', name:'Espresso', price:3.50, desc:'Double shot, rich & bold'},
+    {id:'p2', name:'Latte', price:4.75, desc:'Milk smoothness, classic'},
+    {id:'p3', name:'Cappuccino', price:4.50, desc:'Foamy delight'},
+    {id:'p4', name:'Cold Brew', price:5.00, desc:'Slow‑steeped, refreshing'},
+    {id:'p5', name:'Croissant', price:3.25, desc:'Buttery, flaky'},
+    {id:'p6', name:'Blueberry Muffin', price:3.00, desc:'Sweet & soft'},
+    {id:'p7', name:'Turkey Sandwich', price:6.90, desc:'Hearty lunch'},
+    {id:'p8', name:'Beans (250g)', price:12.00, desc:'House roast'}
+  ];
+  const CART = new Map();
+
+  const GAME = {
+    points: +(localStorage.getItem('ap_points')||0),
+    level: +(localStorage.getItem('ap_level')||1),
+    xp: +(localStorage.getItem('ap_xp')||0),
+    streak: +(localStorage.getItem('ap_streak')||0),
+    lastAdds: [],
+    power: null,
+    challenge: genChallenge(),
+    achievements: new Set(JSON.parse(localStorage.getItem('ap_ach')||'[]'))
+  };
+  const TIMER = { id:null, start:null };
+  const STATE = { pendingQuiz:false };
+
+  function saveGame(){ localStorage.setItem('ap_points', GAME.points); localStorage.setItem('ap_level', GAME.level); localStorage.setItem('ap_xp', GAME.xp); localStorage.setItem('ap_streak', GAME.streak); localStorage.setItem('ap_ach', JSON.stringify([...GAME.achievements])); }
+
+  function genChallenge(){
+    const needZK = Math.random()<0.7; const avoidPick = Math.random()<0.5? 'Base' : 'IBC'; const minAmt = [10,12,15,18,20][Math.floor(Math.random()*5)];
+    return { needZK, avoid: avoidPick, minAmt, reward: 50 };
+  }
+
+  function updateChallengeText(){
+    const c = GAME.challenge; const amt = c.minAmt.toFixed(2);
+    els.chText.innerHTML = `Pay with <b>${c.needZK? 'ZK privacy':'any privacy'}</b>, avoid <b>${c.avoid}</b>, and spend at least <b>$${amt}</b> to earn <b>+${c.reward} pts</b>.`;
+  }
+
+  function updateScoreboard(){ els.points.textContent = String(GAME.points); els.level.textContent = String(GAME.level); els.streak.textContent = String(GAME.streak); saveGame(); }
+
+  function awardPoints(n, reason=''){ GAME.points += n; GAME.xp += n; updateScoreboard(); if(reason) log('points', `+${n} · ${reason}`); levelCheck(); floatPoints(`+${n}`); }
+  function levelCheck(){ while(GAME.xp >= GAME.level*120){ GAME.xp -= GAME.level*120; GAME.level++; updateScoreboard(); unlockAch('level_'+GAME.level, `Level ${GAME.level}`); toast(`Level up! → ${GAME.level}`); notify('Level Up', `Welcome to Level ${GAME.level}`, 'success'); } }
+
+  function unlockAch(key, label){ if(GAME.achievements.has(key)) return; GAME.achievements.add(key); const b=document.createElement('span'); b.className='badge'; b.textContent=label; els.achList.appendChild(b); log('ach', label); saveGame(); }
+
+  function floatPoints(text){ const el=document.createElement('div'); el.className='toast show'; el.style.bottom='60px'; el.textContent=text; document.body.appendChild(el); setTimeout(()=>{ el.classList.remove('show'); el.remove(); }, 900); }
+
+  function confetti(){ const c=document.createElement('div'); c.className='confetti'; document.body.appendChild(c); for(let i=0;i<60;i++){ const p=document.createElement('div'); p.className='p'; p.style.left=Math.random()*100+'vw'; p.style.background = i%3? 'var(--gold)': (i%2? '#6cf':'#fc6'); p.style.animationDelay = (Math.random()*0.3)+'s'; c.appendChild(p);} setTimeout(()=> c.remove(), 1200); }
+
+  // Timer
+  function startTimer(){ if(TIMER.start) return; TIMER.start=Date.now(); els.timer.textContent='00:00'; if(TIMER.id) clearInterval(TIMER.id); TIMER.id=setInterval(()=>{ const s=Math.floor((Date.now()-TIMER.start)/1000); els.timer.textContent = fmtTime(s); }, 500); log('timer','start'); }
+  function stopTimer(){ if(!TIMER.start) return 0; const s=Math.floor((Date.now()-TIMER.start)/1000); if(TIMER.id) clearInterval(TIMER.id); TIMER.id=null; TIMER.start=null; log('timer',`stop ${s}s`); return s; }
+  function fmtTime(s){ const m=Math.floor(s/60).toString().padStart(2,'0'); const ss=(s%60).toString().padStart(2,'0'); return `${m}:${ss}` }
+
+  // Catalog
+  function renderCatalog(filter=''){
+    const q = filter.trim().toLowerCase();
+    els.grid.innerHTML='';
+    const items = STORE.filter(p=> !q || p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q));
+    items.forEach(p=>{
+      const inCart = CART.get(p.id) || 0;
+      const el=document.createElement('div');
+      el.className='cardP';
+      el.dataset.id = p.id;
+      el.innerHTML = `
+        <div class="thumb">${p.name.split(' ').map(w=>w[0]).join('').slice(0,2)}</div>
+        <div>
+          <div class="name">${p.name}</div>
+          <div class="desc">${p.desc}</div>
+        </div>
+        <div class="qty">
+          <div class="price">$${p.price.toFixed(2)}</div>
+          <button class="btn outline" aria-label="add" data-id="${p.id}">+ Add</button>
+          ${inCart? `<span class="pill" title="In cart">${inCart}</span>`:''}
+        </div>`;
+      els.grid.appendChild(el);
+    });
+    return items.length;
+  }
+
+  els.grid.addEventListener('click', (e)=>{
+    const addBtn = e.target.closest('button[aria-label="add"]');
+    const card = e.target.closest('.cardP');
+    if(addBtn){ addToCart(addBtn.dataset.id, 1); toast('Added to cart'); return; }
+    if(card){ const id = card.dataset.id; if(id){ addToCart(id, 1); toast('Added to cart'); } }
+  });
+
+  // Cart
+  function addToCart(id, n){
+    const cur=CART.get(id)||0; CART.set(id, cur+n); if(CART.get(id)<=0) CART.delete(id);
+    renderCart(); log('cart',`update ${id}=${CART.get(id)||0}`);
+    const p=STORE.find(x=>x.id===id);
+    if(n>0 && p) notify('Added to Cart', `${p.name} — $${p.price.toFixed(2)}`, 'success');
+    if(n<0 && p) notify('Updated', `${p.name} ×${CART.get(id)||0}`, 'info');
+    if(n>0 && !TIMER.start) startTimer();
+    GAME.lastAdds.push(Date.now()); GAME.lastAdds = GAME.lastAdds.slice(-5);
+    if(GAME.lastAdds.length>=3){ const span = GAME.lastAdds[GAME.lastAdds.length-1] - GAME.lastAdds[GAME.lastAdds.length-3]; if(span<=8000){ grantPower(); } }
+  }
+  function renderCart(){ els.cart.innerHTML=''; if(CART.size===0){ els.cart.innerHTML='<div class="muted">Your cart is empty.</div>'; }
+    let sub=0; CART.forEach((q,id)=>{ const p=STORE.find(x=>x.id===id); if(!p) return; sub += p.price*q; const row=document.createElement('div'); row.className='cartRow'; row.innerHTML = `
+      <div class="name">${p.name}</div>
+      <div class="price">$${p.price.toFixed(2)}</div>
+      <div class="qtyCtl">
+        <button class="btn subtle" aria-label="dec">−</button>
+        <div>${q}</div>
+        <button class="btn subtle" aria-label="inc">+</button>
+      </div>
+      <div class="price">$${(p.price*q).toFixed(2)}</div>`;
+      const btns = row.querySelectorAll('button'); const dec = btns[0]; const inc = btns[1];
+      if (dec) dec.addEventListener('click', ()=> addToCart(id,-1));
+      if (inc) inc.addEventListener('click', ()=> addToCart(id,1));
+      els.cart.appendChild(row);
+    });
+    const tax=sub*CFG.taxRate; const tot=sub+tax; els.subtotal.textContent=toUSD(sub); els.tax.textContent=toUSD(tax); els.total.textContent=toUSD(tot); els.cartCount.textContent=String(totalQty()); els.cartTotal.textContent=toUSD(tot);
+  }
+  function totalQty(){ let n=0; CART.forEach(v=> n+=v); return n; }
+  function toUSD(x){ return `$${x.toFixed(2)}` }
+
+  // Payment (AnomaPay)
+  function buildIntent(){ const total=parseFloat(els.total.textContent.replace(/[$,]/g,''))||0; const privacy=els.privacy.value; const maxSlip=Number(els.maxSlip.value)||0.5; const avoid=(els.avoidChains.value||'').split(',').map(s=>s.trim()).filter(Boolean); const assets=els.assetIO.value; return { id:'int_'+randHex(6), merchant:els.merchant?.value||'ANOMAPAY CAFE', amount:total, currency:'USD', privacy, policy:{ maxSlippage:maxSlip, avoidChains:avoid }, assets } }
+
+  function openAnomaModal(){ if(CART.size===0){ log('warn','empty cart'); notify('Cart is empty','Add products before checkout','warn'); return; } step(2); const iv=buildIntent(); const route=solveRoute(iv);
+    applyPower(route, iv); drawRoute(route); drawCompare(iv, route);
+    const qrStr=`anoma://pay?to=${encodeURIComponent(iv.merchant)}&amount=${iv.amount.toFixed(2)}&ccy=USD&assets=${encodeURIComponent(iv.assets)}&privacy=${iv.privacy}&nonce=${randHex(4)}`;
+    els.payOv.classList.add('show'); els.qrStr.textContent=qrStr; els.iAmount.textContent=toUSD(iv.amount); els.iAssets.textContent=iv.assets; els.iPrivacy.textContent=iv.privacy==='zk'?'ZK':'Transparent'; els.iPolicy.textContent=`max slip ${iv.policy.maxSlippage}% · avoid [${iv.policy.avoidChains.join(', ')||'—'}]`; els.iRoute.textContent=route.path.join(' → ') + (route.meets? ' • ✅ policy met':' • ⚠ policy');
+    els.iHops.innerHTML = route.hops.map((h,i)=>`<div class=\"hop\"><span>Hop ${i+1}: ${h.from} → ${h.to} (${h.token})</span><span>${(h.feePct*10000).toFixed(0)} bp · $${h.feeAmt.toFixed(2)}</span></div>`).join('') + `<div class=\"hop\"><span>Total fees</span><span>$${route.totalFee.toFixed(2)}</span></div>`;
+    if(route.note){ els.powerNote.hidden=false; els.powerNote.textContent=route.note; } else { els.powerNote.hidden=true; }
+    els.payOv._intent=iv; els.payOv._route=route; log('intent',`${iv.id} · ${iv.amount} USD · ${iv.assets} · ${iv.privacy.toUpperCase()} · avoid=[${iv.policy.avoidChains.join(', ')||'—'}]`); log('route', `${route.id} · ${route.path.join('→')} · fees=$${route.totalFee.toFixed(2)} · slip=${route.slipUsed}% · ${route.meets?'ok':'policy ⚠'}`);
+    notify('AnomaPay','Route found: '+route.path.join(' → '),'info'); }
+
+  function solveRoute(iv){
+    const payer=['Ethereum','Arbitrum','Base','Optimism']; const payee=['Noble','Ethereum','Arbitrum','Base'];
+    function pickAvoiding(cands,avoid){ const A=avoid.map(s=>s.toLowerCase()); const f=cands.filter(x=>!A.includes(x.toLowerCase())); return (f.length?f:cands)[Math.floor(Math.random()* (f.length?f.length:cands.length))]; }
+    const from=pickAvoiding(payer, iv.policy.avoidChains); const to= pickAvoiding(payee, iv.policy.avoidChains);
+    const mids=['Across','Synapse','IBC']; const mid = (from===to||Math.random()<0.4)? null : pickAvoiding(mids, iv.policy.avoidChains);
+    const path = mid? [from, mid, to] : [from,to];
+    const hops=[]; let totalFee=0; path.forEach((_,i)=>{ if(i===path.length-1) return; const feePct= +(Math.random()*0.015).toFixed(3); const feeAmt= +(iv.amount*feePct).toFixed(2); totalFee+=feeAmt; hops.push({from:path[i], to:path[i+1], token:i===0?iv.assets.split(' → ')[0]:iv.assets.split(' → ')[1], feePct, feeAmt}); });
+    const slipUsed= +(Math.random()*iv.policy.maxSlippage*1.2).toFixed(2); const violated = path.some(x=>iv.policy.avoidChains.map(s=>s.toLowerCase()).includes(x.toLowerCase()));
+    const meets = (iv.privacy==='transparent' || iv.privacy==='zk') && (slipUsed<=iv.policy.maxSlippage) && !violated;
+    return { id:'rt_'+randHex(4), path, hops, totalFee:+totalFee.toFixed(2), slipUsed, meets };
+  }
+
+  function drawRoute(rt){
+    els.routeViz.innerHTML = '';
+    const w = els.routeViz.clientWidth || 520; const h=els.routeViz.clientHeight || 110; const pad=30; const n = rt.path.length; const dx=(w-2*pad)/Math.max(1,n-1);
+    const svg = document.createElementNS('http://www.w3.org/2000/svg','svg'); svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+    const defs = document.createElementNS(svg.namespaceURI,'defs');
+    const filt = document.createElementNS(svg.namespaceURI,'filter'); filt.setAttribute('id','glow'); filt.innerHTML='<feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>'; defs.appendChild(filt); svg.appendChild(defs);
+    for(let i=0;i<n-1;i++){
+      const x1=pad+i*dx, y=h/2, x2=pad+(i+1)*dx;
+      const e = document.createElementNS(svg.namespaceURI,'line'); e.setAttribute('x1',x1); e.setAttribute('y1',y); e.setAttribute('x2',x2); e.setAttribute('y2',y); e.setAttribute('class','edge path'); svg.appendChild(e);
+    }
+    rt.path.forEach((name,i)=>{
+      const x=pad+i*dx, y=h/2; const g=document.createElementNS(svg.namespaceURI,'g');
+      const c=document.createElementNS(svg.namespaceURI,'circle'); c.setAttribute('cx',x); c.setAttribute('cy',y); c.setAttribute('r',12); c.setAttribute('class','node active'); g.appendChild(c);
+      const t=document.createElementNS(svg.namespaceURI,'text'); t.setAttribute('x',x); t.setAttribute('y',y-18); t.setAttribute('text-anchor','middle'); t.setAttribute('fill','#cfe3ff'); t.setAttribute('font-size','11'); t.textContent=name; g.appendChild(t);
+      svg.appendChild(g);
+    });
+    els.routeViz.appendChild(svg);
+  }
+
+  function drawCompare(iv, rt){
+    const cardFee = +(iv.amount*0.027).toFixed(2);
+    const cardTime = 8;
+    const anomaFee = +(rt.totalFee).toFixed(2);
+    const anomaTime = Math.max(3, 2 + rt.hops.length*1.5);
+    const maxF = Math.max(cardFee, anomaFee) || 1; const maxT = Math.max(cardTime, anomaTime);
+    els.compare.innerHTML = [
+      makeBar('Fees', anomaFee, cardFee, maxF, '$'),
+      makeBar('ETA (s)', anomaTime, cardTime, maxT, '')
+    ].join('');
+    function makeBar(label, anomaVal, cardVal, max, sym){
+      const aw = Math.round((anomaVal/max)*100); const cw = Math.round((cardVal/max)*100);
+      return `<div class="bar"><div>${label}</div><div class="track"><div class="fill" style="width:${aw}%"></div></div><div>${sym}${anomaVal}</div></div>
+              <div class="bar" style="opacity:.75"><div>Card</div><div class="track"><div class="fill" style="width:${cw}%; background:linear-gradient(90deg,#ff7a7a,#ffb36a)"></div></div><div>${sym}${cardVal}</div></div>`;
+    }
+  }
+
+  function applyPower(rt, iv){ if(!GAME.power) return rt; if(GAME.power==='ZK Saver' && iv.privacy==='zk'){ rt.hops.forEach(h=>{ h.feeAmt = +(h.feeAmt*0.5).toFixed(2); h.feePct = +(h.feePct*0.5).toFixed(3); }); rt.totalFee = +(rt.totalFee*0.5).toFixed(2); rt.note = 'Power‑up applied: ZK Saver (fees −50%)'; unlockAch('power_zk','ZK Saver'); }
+    if(GAME.power==='Slip Guard'){ rt.slipUsed = +(rt.slipUsed*0.8).toFixed(2); rt.note = 'Power‑up applied: Slippage Guard (−20%)'; unlockAch('power_slip','Slippage Guard'); }
+    return rt; }
+
+  function grantPower(){ if(GAME.power) return; GAME.power = Math.random()<0.6? 'ZK Saver':'Slip Guard'; toast(`Power‑up: ${GAME.power}!`); log('power', GAME.power); notify('Power‑up', GAME.power, 'success'); }
+
+  function approveAndSettle(){
+    const iv = els.payOv._intent, rt = els.payOv._route;
+    if (!iv || !rt) return;
+    const secs = stopTimer();
+    if (!rt.meets) {
+      log('settle', 'rejected (policy mismatch)');
+      els.payOv.classList.remove('show');
+      GAME.streak = 0; updateScoreboard();
+      notify('Policy mismatch','Adjust slippage or avoid chains','warn');
+      return;
+    }
+    const tx = '0x' + randHex(12);
+    log('settle', `ok · tx=${tx.slice(0,12)}… · paid $${iv.amount.toFixed(2)}`);
+    let score = 20;
+    score += Math.min(30, Math.floor(iv.amount/5));
+    if (iv.privacy==='zk') score += 20;
+    if (rt.totalFee <= Math.max(0.5, iv.amount*0.01)) score += 10;
+    if (secs>0){ if(secs<=20) score += 15; else if(secs<=40) score += 7; }
+    const c = GAME.challenge;
+    const meetsCh = ((!c.needZK || iv.privacy==='zk') && iv.policy.avoidChains.map(s=>s.toLowerCase()).includes(c.avoid.toLowerCase()) && iv.amount>=c.minAmt);
+    if (meetsCh){ score += c.reward; unlockAch('daily','Daily challenge'); GAME.challenge = genChallenge(); updateChallengeText(); notify('Challenge complete','Daily bonus +'+c.reward+' pts','success'); }
+    GAME.streak += 1; if (GAME.streak%3===0){ score += 10; unlockAch('streak3','3 in a row'); }
+    awardPoints(score, 'AnomaPay checkout'); confetti(); GAME.power=null;
+    els.payOv.classList.remove('show');
+    notify('Payment Complete', `Paid ${toUSD(iv.amount)} with AnomaPay`, 'success');
+    // Show receipt immediately (like old code)
+    showReceipt(iv, rt, tx); clearCartAll(); step(3);
+    // Offer quiz after receipt is dismissed
+    STATE.pendingQuiz = true;
+  }
+
+  function showQuiz(onFinish){ const q = pick(QUIZ); els.quizQ.textContent = q.q; els.quizOpts.innerHTML=''; let selected=-1; q.opts.forEach((t,i)=>{ const d=document.createElement('div'); d.className='opt'; d.textContent=t; d.addEventListener('click',()=>{ selected=i; document.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel')); d.classList.add('sel'); }); els.quizOpts.appendChild(d); }); els.quizOv.classList.add('show');
+    els.quizSubmit.onclick = ()=>{ els.quizOv.classList.remove('show'); if(selected===q.ans){ awardPoints(15,'Quiz correct'); unlockAch('quiz','Quizzer'); toast('Correct! +15'); } else { toast('Nice try!'); } onFinish&&onFinish(); };
+    els.quizSkip.onclick = ()=>{ els.quizOv.classList.remove('show'); onFinish&&onFinish(); };
+  }
+
+  const QUIZ = [
+    {q:'What does “intents‑centric” mean?', opts:['You pre‑select a fixed chain','You declare your desired outcome; system finds the route','It hides prices from users'], ans:1},
+    {q:'Why use ZK privacy?', opts:['Make transactions slower','Prove correctness without revealing sensitive data','Increase fees by default'], ans:1},
+    {q:'What is slippage?', opts:['Price difference between expected and executed','Network uptime','Token decimal rounding'], ans:0},
+    {q:'“Atomic cross‑chain” implies…', opts:['Each hop can fail independently','All legs succeed together or none','Requires custodial bridge'], ans:1}
+  ];
+
+  function showReceipt(iv, rt, tx){ const items=[...CART.entries()].map(([id,q])=>{ const p=STORE.find(x=>x.id===id); return `${p?.name||id} ×${q} — $${((p?.price||0)*q).toFixed(2)}`; }).join('<br/>'); const fees = `$${rt.totalFee.toFixed(2)}`; els.receiptBox.innerHTML = `
+      <div><b>${iv.merchant}</b></div>
+      <div style="opacity:.8">Paid with <b>AnomaPay</b> — ANOMAPAY RECOMMENDED</div>
+      <hr/>
+      <div>${items || '—'}</div>
+      <hr/>
+      <div>Route: ${rt.path.join(' → ')}</div>
+      <div>Fees: ${fees} · Slippage: ${rt.slipUsed}%</div>
+      <div>Assets: ${iv.assets} · Privacy: ${iv.privacy.toUpperCase()}</div>
+      <hr/>
+      <div><b>Total</b> ${toUSD(iv.amount)}</div>
+      <div style="opacity:.8">tx: ${tx}</div>
+    `; els.rcpOv.classList.add('show'); }
+
+  function clearCartAll(){ CART.clear(); renderCart(); }
+
+  function payWithCard(){ if(CART.size===0){ log('warn','empty cart'); return; } const tot=parseFloat(els.total.textContent.replace(/[$,]/g,''))||0; log('card', `mock card charged $${tot.toFixed(2)} (not recommended)`); unlockAch('card','Tried card'); GAME.streak = 0; updateScoreboard(); showReceipt(buildIntent(), {path:['CardNet'], hops:[], totalFee:0, slipUsed:0, meets:true}, 'card_'+randHex(6)); clearCartAll(); step(3); stopTimer(); }
+
+  function applyTheme(){ document.body.setAttribute('data-theme', CFG.theme); }
+  els.btnSetup.addEventListener('click', ()=>{ els.theme.value=CFG.theme; els.setupOv.classList.add('show'); });
+  els.saveSetup.addEventListener('click', ()=>{ CFG.theme=els.theme.value; applyTheme(); els.setupOv.classList.remove('show'); log('settings',`theme=${CFG.theme}`); });
+  els.closeSetup.addEventListener('click', ()=> els.setupOv.classList.remove('show'));
+  els.btnMax.addEventListener('click', async ()=>{ const g=document.getElementById('game'); if(!document.fullscreenElement){ try{ await g.requestFullscreen(); }catch{} } else { await document.exitFullscreen(); } });
+  els.btnFill.addEventListener('click', ()=>{ document.body.classList.toggle('fill'); log('ui', `fill=${document.body.classList.contains('fill')}`); });
+  els.clearLog.addEventListener('click', ()=> els.logList.innerHTML='');
+  els.copyLog.addEventListener('click', ()=>{ const text=[...document.querySelectorAll('.log-entry')].map(n=>n.innerText).join('\n'); navigator.clipboard.writeText(text); });
+  els.clearCart.addEventListener('click', ()=>{ clearCartAll(); stopTimer(); });
+  els.btnLearn.addEventListener('click', ()=> els.learnOv.classList.add('show'));
+  els.closeLearn.addEventListener('click', ()=> els.learnOv.classList.remove('show'));
+  els.btnMap.addEventListener('click', ()=>{ renderMap(); els.mapOv.classList.add('show'); });
+  els.closeMap.addEventListener('click', ()=> els.mapOv.classList.remove('show'));
+
+  els.payAnoma.addEventListener('click', openAnomaModal);
+  els.payCard.addEventListener('click', payWithCard);
+  els.btnApprove.addEventListener('click', approveAndSettle);
+  els.btnClosePay.addEventListener('click', ()=> els.payOv.classList.remove('show'));
+  els.btnSimScan.addEventListener('click', ()=> { log('scan','payer scanned QR (simulated)'); awardPoints(2,'Scan'); });
+  els.btnDone.addEventListener('click', ()=> { els.rcpOv.classList.remove('show'); if(STATE.pendingQuiz){ STATE.pendingQuiz=false; showQuiz(()=>{}); } });
+
+  els.btnDiag.addEventListener('click', ()=>{ els.diagBody.innerHTML='Click <b>Run Tests</b> to perform checks.'; els.diagOv.classList.add('show'); });
+  els.closeDiag.addEventListener('click', ()=> els.diagOv.classList.remove('show'));
+  els.runDiag.addEventListener('click', runDiagnostics);
+
+  els.btnChallenge.addEventListener('click', ()=>{ updateChallengeText(); renderAchList(); els.gameOv.classList.add('show'); });
+  els.closeGame.addEventListener('click', ()=> els.gameOv.classList.remove('show'));
+  els.btnReset.addEventListener('click', ()=>{ GAME.points=0; GAME.level=1; GAME.xp=0; GAME.streak=0; GAME.achievements.clear(); els.achList.innerHTML=''; updateScoreboard(); toast('Score reset'); saveGame(); });
+
+  function renderAchList(){ els.achList.innerHTML=''; GAME.achievements.forEach(a=>{ const b=document.createElement('span'); b.className='badge'; b.textContent=a.replace('level_','Level '); els.achList.appendChild(b); }); }
+
+  function renderMap(){ const svg=els.mapSvg; const edges=svg.querySelector('#edges'); const nodes=svg.querySelector('#nodes'); edges.innerHTML=''; nodes.innerHTML=''; const pts=[ [60,90,'Level 1'], [180,60,'Level 2'], [300,100,'Level 3'], [420,60,'Level 4'], [540,90,'ZK‑Only'] ]; for(let i=0;i<pts.length-1;i++){ const [x1,y1]=pts[i], [x2,y2]=pts[i+1]; const e=document.createElementNS(svg.namespaceURI,'line'); e.setAttribute('x1',x1); e.setAttribute('y1',y1); e.setAttribute('x2',x2); e.setAttribute('y2',y2); e.setAttribute('stroke','#2a3d6b'); e.setAttribute('stroke-width','3'); edges.appendChild(e); }
+    pts.forEach(([x,y,label],i)=>{ const g=document.createElementNS(svg.namespaceURI,'g'); const c=document.createElementNS(svg.namespaceURI,'circle'); c.setAttribute('cx',x); c.setAttribute('cy',y); c.setAttribute('r','12'); c.setAttribute('fill', i+1<=GAME.level? '#20396a':'#1e2c53'); c.setAttribute('stroke','#6aa3ff'); c.setAttribute('stroke-width','2'); if(i+1<=GAME.level) c.setAttribute('filter','url(#glow)'); const t=document.createElementNS(svg.namespaceURI,'text'); t.setAttribute('x',x); t.setAttribute('y',y-18); t.setAttribute('text-anchor','middle'); t.setAttribute('fill','#cfe3ff'); t.setAttribute('font-size','11'); t.textContent=label; g.appendChild(c); g.appendChild(t); nodes.appendChild(g); }); }
+
+  function runDiagnostics(){ const results=[]; let pass=true; const snap = snapshot(); try{ const n1 = renderCatalog(''); const ok1 = (n1===STORE.length); results.push(line('Catalog size', ok1, `rendered=${n1}, store=${STORE.length}`)); pass &= ok1; const n2 = renderCatalog('Latte'); const ok2 = n2>=1 && [...els.grid.querySelectorAll('.name')].some(n=>/Latte/i.test(n.textContent)); results.push(line('Search filter', ok2, `matches=${n2}`)); pass &= ok2; clearCartAll(); addToCart('p1',2); addToCart('p2',1); const expectedSub = 2*3.50 + 1*4.75; const expectedTax = +(expectedSub*CFG.taxRate).toFixed(2); const expectedTot = +(expectedSub+expectedTax).toFixed(2); const sub=parseFloat(els.subtotal.textContent.replace(/[$,]/g,'')); const tax=parseFloat(els.tax.textContent.replace(/[$,]/g,'')); const tot=parseFloat(els.total.textContent.replace(/[$,]/g,'')); const ok3 = near(sub, expectedSub) && near(tax, expectedTax) && near(tot, expectedTot); results.push(line('Cart totals', ok3, `got ${sub}/${tax}/${tot} vs exp ${expectedSub}/${expectedTax}/${expectedTot}`)); pass &= ok3; els.privacy.value='zk'; els.maxSlip.value='0.60'; els.avoidChains.value='Base'; els.assetIO.value='USDT → USDC'; const iv = buildIntent(); const ok4 = iv && iv.currency==='USD' && iv.privacy==='zk' && iv.policy.maxSlippage===0.60 && iv.policy.avoidChains[0]==='Base'; results.push(line('Build intent', ok4, `${iv.currency} · ${iv.privacy} · maxSlip=${iv.policy.maxSlippage} · avoid=[${iv.policy.avoidChains}]`)); pass &= ok4; const rt = solveRoute(iv); const ok5 = Array.isArray(rt.path) && rt.path.length>=2 && Number.isFinite(rt.totalFee) && Number.isFinite(rt.slipUsed) && typeof rt.meets==='boolean'; results.push(line('Solve route', ok5, `path=${rt.path.join('→')} fees=$${rt.totalFee.toFixed(2)} slip=${rt.slipUsed}% meets=${rt.meets}`)); pass &= ok5; openAnomaModal(); const ok6 = els.payOv.classList.contains('show') && /anoma:\/\/pay/.test(els.qrStr.textContent); results.push(line('Open pay modal', ok6, `qr=${els.qrStr.textContent.slice(0,20)}…`)); pass &= ok6; els.btnClosePay.click(); const prevTheme = CFG.theme; CFG.theme = (prevTheme==='anoma-pro'?'snow':'anoma-pro'); applyTheme(); const ok7 = document.body.getAttribute('data-theme')===CFG.theme; CFG.theme=prevTheme; applyTheme(); results.push(line('Theme apply', ok7, `theme=${document.body.getAttribute('data-theme')}`)); pass &= ok7; clearCartAll(); const ok8 = (CART.size===0) && /empty/i.test(els.cart.textContent); results.push(line('Clear cart', ok8, `size=${CART.size}`)); pass &= ok8; }catch(err){ results.push(`<div class=\"line\">❌ <b>Runtime error</b> — ${String(err)}</div>`); pass=false; } finally { restore(snap); } els.diagBody.innerHTML = results.join('') + `<div class=\"line\" style=\"margin-top:8px\">Overall: <b>${pass? 'PASS':'CHECK FAILED'}</b></div>`; log('diag', `run · ${pass? 'PASS':'FAIL'}`); function line(name, ok, detail){ return `${ok?'✅':'❌'} <b>${name}</b> — ${detail}`; } function near(a,b,eps=0.01){ return Math.abs(a-b)<=eps; } function snapshot(){ return { cart:new Map(CART), subtotal:els.subtotal.textContent, tax:els.tax.textContent, total:els.total.textContent, theme:CFG.theme, overlays:{pay:els.payOv.classList.contains('show'), rcp:els.rcpOv.classList.contains('show')}, gridHTML:els.grid.innerHTML, cartHTML:els.cart.innerHTML, policy:{privacy:els.privacy.value, maxSlip:els.maxSlip.value, avoid:els.avoidChains.value, assets:els.assetIO.value} }; } function restore(s){ CART.clear(); s.cart.forEach((v,k)=> CART.set(k,v)); renderCart(); els.grid.innerHTML=s.gridHTML; if(s.overlays.pay) els.payOv.classList.add('show'); else els.payOv.classList.remove('show'); if(s.overlays.rcp) els.rcpOv.classList.add('show'); else els.rcpOv.classList.remove('show'); CFG.theme=s.theme; applyTheme(); els.privacy.value=s.policy.privacy; els.maxSlip.value=s.policy.maxSlip; els.avoidChains.value=s.policy.avoid; els.assetIO.value=s.policy.assets; } }
+
+  function randHex(n){ return Array.from(crypto.getRandomValues(new Uint8Array(n))).map(b=>b.toString(16).padStart(2,'0')).join('') }
+  function pick(arr){ return arr[Math.floor(Math.random()*arr.length)] }
+
+  // Toast helper
+  const TOAST = { timer:null };
+  function toast(msg){ const t = gi('toast'); if(!t) return; clearTimeout(TOAST.timer); t.textContent = msg; t.classList.add('show'); TOAST.timer = setTimeout(()=> t.classList.remove('show'), 1200); }
+
+  // Notification Center
+  function notify(title, body='', type='info'){
+    const stack = gi('notiStack'); if(!stack) return;
+    const el = document.createElement('div'); el.className = `noti ${type}`;
+    el.innerHTML = `<div class="dot"></div><div class="txt"><div class="t">${title}</div><div class="b">${body}</div></div><button class="btn subtle close" aria-label="dismiss">✕</button>`;
+    stack.appendChild(el); requestAnimationFrame(()=> el.classList.add('show'));
+    const timer = setTimeout(()=> dismiss(), 3000);
+    el.querySelector('.close').onclick = ()=>{ clearTimeout(timer); dismiss(); };
+    function dismiss(){ el.classList.remove('show'); setTimeout(()=> el.remove(), 180); }
+  }
+
+  // ===== Graphic-heavy & minimal-text helpers =====
+  const MINIMAL_TEXT = true;
+  function minimizeTextUI(){
+    if(!MINIMAL_TEXT) return; document.body.classList.add('minimal');
+    compressStats(); setPanelIcons(); iconizeStepper(); compressButtons(); }
+  function compressStats(){
+    const map=[
+      {el:els.cartCount, ic:'🛒', title:'Items'},
+      {el:els.cartTotal, ic:'💵', title:'Total'},
+      {el:els.points,    ic:'⭐', title:'Points'},
+      {el:els.level,     ic:'⬆️', title:'Level'},
+      {el:els.streak,    ic:'🔥', title:'Streak'},
+      {el:els.timer,     ic:'⏱️', title:'Timer'}
+    ];
+    map.forEach(({el,ic,title})=>{
+      if(!el) return; const pid=el.id; const box=el.parentElement; box.innerHTML = `<span class="ic" title="${title}">${ic}</span> <strong id="${pid}">${el.textContent}</strong>`; els[pid]=gi(pid);
+    });
+  }
+  function setPanelIcons(){
+    const cat=document.querySelector('.catalog .panel-t'); if(cat){cat.setAttribute('data-ic','🍽️'); cat.title='Menu';}
+    const chk=document.querySelector('.checkout .panel-t'); if(chk){chk.setAttribute('data-ic','🧾'); chk.title='Cart & Checkout';}
+    const lg=document.querySelector('.logs .panel-t'); if(lg){lg.setAttribute('data-ic','📟'); lg.title='Activity Log';}
+  }
+  function iconizeStepper(){
+    try{
+      gi('st1').querySelector('span:last-child').textContent='🔎';
+      gi('st2').querySelector('span:last-child').textContent='💳';
+      gi('st3').querySelector('span:last-child').textContent='✅';
+    }catch{}
+  }
+  function compressButtons(){
+    if(els.payAnoma) els.payAnoma.innerHTML = `<span class="ic" aria-hidden="true">◎</span> AnomaPay`;
+    if(els.payCard) els.payCard.textContent = 'Card';
+  }
+  function decorateThumbs(){
+    document.querySelectorAll('.cardP .thumb').forEach(th=>{
+      const name = th.parentElement?.querySelector('.name')?.textContent||'';
+      th.innerHTML = iconFor(name);
+    });
+  }
+  function iconFor(name){
+    if(/espresso|latte|capp|brew/i.test(name)) return svgCup();
+    if(/muffin|croissant/i.test(name)) return svgPastry();
+    if(/sandwich/i.test(name)) return svgSandwich();
+    if(/beans|250g/i.test(name)) return svgBag();
+    return `<svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="g" cx="50%" cy="50%" r="60%"><stop offset="0%" stop-color="#ff6684"/><stop offset="100%" stop-color="#2a0f17"/></radialGradient></defs><circle cx="40" cy="40" r="26" fill="url(#g)"/></svg>`;
+  }
+  function svgCup(){return `<svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="c" x1="0" x2="1"><stop stop-color="#ff4168"/><stop offset="1" stop-color="#8b1230"/></linearGradient></defs>
+    <rect x="18" y="28" width="34" height="26" rx="6" fill="url(#c)" stroke="#ff8aa3"/>
+    <path d="M52 32h8a7 7 0 0 1 0 14h-6" fill="none" stroke="#ff8aa3" stroke-width="3"/>
+    <path d="M28 24c0-6 8-6 8 0m6 0c0-6 8-6 8 0" stroke="#ffd6df"/></svg>`}
+  function svgPastry(){return `<svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="p" x1="0" x2="1"><stop stop-color="#ff5b7a"/><stop offset="1" stop-color="#ff9db0"/></linearGradient></defs>
+    <path d="M16 48c6-18 42-18 48 0" fill="url(#p)" stroke="#ffced9"/>
+    <rect x="18" y="48" width="44" height="8" rx="4" fill="#2a0f17"/></svg>`}
+  function svgSandwich(){return `<svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="s" x1="0" x2="1"><stop stop-color="#ff355e"/><stop offset="1" stop-color="#8b1230"/></linearGradient></defs>
+    <polygon points="20,30 60,30 40,50" fill="url(#s)" stroke="#ffb3c1"/>
+    <rect x="18" y="52" width="44" height="6" rx="3" fill="#40131f"/></svg>`}
+  function svgBag(){return `<svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="b" x1="0" x2="1"><stop stop-color="#ff4168"/><stop offset="1" stop-color="#b2244b"/></linearGradient></defs>
+    <rect x="22" y="24" width="36" height="38" rx="6" fill="url(#b)" stroke="#ff99ad"/>
+    <path d="M28 28c0-10 24-10 24 0" fill="none" stroke="#ffd6df"/></svg>`}
+
+  function initFX(){
+    const host = document.getElementById('game'); if(!host) return;
+    const c = document.createElement('canvas'); c.className='fx'; host.prepend(c);
+    const ctx = c.getContext('2d'); let w=0,h=0; const blobs=[]; const N=14; const dpr=window.devicePixelRatio||1;
+    function resize(){ w=host.clientWidth; h=host.clientHeight; c.width=w*dpr; c.height=h*dpr; c.style.width=w+'px'; c.style.height=h+'px'; ctx.setTransform(dpr,0,0,dpr,0,0); }
+    window.addEventListener('resize', resize); resize();
+    for(let i=0;i<N;i++){ blobs.push({x:Math.random()*w,y:Math.random()*h,r:30+Math.random()*120,dx:(Math.random()-.5)*0.4,dy:(Math.random()-.5)*0.4,hue:340+Math.random()*20,alpha:0.12+Math.random()*0.12}); }
+    function tick(){ ctx.clearRect(0,0,w,h); blobs.forEach(b=>{ ctx.beginPath(); const grd=ctx.createRadialGradient(b.x,b.y,0,b.x,b.y,b.r); grd.addColorStop(0,`hsla(${b.hue},85%,60%,${b.alpha})`); grd.addColorStop(1,'rgba(0,0,0,0)'); ctx.fillStyle=grd; ctx.arc(b.x,b.y,b.r,0,Math.PI*2); ctx.fill(); b.x+=b.dx; b.y+=b.dy; if(b.x< -50||b.x>w+50) b.dx*=-1; if(b.y< -50||b.y>h+50) b.dy*=-1; }); requestAnimationFrame(tick); }
+    tick();
+  }
+
+  // Boot
+  document.body.classList.add('fill');
+  applyTheme(); renderCatalog(); renderCart(); updateScoreboard(); updateChallengeText(); renderAchList(); decorateThumbs(); minimizeTextUI(); initFX();
+  els.search.addEventListener('input', e=> { renderCatalog(e.target.value); decorateThumbs(); });
+  </script>
+</body>
+</html>
